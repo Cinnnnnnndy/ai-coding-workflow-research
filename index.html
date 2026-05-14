@@ -42,7 +42,7 @@
     margin-top: 8px;
     font-size: 14px;
     color: #64748b;
-    max-width: 640px;
+    white-space: nowrap;
     line-height: 1.7;
   }
 
@@ -1191,8 +1191,11 @@
 <body>
 
 <div class="page-header">
-  <div class="tag">以openUBMC Studio蓝区协同开发为例 · AI coding协同探索</div>
-  <h1>openUBMC蓝区AI Coding<br>开发协同交付探索</h1>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div class="tag" style="margin-bottom:0">以openUBMC Studio蓝区协同开发为例 · AI coding协同探索</div>
+    <a href="https://cinnnnnnndy.github.io/BMC/" target="_blank" style="font-size:12px;font-weight:600;color:#7c9ef5;background:rgba(79,110,247,0.08);border:1px solid rgba(79,110,247,0.25);border-radius:5px;padding:5px 14px;text-decoration:none;letter-spacing:.03em;transition:background .15s" onmouseover="this.style.background='rgba(79,110,247,0.18)'" onmouseout="this.style.background='rgba(79,110,247,0.08)'">查看产品 Demo →</a>
+  </div>
+  <h1 style="white-space:nowrap">openUBMC蓝区AI Coding 开发协同交付探索</h1>
   <p>梳理 L0–L3 四个协同层级的流程、交付件与职责边界，探索设计师在 AI 辅助下的角色演进路径。当前处于 <strong style="color:#4f6ef7">L1 阶段</strong>。</p>
   <div class="author-meta">
     <div class="meta-item">以openUBMC Studio蓝区协同开发为例 · AI coding协同探索</div>
@@ -1209,6 +1212,7 @@
   <button class="tab-btn active" data-tab="tab-framework">阶段框架</button>
   <button class="tab-btn" data-tab="tab-collab">协同交流日志</button>
   <button class="tab-btn" data-tab="tab-skills">hifi-to-demo skill</button>
+  <button class="tab-btn" data-tab="tab-backend">backend-to-design skill</button>
 </div>
 
 <!-- ════════════ TAB 1: 阶段框架 ════════════ -->
@@ -3552,7 +3556,664 @@ interface Entity {
   </div>
 </div>
 
+
 </div><!-- /tab-skills -->
+
+<!-- ════════════ TAB 4: backend-to-design skill ════════════ -->
+<div id="tab-backend" class="tab-panel">
+
+<div class="flow-section">
+  <div class="section-title" style="font-size:16px">
+    后端代码 → 设计反向分析 · 工程级代码生成
+  </div>
+  <div class="section-subtitle" style="margin-bottom:16px">
+    后端先行场景：以后端交付的代码/配置为锚点，反向建立设计规范、做可访问性审查、挖掘设计机会点，生成可直接接入开发工程的前端代码
+  </div>
+
+  <!-- 6个产出 -->
+  <div style="margin-bottom:28px">
+    <div style="font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:12px">每次调用的 6 个标准产出</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+      <thead>
+        <tr style="border-bottom:1px solid #1e2736">
+          <th style="text-align:left;padding:8px 12px;color:#4f6ef7;font-weight:600;width:32px">#</th>
+          <th style="text-align:left;padding:8px 12px;color:#4f6ef7;font-weight:600">文件</th>
+          <th style="text-align:left;padding:8px 12px;color:#4f6ef7;font-weight:600">用途</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #12151e"><td style="padding:8px 12px;color:#94a3b8">1</td><td style="padding:8px 12px"><code style="color:#7c9ef5;font-size:11.5px;font-family:ui-monospace,monospace">code-reading.md</code></td><td style="padding:8px 12px;color:#64748b">后端交付物解读：数据结构、业务逻辑、接口契约</td></tr>
+        <tr style="border-bottom:1px solid #12151e"><td style="padding:8px 12px;color:#94a3b8">2</td><td style="padding:8px 12px"><code style="color:#7c9ef5;font-size:11.5px;font-family:ui-monospace,monospace">accessibility-audit.md</code></td><td style="padding:8px 12px;color:#64748b">可访问性审查报告（WCAG 维度 + 工程侧建议）</td></tr>
+        <tr style="border-bottom:1px solid #12151e"><td style="padding:8px 12px;color:#94a3b8">3</td><td style="padding:8px 12px"><code style="color:#7c9ef5;font-size:11.5px;font-family:ui-monospace,monospace">design-review.md</code></td><td style="padding:8px 12px;color:#64748b">设计检查：一致性、层级、可读性、信息架构问题</td></tr>
+        <tr style="border-bottom:1px solid #12151e"><td style="padding:8px 12px;color:#94a3b8">4</td><td style="padding:8px 12px"><code style="color:#7c9ef5;font-size:11.5px;font-family:ui-monospace,monospace">design-opportunities.md</code></td><td style="padding:8px 12px;color:#64748b">设计机会点分析：可提升体验的方向与优先级建议</td></tr>
+        <tr style="border-bottom:1px solid #12151e"><td style="padding:8px 12px;color:#94a3b8">5</td><td style="padding:8px 12px"><code style="color:#7c9ef5;font-size:11.5px;font-family:ui-monospace,monospace">frontend/</code></td><td style="padding:8px 12px;color:#64748b">工程级前端代码，符合后端数据结构，可直接接入开发工程</td></tr>
+        <tr><td style="padding:8px 12px;color:#94a3b8">6</td><td style="padding:8px 12px"><code style="color:#7c9ef5;font-size:11.5px;font-family:ui-monospace,monospace">integration-guide.md</code></td><td style="padding:8px 12px;color:#64748b">接入说明：引入方式、依赖说明、联调检查项</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 与hifi-to-demo的区别 -->
+  <div style="background:#0a0c10;border:1px solid #2d3748;border-radius:8px;padding:16px 20px;margin-bottom:28px">
+    <div style="font-size:12px;font-weight:700;color:#5eead4;margin-bottom:10px">与 hifi-to-demo 的根本区别</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px">
+      <div>
+        <div style="color:#7c9ef5;font-weight:600;margin-bottom:6px">hifi-to-demo</div>
+        <div style="color:#64748b;line-height:1.6">从设计稿出发 → 生成 Demo 代码<br>产出供利益相关者审查的原型<br>可以有 Mock 数据<br>不要求直接接入工程</div>
+      </div>
+      <div>
+        <div style="color:#7c9ef5;font-weight:600;margin-bottom:6px">backend-to-design</div>
+        <div style="color:#64748b;line-height:1.6">从后端代码出发 → 反向分析 + 生成工程代码<br>产出可直接接入开发工程的代码<br>字段名与后端数据模型保持一致<br>包含完整错误/加载/空状态处理</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILL.md 完整内容 -->
+  <div style="margin-top:32px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:13px;font-weight:700;color:#e2e8f0">
+        <code style="font-size:13px;color:#7c9ef5;background:rgba(79,110,247,0.1);padding:2px 8px;border-radius:4px;font-family:ui-monospace,monospace">SKILL.md</code>
+        &nbsp;完整内容
+      </div>
+      <button onclick="downloadBackendSkillMd()" style="cursor:pointer;background:#1a1f2e;border:1px solid #4f6ef7;border-radius:6px;color:#7c9ef5;font-size:12px;font-weight:600;padding:7px 16px;font-family:inherit;letter-spacing:.03em" onmouseover="this.style.background='#252c42'" onmouseout="this.style.background='#1a1f2e'">↓ 下载 SKILL.md</button>
+    </div>
+    <div style="background:#0a0c10;border:1px solid #1e2736;border-radius:8px;overflow:hidden">
+      <div style="background:#12151e;padding:8px 16px;border-bottom:1px solid #1e2736;display:flex;align-items:center;gap:8px">
+        <span style="font-size:10px;font-weight:700;color:#4f6ef7;font-family:ui-monospace,monospace;letter-spacing:.06em">backend-to-design / SKILL.md</span>
+        <span style="font-size:10px;color:#374151;margin-left:auto">285 lines</span>
+      </div>
+      <pre style="margin:0;padding:20px 24px;font-size:12px;line-height:1.75;color:#94a3b8;font-family:ui-monospace,monospace;overflow-x:auto;max-height:640px;overflow-y:auto;white-space:pre">---
+name: backend-to-design
+description: |
+  从后端交付物（代码、配置文件、数据模型、API 文档）出发，反向进行可访问性分析、
+  设计检查、设计机会点挖掘，并生成可直接接入开发工程的工程级前端代码。
+  当用户提供后端代码、配置文件、数据模型或 API 文档，并要求「做设计分析」
+  「检查可访问性」「找设计机会点」「生成工程代码」时触发此 skill。
+  中文触发词：帮我分析这段代码的设计问题 / 看看这个配置的可访问性 /
+  基于后端代码生成前端 / 从代码反推设计规范 / 后端给了代码帮我做设计检查。
+  English triggers: &quot;review this backend code for design&quot;, &quot;accessibility audit from code&quot;,
+  &quot;generate frontend from backend spec&quot;, &quot;reverse engineer design from code&quot;.
+  只要存在「后端代码/配置」+「设计分析或前端生成」的意图，就应调用此 skill。
+---
+
+# 后端代码 → 设计反向分析 · 工程级代码生成
+
+本 skill 对应 openUBMC Studio L1 协作中「后端先行」场景：
+后端交付代码或配置后，设计师不是从零出发，而是以代码为锚点，
+反向建立设计规范、发现问题、生成可直接接入工程的前端代码。
+
+---
+
+## 每次调用的标准产出
+
+| # | 文件 | 用途 |
+|---|------|------|
+| 1 | `code-reading.md` | 后端交付物解读：数据结构、业务逻辑、接口契约 |
+| 2 | `accessibility-audit.md` | 可访问性审查报告（WCAG 维度 + 工程侧建议） |
+| 3 | `design-review.md` | 设计检查报告：一致性、层级、可读性、信息架构问题 |
+| 4 | `design-opportunities.md` | 设计机会点分析：可提升体验的方向与优先级建议 |
+| 5 | `frontend/` | 工程级前端代码，符合后端数据结构，可直接接入开发工程 |
+| 6 | `integration-guide.md` | 接入说明：如何将产出代码引入现有工程、依赖说明、注意事项 |
+
+---
+
+## 工作流
+
+### 第 1 步 — 读懂后端交付物
+
+接收并解析后端交付的所有内容，写入 `code-reading.md`：
+
+**1a. 识别交付物类型**
+- 配置文件（YAML / JSON / TOML）：提取字段结构、枚举值、约束条件
+- 数据模型文档（Markdown / OpenAPI）：提取实体关系、字段类型、必填项
+- 源代码（Vue / React / 原生 JS）：提取组件结构、状态管理、事件处理
+- API 文档：提取端点、请求/响应结构、错误码
+
+**1b. 建立数据字典**
+对每个关键字段记录：
+- 字段名（原始命名）
+- 数据类型与取值范围
+- 业务含义（中文说明）
+- 与界面的对应关系（这个字段驱动哪个 UI 元素）
+
+**1c. 梳理业务逻辑**
+- 核心流程：用户/系统的主要操作路径是什么
+- 状态机：数据有哪些状态，状态之间如何转换
+- 约束规则：哪些字段联动、哪些值触发特殊行为
+
+若有不明确的字段含义或业务逻辑，**主动向用户确认**，不要猜测。
+
+### 第 2 步 — 可访问性审查
+
+基于对代码/配置的理解，写入 `accessibility-audit.md`。
+
+**审查维度（对照 WCAG 2.1 AA 标准）：**
+
+| 维度 | 检查项 |
+|------|--------|
+| 可感知性 | 色彩对比度是否 ≥ 4.5:1（文字）/ 3:1（大号文字和界面组件）；非文字信息是否有替代文本 |
+| 可操作性 | 所有功能是否可通过键盘完成；焦点顺序是否符合视觉顺序；操作时间限制是否合理 |
+| 可理解性 | 错误提示是否描述了问题且给出修复建议；表单标签是否与输入框明确关联 |
+| 鲁棒性 | 是否使用了语义化 HTML；ARIA 属性使用是否正确 |
+| 工程特定项 | 配置类界面：必填项是否有明确标注；枚举值是否有人类可读的标签（不只是机器值） |
+
+**输出格式：**
+```
+## 问题清单
+| # | 维度 | 问题描述 | 严重程度 | 受影响用户 | 修复建议 |
+|---|------|---------|---------|-----------|---------|
+| 1 | 可感知性 | ... | 严重/重要/建议 | ... | ... |
+
+## 已符合项
+[列出已做得好的可访问性实践，避免后续迭代破坏]
+```
+
+### 第 3 步 — 设计检查
+
+对照设计规范和用户体验原则检查现有实现，写入 `design-review.md`。
+
+**检查维度：**
+
+**3a. 信息架构**
+- 内容分组是否符合用户心智模型（而非技术/数据库分组）
+- 层级深度是否合理（一般不超过 3 层）
+- 导航路径是否可预测
+
+**3b. 视觉一致性**
+- 同类元素是否使用一致的视觉处理（颜色、间距、字体权重）
+- 交互元素（按钮、输入框、下拉）是否有统一的样式规范
+- 数据密集型界面：表格、列表、卡片的信息密度是否适当
+
+**3c. 反馈与状态**
+- 加载状态、空状态、错误状态是否都有明确的视觉处理
+- 操作结果（成功/失败）是否及时反馈
+- 配置类场景特别检查：保存中、保存成功、验证失败的状态是否清晰
+
+**3d. 工程代码特定检查**
+- 硬编码字符串是否影响国际化
+- 配置字段的默认值展示是否对用户友好
+- 枚举值（如 `status: 0/1/2`）是否有可读的映射展示
+
+**输出格式：**
+```
+## 问题清单
+| # | 维度 | 位置/组件 | 问题描述 | 优先级 | 建议方案 |
+|---|------|----------|---------|--------|---------|
+
+## 设计亮点
+[记录现有实现中值得保留的设计决策]
+```
+
+### 第 4 步 — 设计机会点分析
+
+在审查基础上，主动识别可以提升体验的方向，写入 `design-opportunities.md`。
+
+**分析框架：**
+
+**4a. 效率提升机会**
+- 哪些多步操作可以合并或简化
+- 哪些重复性配置可以支持批量操作或模板
+- 哪些字段填写可以用智能默认值或联动推断减少用户输入
+
+**4b. 认知负担降低机会**
+- 哪些技术术语可以用业务语言替换（对操作人员更友好）
+- 哪些复杂的配置关系可以用可视化方式呈现（如关系图、依赖树）
+- 哪些错误可以提前在输入时预防而非提交后报错
+
+**4c. 工程协作机会**
+- 哪些设计改动可以在不修改后端的前提下在前端实现
+- 哪些改动需要后端配合（增加字段、调整数据结构）
+- 哪些可以通过配置驱动的方式支持不同团队的定制需求
+
+**输出格式：**
+```
+## 机会点清单
+| # | 机会点 | 当前问题 | 建议方向 | 实现难度 | 预期收益 | 是否需要后端配合 |
+|---|--------|---------|---------|---------|---------|----------------|
+
+## 优先级建议
+[结合难度和收益，给出本轮迭代应优先实现的 Top 3]
+```
+
+### 第 5 步 — 生成工程级前端代码
+
+与 hifi-to-demo 的 Demo 代码不同，此步骤产出的是**可直接接入开发工程**的代码。
+
+**工程级代码的标准：**
+- 组件拆分符合工程实践（单一职责、可复用、可测试）
+- Props 类型定义完整，与后端数据模型字段名保持一致
+- 不使用硬编码 Mock 数据，通过 Props 或 API 调用接收真实数据
+- 样式方案与目标工程一致（使用相同的 CSS 框架或 CSS-in-JS 方案）
+- 错误处理、加载状态、空状态有完整实现
+- 关键交互有注释说明设计意图
+
+**代码生成策略：**
+
+| 目标工程技术栈 | 生成方案 |
+|-------------|---------|
+| Vue 3 + Element Plus | Composition API + `&lt;script setup&gt;` + Element Plus 组件 |
+| Vue 3 + 自定义组件库 | Composition API + 原子样式（若工程用 Tailwind/UnoCSS） |
+| React + Ant Design | FC + Hooks + Ant Design 组件 |
+| 纯 HTML/JS（工具类页面） | 语义化 HTML + CSS 自定义属性 + 原生 JS |
+
+**输出目录结构：**
+```
+frontend/
+├── components/
+│   ├── [ComponentName].vue (或 .tsx)
+│   └── ...
+├── types/
+│   └── index.ts          # 与后端数据模型对应的 TS 接口
+├── utils/
+│   └── [helpers].ts      # 数据转换、格式化等辅助函数
+└── README.md             # 组件使用说明
+```
+
+**特别要求：**
+- `types/index.ts` 中的接口字段名必须与后端数据模型保持一致
+- 枚举值使用 `const enum` 或常量对象，附带中文说明
+- 日期、数值格式化函数单独抽离，方便后续国际化
+
+### 第 6 步 — 生成接入说明
+
+写入 `integration-guide.md`，帮助开发团队理解如何引入产出代码：
+
+```markdown
+# 接入说明
+
+## 前置依赖
+[列出需要安装的包，附版本号]
+
+## 文件放置
+[说明每个文件应放在工程的哪个目录]
+
+## 数据接口对接
+[说明如何将 API 返回数据传入组件，附示例代码]
+
+## 样式覆盖
+[说明如何覆盖默认样式以匹配工程设计系统]
+
+## 已知限制
+[当前版本的已知问题和临时方案]
+
+## 与后端联调检查项
+[开发联调时需重点验证的字段和交互]
+```
+
+---
+
+## 来自 openUBMC Studio 的实践笔记
+
+**从代码读业务，不只是读技术。** 配置文件中每个字段背后都有业务决策。读懂字段的含义比读懂它的类型更重要——`fan_speed_mode: 0/1/2` 对用户来说是「自动/手动/节能」，而不是一个整数。
+
+**工程代码与 Demo 代码的根本区别。** Demo 代码证明「可以做」，工程代码是「直接做」。工程代码要承担错误处理、类型安全、可维护性的责任，不能依赖 Mock 数据蒙混过关。
+
+**可访问性是与后端的协作问题。** 很多可访问性问题（如枚举值缺少人类可读标签、错误码缺少友好说明）根源在后端数据结构，不能只靠前端修补。在 `accessibility-audit.md` 中明确标注哪些问题需要后端配合。
+
+**设计机会点要区分「前端能做」和「需要后端」。** 前端能做的改动不需要等待排期，优先推进。需要后端的改动要提前与后端沟通，写清楚需要增加什么字段或接口。
+
+**接入说明写给不了解这段代码历史的人。** 写的时候假设读者是刚加入团队、不知道这段代码背景的开发，这样的接入说明才真正有用。
+
+---
+
+## Artifact 模板
+
+### accessibility-audit.md
+
+```markdown
+# [项目名称] · 可访问性审查报告
+
+## 审查范围
+[说明本次审查覆盖了哪些页面/组件/配置项]
+
+## 审查标准
+WCAG 2.1 AA + 工程特定项
+
+## 问题清单
+
+| # | 维度 | 位置 | 问题描述 | 严重程度 | 受影响用户 | 修复建议 | 需后端配合 |
+|---|------|------|---------|---------|-----------|---------|----------|
+| 1 | 可感知性 | ... | ... | 严重 | ... | ... | 否 |
+
+## 已符合项
+- [已做好的可访问性实践]
+
+## 待跟进项（需后端配合）
+- [需要后端增加字段或修改数据结构的项]
+```
+
+### design-opportunities.md
+
+```markdown
+# [项目名称] · 设计机会点分析
+
+## 本次分析范围
+[说明分析的代码范围和背景]
+
+## 机会点清单
+
+| # | 机会点 | 当前问题 | 建议方向 | 实现难度 | 预期收益 | 需后端配合 |
+|---|--------|---------|---------|---------|---------|----------|
+| 1 | ... | ... | ... | 低/中/高 | 低/中/高 | 是/否 |
+
+## 本轮优先推进 Top 3
+
+### 1. [机会点名称]
+**当前状态：** ...
+**建议方案：** ...
+**实现方式：** 前端独立实现 / 需后端配合
+**预计工作量：** ...
+
+## 后续版本储备
+[难度高或需要长期规划的机会点]
+```
+</pre>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function downloadBackendSkillMd() {
+  const content = `---
+name: backend-to-design
+description: |
+  从后端交付物（代码、配置文件、数据模型、API 文档）出发，反向进行可访问性分析、
+  设计检查、设计机会点挖掘，并生成可直接接入开发工程的工程级前端代码。
+  当用户提供后端代码、配置文件、数据模型或 API 文档，并要求「做设计分析」
+  「检查可访问性」「找设计机会点」「生成工程代码」时触发此 skill。
+  中文触发词：帮我分析这段代码的设计问题 / 看看这个配置的可访问性 /
+  基于后端代码生成前端 / 从代码反推设计规范 / 后端给了代码帮我做设计检查。
+  English triggers: "review this backend code for design", "accessibility audit from code",
+  "generate frontend from backend spec", "reverse engineer design from code".
+  只要存在「后端代码/配置」+「设计分析或前端生成」的意图，就应调用此 skill。
+---
+
+# 后端代码 → 设计反向分析 · 工程级代码生成
+
+本 skill 对应 openUBMC Studio L1 协作中「后端先行」场景：
+后端交付代码或配置后，设计师不是从零出发，而是以代码为锚点，
+反向建立设计规范、发现问题、生成可直接接入工程的前端代码。
+
+---
+
+## 每次调用的标准产出
+
+| # | 文件 | 用途 |
+|---|------|------|
+| 1 | \`code-reading.md\` | 后端交付物解读：数据结构、业务逻辑、接口契约 |
+| 2 | \`accessibility-audit.md\` | 可访问性审查报告（WCAG 维度 + 工程侧建议） |
+| 3 | \`design-review.md\` | 设计检查报告：一致性、层级、可读性、信息架构问题 |
+| 4 | \`design-opportunities.md\` | 设计机会点分析：可提升体验的方向与优先级建议 |
+| 5 | \`frontend/\` | 工程级前端代码，符合后端数据结构，可直接接入开发工程 |
+| 6 | \`integration-guide.md\` | 接入说明：如何将产出代码引入现有工程、依赖说明、注意事项 |
+
+---
+
+## 工作流
+
+### 第 1 步 — 读懂后端交付物
+
+接收并解析后端交付的所有内容，写入 \`code-reading.md\`：
+
+**1a. 识别交付物类型**
+- 配置文件（YAML / JSON / TOML）：提取字段结构、枚举值、约束条件
+- 数据模型文档（Markdown / OpenAPI）：提取实体关系、字段类型、必填项
+- 源代码（Vue / React / 原生 JS）：提取组件结构、状态管理、事件处理
+- API 文档：提取端点、请求/响应结构、错误码
+
+**1b. 建立数据字典**
+对每个关键字段记录：
+- 字段名（原始命名）
+- 数据类型与取值范围
+- 业务含义（中文说明）
+- 与界面的对应关系（这个字段驱动哪个 UI 元素）
+
+**1c. 梳理业务逻辑**
+- 核心流程：用户/系统的主要操作路径是什么
+- 状态机：数据有哪些状态，状态之间如何转换
+- 约束规则：哪些字段联动、哪些值触发特殊行为
+
+若有不明确的字段含义或业务逻辑，**主动向用户确认**，不要猜测。
+
+### 第 2 步 — 可访问性审查
+
+基于对代码/配置的理解，写入 \`accessibility-audit.md\`。
+
+**审查维度（对照 WCAG 2.1 AA 标准）：**
+
+| 维度 | 检查项 |
+|------|--------|
+| 可感知性 | 色彩对比度是否 ≥ 4.5:1（文字）/ 3:1（大号文字和界面组件）；非文字信息是否有替代文本 |
+| 可操作性 | 所有功能是否可通过键盘完成；焦点顺序是否符合视觉顺序；操作时间限制是否合理 |
+| 可理解性 | 错误提示是否描述了问题且给出修复建议；表单标签是否与输入框明确关联 |
+| 鲁棒性 | 是否使用了语义化 HTML；ARIA 属性使用是否正确 |
+| 工程特定项 | 配置类界面：必填项是否有明确标注；枚举值是否有人类可读的标签（不只是机器值） |
+
+**输出格式：**
+\`\`\`
+## 问题清单
+| # | 维度 | 问题描述 | 严重程度 | 受影响用户 | 修复建议 |
+|---|------|---------|---------|-----------|---------|
+| 1 | 可感知性 | ... | 严重/重要/建议 | ... | ... |
+
+## 已符合项
+[列出已做得好的可访问性实践，避免后续迭代破坏]
+\`\`\`
+
+### 第 3 步 — 设计检查
+
+对照设计规范和用户体验原则检查现有实现，写入 \`design-review.md\`。
+
+**检查维度：**
+
+**3a. 信息架构**
+- 内容分组是否符合用户心智模型（而非技术/数据库分组）
+- 层级深度是否合理（一般不超过 3 层）
+- 导航路径是否可预测
+
+**3b. 视觉一致性**
+- 同类元素是否使用一致的视觉处理（颜色、间距、字体权重）
+- 交互元素（按钮、输入框、下拉）是否有统一的样式规范
+- 数据密集型界面：表格、列表、卡片的信息密度是否适当
+
+**3c. 反馈与状态**
+- 加载状态、空状态、错误状态是否都有明确的视觉处理
+- 操作结果（成功/失败）是否及时反馈
+- 配置类场景特别检查：保存中、保存成功、验证失败的状态是否清晰
+
+**3d. 工程代码特定检查**
+- 硬编码字符串是否影响国际化
+- 配置字段的默认值展示是否对用户友好
+- 枚举值（如 \`status: 0/1/2\`）是否有可读的映射展示
+
+**输出格式：**
+\`\`\`
+## 问题清单
+| # | 维度 | 位置/组件 | 问题描述 | 优先级 | 建议方案 |
+|---|------|----------|---------|--------|---------|
+
+## 设计亮点
+[记录现有实现中值得保留的设计决策]
+\`\`\`
+
+### 第 4 步 — 设计机会点分析
+
+在审查基础上，主动识别可以提升体验的方向，写入 \`design-opportunities.md\`。
+
+**分析框架：**
+
+**4a. 效率提升机会**
+- 哪些多步操作可以合并或简化
+- 哪些重复性配置可以支持批量操作或模板
+- 哪些字段填写可以用智能默认值或联动推断减少用户输入
+
+**4b. 认知负担降低机会**
+- 哪些技术术语可以用业务语言替换（对操作人员更友好）
+- 哪些复杂的配置关系可以用可视化方式呈现（如关系图、依赖树）
+- 哪些错误可以提前在输入时预防而非提交后报错
+
+**4c. 工程协作机会**
+- 哪些设计改动可以在不修改后端的前提下在前端实现
+- 哪些改动需要后端配合（增加字段、调整数据结构）
+- 哪些可以通过配置驱动的方式支持不同团队的定制需求
+
+**输出格式：**
+\`\`\`
+## 机会点清单
+| # | 机会点 | 当前问题 | 建议方向 | 实现难度 | 预期收益 | 是否需要后端配合 |
+|---|--------|---------|---------|---------|---------|----------------|
+
+## 优先级建议
+[结合难度和收益，给出本轮迭代应优先实现的 Top 3]
+\`\`\`
+
+### 第 5 步 — 生成工程级前端代码
+
+与 hifi-to-demo 的 Demo 代码不同，此步骤产出的是**可直接接入开发工程**的代码。
+
+**工程级代码的标准：**
+- 组件拆分符合工程实践（单一职责、可复用、可测试）
+- Props 类型定义完整，与后端数据模型字段名保持一致
+- 不使用硬编码 Mock 数据，通过 Props 或 API 调用接收真实数据
+- 样式方案与目标工程一致（使用相同的 CSS 框架或 CSS-in-JS 方案）
+- 错误处理、加载状态、空状态有完整实现
+- 关键交互有注释说明设计意图
+
+**代码生成策略：**
+
+| 目标工程技术栈 | 生成方案 |
+|-------------|---------|
+| Vue 3 + Element Plus | Composition API + \`<script setup>\` + Element Plus 组件 |
+| Vue 3 + 自定义组件库 | Composition API + 原子样式（若工程用 Tailwind/UnoCSS） |
+| React + Ant Design | FC + Hooks + Ant Design 组件 |
+| 纯 HTML/JS（工具类页面） | 语义化 HTML + CSS 自定义属性 + 原生 JS |
+
+**输出目录结构：**
+\`\`\`
+frontend/
+├── components/
+│   ├── [ComponentName].vue (或 .tsx)
+│   └── ...
+├── types/
+│   └── index.ts          # 与后端数据模型对应的 TS 接口
+├── utils/
+│   └── [helpers].ts      # 数据转换、格式化等辅助函数
+└── README.md             # 组件使用说明
+\`\`\`
+
+**特别要求：**
+- \`types/index.ts\` 中的接口字段名必须与后端数据模型保持一致
+- 枚举值使用 \`const enum\` 或常量对象，附带中文说明
+- 日期、数值格式化函数单独抽离，方便后续国际化
+
+### 第 6 步 — 生成接入说明
+
+写入 \`integration-guide.md\`，帮助开发团队理解如何引入产出代码：
+
+\`\`\`markdown
+# 接入说明
+
+## 前置依赖
+[列出需要安装的包，附版本号]
+
+## 文件放置
+[说明每个文件应放在工程的哪个目录]
+
+## 数据接口对接
+[说明如何将 API 返回数据传入组件，附示例代码]
+
+## 样式覆盖
+[说明如何覆盖默认样式以匹配工程设计系统]
+
+## 已知限制
+[当前版本的已知问题和临时方案]
+
+## 与后端联调检查项
+[开发联调时需重点验证的字段和交互]
+\`\`\`
+
+---
+
+## 来自 openUBMC Studio 的实践笔记
+
+**从代码读业务，不只是读技术。** 配置文件中每个字段背后都有业务决策。读懂字段的含义比读懂它的类型更重要——\`fan_speed_mode: 0/1/2\` 对用户来说是「自动/手动/节能」，而不是一个整数。
+
+**工程代码与 Demo 代码的根本区别。** Demo 代码证明「可以做」，工程代码是「直接做」。工程代码要承担错误处理、类型安全、可维护性的责任，不能依赖 Mock 数据蒙混过关。
+
+**可访问性是与后端的协作问题。** 很多可访问性问题（如枚举值缺少人类可读标签、错误码缺少友好说明）根源在后端数据结构，不能只靠前端修补。在 \`accessibility-audit.md\` 中明确标注哪些问题需要后端配合。
+
+**设计机会点要区分「前端能做」和「需要后端」。** 前端能做的改动不需要等待排期，优先推进。需要后端的改动要提前与后端沟通，写清楚需要增加什么字段或接口。
+
+**接入说明写给不了解这段代码历史的人。** 写的时候假设读者是刚加入团队、不知道这段代码背景的开发，这样的接入说明才真正有用。
+
+---
+
+## Artifact 模板
+
+### accessibility-audit.md
+
+\`\`\`markdown
+# [项目名称] · 可访问性审查报告
+
+## 审查范围
+[说明本次审查覆盖了哪些页面/组件/配置项]
+
+## 审查标准
+WCAG 2.1 AA + 工程特定项
+
+## 问题清单
+
+| # | 维度 | 位置 | 问题描述 | 严重程度 | 受影响用户 | 修复建议 | 需后端配合 |
+|---|------|------|---------|---------|-----------|---------|----------|
+| 1 | 可感知性 | ... | ... | 严重 | ... | ... | 否 |
+
+## 已符合项
+- [已做好的可访问性实践]
+
+## 待跟进项（需后端配合）
+- [需要后端增加字段或修改数据结构的项]
+\`\`\`
+
+### design-opportunities.md
+
+\`\`\`markdown
+# [项目名称] · 设计机会点分析
+
+## 本次分析范围
+[说明分析的代码范围和背景]
+
+## 机会点清单
+
+| # | 机会点 | 当前问题 | 建议方向 | 实现难度 | 预期收益 | 需后端配合 |
+|---|--------|---------|---------|---------|---------|----------|
+| 1 | ... | ... | ... | 低/中/高 | 低/中/高 | 是/否 |
+
+## 本轮优先推进 Top 3
+
+### 1. [机会点名称]
+**当前状态：** ...
+**建议方案：** ...
+**实现方式：** 前端独立实现 / 需后端配合
+**预计工作量：** ...
+
+## 后续版本储备
+[难度高或需要长期规划的机会点]
+\`\`\`
+`;
+  const blob = new Blob([content], {type: 'text/markdown;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'SKILL.md';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</div><!-- /tab-backend -->
+
 
 <div class="footnote">
   以openUBMC Studio蓝区协同开发为例 · AI coding协同探索 &nbsp;&nbsp; 2026 &nbsp;&nbsp; 王欣迪
