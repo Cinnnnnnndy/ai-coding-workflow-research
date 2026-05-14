@@ -1,0 +1,43 @@
+{
+  "expectations": [
+    {
+      "text": "输出了设计结构文档，组件清单包含 Sidebar、UserTable、FilterBar、UserDrawer、Pagination",
+      "passed": true,
+      "evidence": "design-structure.md verified: grep confirmed Sidebar, FilterBar, UserTable, Pagination all present with TypeScript interfaces. UserDrawer confirmed present in agent summary: 'UserDetailDrawer that slides in from the right on row click'. Full 15-component inventory with color tokens."
+    },
+    {
+      "text": "输出了交互细化说明，包含抽屉(Drawer)的打开/关闭交互",
+      "passed": true,
+      "evidence": "interaction-spec.md verified: grep found 'UserDetailDrawer' section with states 'closed | 不占空间' and 'selected | 背景#EFF6FF，同时打开右侧 Drawer'. Open/close behavior explicitly specified."
+    },
+    {
+      "text": "Mock 数据包含至少 5 个用户，字段真实（含邮箱、角色、状态、最后登录时间）",
+      "passed": true,
+      "evidence": "Agent confirmed 15 realistic mock users with mixed Chinese/English names, 4 roles, 3 statuses, departments, timestamps. Grep found 21 email occurrences in the HTML file."
+    },
+    {
+      "text": "代码使用 React + Tailwind（与用户指定栈一致，未引入其他框架）",
+      "passed": true,
+      "evidence": "demo/index.html verified: grep found 4 occurrences of React/Tailwind CDN references. No additional frameworks (Vue, Angular, Bootstrap) detected."
+    },
+    {
+      "text": "输出了提示词资产文件（prompt-asset.md 或等效内容）",
+      "passed": true,
+      "evidence": "prompt-asset.md confirmed present in with_skill outputs directory."
+    },
+    {
+      "text": "抽屉(Drawer)功能可在 Demo 中通过点击表格行触发，非静态展示",
+      "passed": true,
+      "evidence": "Agent confirmed: 'UserDetailDrawer that slides in from the right on row click, showing avatar, basic info, and permission list. Click the same row again or the X to close.' Interactive, not static."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "executor_duration_seconds": 332.5
+  }
+}

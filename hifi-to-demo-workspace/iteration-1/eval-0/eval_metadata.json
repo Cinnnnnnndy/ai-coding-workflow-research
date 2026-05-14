@@ -1,0 +1,37 @@
+{
+  "eval_id": 0,
+  "eval_name": "topology-viz-vue",
+  "prompt": "服务器硬件管理工具拓扑图视图 → Vue3 前端 Demo（深色主题，含侧边栏/画布/节点卡片/连线）",
+  "assertions": [
+    {
+      "text": "输出了设计结构文档（design-structure.md 或等效内容），包含组件清单",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "输出了交互细化说明（interaction-spec.md 或等效内容），包含状态枚举",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "输出了技术选型说明，并明确说明为何需要布局引擎（ELK/dagre/ReactFlow）而非硬编码坐标",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "输出了可运行的 Vue3 代码（含 index.html 或 App.vue），使用指定色值（如 #141420, #0f1117）",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "输出了提示词资产文件（prompt-asset.md 或等效内容）",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "代码中节点位置未硬编码 x/y 坐标，或明确说明需要布局引擎处理",
+      "passed": null,
+      "evidence": null
+    }
+  ]
+}
