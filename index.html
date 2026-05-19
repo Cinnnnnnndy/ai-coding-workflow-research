@@ -2641,6 +2641,42 @@
 </div>
 
 
+<!-- ══════════════════════════════════
+     Section: 工作流观察日志 2026-05-19
+═══════════════════════════════════════ -->
+<div style="background:#0c1a1f;border:1px solid #163a30;border-radius:12px;padding:24px 28px;margin-bottom:48px">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+    <div style="width:28px;height:28px;background:rgba(20,184,166,0.12);border:1px solid rgba(20,184,166,0.3);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px">📝</div>
+    <div style="font-size:13px;font-weight:600;color:#f1f5f9">工作流观察 · 进展与摩擦点记录</div>
+    <div style="font-size:11px;color:#14b8a6;background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.25);border-radius:4px;padding:2px 8px;margin-left:auto;font-family:ui-monospace,monospace;letter-spacing:.04em">2026-05-19</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid #1a3a2e;border-radius:8px;padding:16px 18px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#14b8a6;margin-bottom:6px">观察 01</div>
+      <div style="font-size:12px;font-weight:600;color:#e2e8f0;margin-bottom:10px;line-height:1.4">高保真交付仍是不可省的环节</div>
+      <div style="font-size:11.5px;color:#64748b;line-height:1.72">
+        基于「后端代码 → 设计反向分析·工程级代码生成」skill，从后端 code demo 出发，交互与视觉层面已达到<strong style="color:#94a3b8">可用</strong>状态，但与现网高保真设计稿相比，细节还原仍有明显距离。
+        <br><br>
+        当前结论：仍需额外交付一版完整高保真，再将 <strong style="color:#94a3b8">高保真 + code demo</strong> 一并提供给前后端，以保证一致性与还原度。两条线并行而非合并，存在割裂感。
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid #251a3a;border-radius:8px;padding:16px 18px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#a78bfa;margin-bottom:6px">观察 02</div>
+      <div style="font-size:12px;font-weight:600;color:#e2e8f0;margin-bottom:10px;line-height:1.4">Claude Design 加入工作流 · 协同割裂问题</div>
+      <div style="font-size:11.5px;color:#64748b;line-height:1.72">
+        Claude Code 对设计细节优化的精度偏低，因此在工作流中引入了 <strong style="color:#94a3b8">Claude Design</strong>。对于「已有基础 HTML + 通过<em>后端代码→产品文档</em> skill 生成的产品文档」的场景，Claude Design 效果较好。
+        <br><br>
+        但摩擦点在于：Design 与 Code 之间的协同<strong style="color:#94a3b8">无法直接唤起</strong>，需手动跳转，两个工具之间尚未形成连贯的上下文传递链路。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 <div class="references-section">
   <div class="references-title">参考文献</div>
   <div class="ref-grid">
