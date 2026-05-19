@@ -20,6 +20,22 @@ description: |
 
 ---
 
+## 实际走过的完整协同流程
+
+本 skill 来自 openUBMC 蓝区一次完整的「后端先行」协同实践，以下是实际经历的五步：
+
+| 阶段 | 输入 | 工具/方法 | 产出 |
+|------|------|----------|------|
+| **Step 1** 接收后端交付物 | 代码仓：`cooling-web-config`、`data-model.md`、`sample-cooling.yaml`、`cooling-excel-parser` | 阅读 + 梳理 | 理解产品是什么、做什么 |
+| **Step 2** 读代码 → 产品文档 | 以上所有后端交付物 | `/code-to-product-doc`（独立 skill） | 功能定义、用户场景、数据结构、核心流程、设计机会点、注意事项 |
+| **Step 3** 产品文档 → 设计审查 | Step 2 的产品文档作为上下文 | `/design-critique` + `/accessibility-review` | 分级问题清单（🔴 Critical / 🟡 Moderate / 🟢 Minor）+ WCAG 2.1 AA 对照报告 |
+| **Step 4** 审查结论 → 工程实现 | 审查报告 + 后端数据结构 | Edit/Write 组件代码 | 吸顶导航、可收起面板、步骤引导、静态 HTML 工程级代码，部署到 GitHub Pages |
+| **Step 5** 验证与迭代 | 截图反馈 | 排查 → 修复 → 再验证 | 可用的线上 Demo |
+
+> Step 2（代码 → 产品文档）是最容易被省略、但最不该省略的一步。它是后续所有设计决策的基础，也是设计师和工程师建立共同语言的节点。该步骤已提炼为独立 skill：`/code-to-product-doc`。
+
+---
+
 ## 需求分析
 
 ### 用户

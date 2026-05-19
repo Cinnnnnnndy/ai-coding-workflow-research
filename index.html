@@ -1211,6 +1211,7 @@
   <button class="tab-btn" data-tab="tab-collab">协同交流日志</button>
   <button class="tab-btn" data-tab="tab-skills">hifi-to-demo skill</button>
   <button class="tab-btn" data-tab="tab-backend">backend-to-design skill</button>
+  <button class="tab-btn" data-tab="tab-code2doc">code-to-product-doc skill</button>
 </div>
 
 <!-- ════════════ TAB 1: 阶段框架 ════════════ -->
@@ -4033,6 +4034,22 @@ description: |
 
 ---
 
+## 实际走过的完整协同流程
+
+本 skill 来自 openUBMC 蓝区一次完整的「后端先行」协同实践，以下是实际经历的五步：
+
+| 阶段 | 输入 | 工具/方法 | 产出 |
+|------|------|----------|------|
+| **Step 1** 接收后端交付物 | 代码仓：`cooling-web-config`、`data-model.md`、`sample-cooling.yaml`、`cooling-excel-parser` | 阅读 + 梳理 | 理解产品是什么、做什么 |
+| **Step 2** 读代码 → 产品文档 | 以上所有后端交付物 | `/code-to-product-doc`（独立 skill） | 功能定义、用户场景、数据结构、核心流程、设计机会点、注意事项 |
+| **Step 3** 产品文档 → 设计审查 | Step 2 的产品文档作为上下文 | `/design-critique` + `/accessibility-review` | 分级问题清单（🔴 Critical / 🟡 Moderate / 🟢 Minor）+ WCAG 2.1 AA 对照报告 |
+| **Step 4** 审查结论 → 工程实现 | 审查报告 + 后端数据结构 | Edit/Write 组件代码 | 吸顶导航、可收起面板、步骤引导、静态 HTML 工程级代码，部署到 GitHub Pages |
+| **Step 5** 验证与迭代 | 截图反馈 | 排查 → 修复 → 再验证 | 可用的线上 Demo |
+
+&gt; Step 2（代码 → 产品文档）是最容易被省略、但最不该省略的一步。它是后续所有设计决策的基础，也是设计师和工程师建立共同语言的节点。该步骤已提炼为独立 skill：`/code-to-product-doc`。
+
+---
+
 ## 需求分析
 
 ### 用户
@@ -4397,6 +4414,22 @@ description: |
 
 ---
 
+## 实际走过的完整协同流程
+
+本 skill 来自 openUBMC 蓝区一次完整的「后端先行」协同实践，以下是实际经历的五步：
+
+| 阶段 | 输入 | 工具/方法 | 产出 |
+|------|------|----------|------|
+| **Step 1** 接收后端交付物 | 代码仓：\`cooling-web-config\`、\`data-model.md\`、\`sample-cooling.yaml\`、\`cooling-excel-parser\` | 阅读 + 梳理 | 理解产品是什么、做什么 |
+| **Step 2** 读代码 → 产品文档 | 以上所有后端交付物 | \`/code-to-product-doc\`（独立 skill） | 功能定义、用户场景、数据结构、核心流程、设计机会点、注意事项 |
+| **Step 3** 产品文档 → 设计审查 | Step 2 的产品文档作为上下文 | \`/design-critique\` + \`/accessibility-review\` | 分级问题清单（🔴 Critical / 🟡 Moderate / 🟢 Minor）+ WCAG 2.1 AA 对照报告 |
+| **Step 4** 审查结论 → 工程实现 | 审查报告 + 后端数据结构 | Edit/Write 组件代码 | 吸顶导航、可收起面板、步骤引导、静态 HTML 工程级代码，部署到 GitHub Pages |
+| **Step 5** 验证与迭代 | 截图反馈 | 排查 → 修复 → 再验证 | 可用的线上 Demo |
+
+> Step 2（代码 → 产品文档）是最容易被省略、但最不该省略的一步。它是后续所有设计决策的基础，也是设计师和工程师建立共同语言的节点。该步骤已提炼为独立 skill：\`/code-to-product-doc\`。
+
+---
+
 ## 需求分析
 
 ### 用户
@@ -4745,7 +4778,568 @@ frontend/
 }
 </script>
 
+
 </div><!-- /tab-backend -->
+
+<!-- ════════════ TAB 5: code-to-product-doc skill ════════════ -->
+<div id="tab-code2doc" class="tab-panel">
+
+<div class="flow-section">
+  <div class="section-title" style="font-size:16px">
+    后端代码 → 产品文档 · code-to-product-doc Skill
+  </div>
+  <div class="section-subtitle" style="margin-bottom:16px">
+    「后端先行」协同流程的第一步，也是最容易被省略的一步——
+    把工程代码翻译成设计师可以直接用的语言，为后续设计审查、可访问性分析、工程实现提供统一上下文
+  </div>
+
+  <!-- 完整协同流程 -->
+  <div style="margin-bottom:28px">
+    <div style="font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:12px">在完整协同流程中的位置</div>
+    <div style="display:flex;align-items:center;gap:0;flex-wrap:wrap;gap:6px;font-size:12px">
+      <div style="background:rgba(79,110,247,0.18);border:1px solid rgba(79,110,247,0.4);border-radius:6px;padding:6px 14px;color:#7c9ef5;font-weight:600">Step 1<br><span style="font-weight:400;color:#94a3b8">接收后端交付物</span></div>
+      <div style="color:#4f6ef7;font-size:16px">→</div>
+      <div style="background:rgba(79,110,247,0.35);border:2px solid #4f6ef7;border-radius:6px;padding:6px 14px;color:#a5b8f7;font-weight:700">Step 2<br><span style="font-weight:600;color:#7c9ef5">/code-to-product-doc</span></div>
+      <div style="color:#4f6ef7;font-size:16px">→</div>
+      <div style="background:rgba(79,110,247,0.18);border:1px solid rgba(79,110,247,0.4);border-radius:6px;padding:6px 14px;color:#7c9ef5;font-weight:600">Step 3<br><span style="font-weight:400;color:#94a3b8">/design-critique<br>/accessibility-review</span></div>
+      <div style="color:#4f6ef7;font-size:16px">→</div>
+      <div style="background:rgba(79,110,247,0.18);border:1px solid rgba(79,110,247,0.4);border-radius:6px;padding:6px 14px;color:#7c9ef5;font-weight:600">Step 4<br><span style="font-weight:400;color:#94a3b8">工程实现</span></div>
+      <div style="color:#4f6ef7;font-size:16px">→</div>
+      <div style="background:rgba(79,110,247,0.18);border:1px solid rgba(79,110,247,0.4);border-radius:6px;padding:6px 14px;color:#7c9ef5;font-weight:600">Step 5<br><span style="font-weight:400;color:#94a3b8">验证与迭代</span></div>
+    </div>
+  </div>
+
+  <!-- 产出 -->
+  <div style="margin-bottom:28px">
+    <div style="font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:12px">标准产出</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+      <thead>
+        <tr style="border-bottom:1px solid #1e2736">
+          <th style="text-align:left;padding:8px 12px;color:#4f6ef7;font-weight:600;width:32px">#</th>
+          <th style="text-align:left;padding:8px 12px;color:#4f6ef7;font-weight:600">文件</th>
+          <th style="text-align:left;padding:8px 12px;color:#4f6ef7;font-weight:600">用途</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #12151e"><td style="padding:8px 12px;color:#94a3b8">1</td><td style="padding:8px 12px"><code style="color:#7c9ef5;font-size:11.5px;font-family:ui-monospace,monospace">product-doc.md</code></td><td style="padding:8px 12px;color:#64748b">功能定义、用户场景、数据结构、核心流程、设计机会点、注意事项</td></tr>
+        <tr><td style="padding:8px 12px;color:#94a3b8">2</td><td style="padding:8px 12px"><code style="color:#7c9ef5;font-size:11.5px;font-family:ui-monospace,monospace">data-dictionary.md</code></td><td style="padding:8px 12px;color:#64748b">工程命名 ↔ 业务语言 ↔ UI 展示对照，供前后端长期查阅（可选）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SKILL.md 完整内容 -->
+  <div style="margin-top:32px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:13px;font-weight:700;color:#e2e8f0">SKILL.md 完整内容</div>
+      <button onclick="downloadC2PSkillMd()" style="cursor:pointer;background:#1a1f2e;border:1px solid #4f6ef7;border-radius:6px;color:#7c9ef5;font-size:12px;font-weight:600;padding:7px 16px;font-family:inherit;letter-spacing:.03em;transition:background .15s" onmouseover="this.style.background='#252c42'" onmouseout="this.style.background='#1a1f2e'">↓ 下载 SKILL.md</button>
+    </div>
+    <div style="background:#090b0f;border:1px solid #1a2035;border-radius:8px;overflow:hidden">
+      <pre style="margin:0;padding:20px 24px;font-size:12px;line-height:1.75;color:#94a3b8;font-family:ui-monospace,monospace;overflow-x:auto;max-height:640px;overflow-y:auto;white-space:pre" id="c2p-skill-md-content">---
+name: code-to-product-doc
+description: |
+  从后端代码、配置文件或数据模型出发，生成完整的产品文档。
+  产品文档是设计介入「后端先行」项目的地基——把工程代码翻译成
+  设计师和产品经理能直接使用的语言，为后续设计审查、可访问性分析、
+  工程实现提供统一的上下文。
+  中文触发词：帮我读这段代码 / 从代码生成产品文档 / 这个后端代码是做什么的 /
+  帮我梳理数据结构 / 代码里有哪些设计机会点 / 把代码转成产品说明。
+  English triggers: &quot;read this backend code&quot;, &quot;generate product doc from code&quot;,
+  &quot;what does this code do&quot;, &quot;summarize the data model&quot;, &quot;find design opportunities in code&quot;.
+  只要存在「后端代码/配置/数据模型」+「理解产品/生成文档/找机会点」的意图，就调用此 skill。
+  通常作为 /backend-to-design 的第一步单独调用，产出物直接用于 /design-critique 和 /accessibility-review。
+---
+
+# 后端代码 → 产品文档
+
+这一步最容易被省略，但它是后续所有设计决策的基础。
+代码里藏着产品的真实逻辑——业务规则、数据约束、实体关系——
+设计师读懂它，才能做有根据的判断，而不是靠猜。
+
+---
+
+## 需求分析
+
+### 用户
+
+| 角色 | 使用场景 | 关注点 |
+|------|---------|--------|
+| 体验设计师 | 后端代码先于设计稿完成，需要快速理解产品是什么 | 读懂业务逻辑；找到设计介入点 |
+| 产品经理 | 无设计规格文档时，需要从代码还原产品定义 | 功能边界清晰；用户场景准确 |
+| 前端开发 | 接手陌生代码仓，需要快速建立业务理解 | 数据结构清楚；实体关系可见 |
+
+### 场景
+
+1. **后端先行**：工程师已有可运行的实现，但没有产品文档。设计师从代码反推产品定义。
+2. **设计接力**：接手他人已有的项目，没有文档传递，需要从代码建立理解。
+3. **设计审查前置**：在跑 `/design-critique` 或 `/accessibility-review` 之前，先用此 skill 建立产品上下文，让后续审查更有针对性。
+4. **技术术语翻译**：把工程师的字段命名（`pid_control_mode: 1`）翻译成用户语言（「慢升快降（省电优先）」），建立设计-开发共同词汇表。
+
+### 解决的问题
+
+- **设计师看不懂代码**：代码里有大量对设计决策有价值的信息（枚举值、魔法值、实体关系、校验规则），但缺少提取这些信息的方法。
+- **产品文档缺失**：工程工具类产品往往没有正式的产品说明，设计师只能靠运行软件来猜功能。
+- **设计审查缺少上下文**：直接跑审查工具，结论会是通用的「对比度不足」「缺少 ARIA 标签」，而不是「这个配置工具的核心用户是固件工程师，他们在嘈杂机房里长时间使用，字号 11px 是严重问题」。
+- **设计-开发对话低效**：设计师提「这里体验不好」，工程师不知道对应哪个字段。有了共同词汇表，沟通从定性变定量。
+
+### 设计点
+
+- **翻译是设计工作**：把 `pid_control_mode: 1/2/3/4` 翻译成「慢升快降（省电优先）/ 快升慢降（响应优先）/ ...」，这个过程本身就是设计判断——选择什么语言、粒度多细、用什么隐喻。
+- **产品文档决定审查质量**：用这份文档作为上下文去跑设计审查，得到的结论会精准 10 倍。
+- **机会点分级决定优先级**：不是所有问题都值得改。分清「前端独立实现」「需要后端配合」「需要产品层决策」，让改进建议可落地。
+
+---
+
+## 输入
+
+| 类型 | 示例 | 说明 |
+|------|------|------|
+| 代码仓 | GitHub / GitCode 链接，或本地目录路径 | 主要读取 |
+| 数据模型文档 | `data-model.md`、OpenAPI spec、ERD | 优先阅读，信息密度最高 |
+| 样本数据 | `sample-*.yaml`、`*.json` 样本文件 | 快速理解字段实际值域 |
+| 辅助工具代码 | VSCode 插件、CLI 工具、解析脚本 | 业务规则的隐性载体 |
+
+---
+
+## 工作流
+
+### Step 1 — 技术栈扫描（约 5 分钟）
+
+读取：`package.json` / `requirements.txt` / `README` / `index.html`
+
+确认：
+- 语言与框架（原生 JS / Vue / React / Python...）
+- 数据格式（YAML / JSON / XML）
+- 构建与部署方式（有无构建工具、是否支持 CDN 直接引入）
+- 前端关心的核心依赖（图表库、YAML 解析器、Canvas 库）
+
+&gt; **openUBMC 案例**：`cooling-web-config` 是纯 HTML + CSS + JS，用 `js-yaml` CDN 解析 YAML，Canvas 绘制曲线编辑器，无需构建工具——这意味着所有工程级代码也必须保持同样的轻量约束。
+
+### Step 2 — 数据模型分析（核心步骤）
+
+读取：数据模型文档、样本数据文件、实体定义代码
+
+**2a. 实体清单**
+列出所有业务实体，每个记录：
+- 实体名称（英文原名 + 中文业务含义）
+- 核心字段（名称、类型、是否必填、取值范围）
+- 枚举值映射：工程值 → 用户可读标签
+
+```
+示例：
+pid_control_mode: 1 | 2 | 3 | 4
+→ 1: 慢升快降（省电优先）
+→ 2: 快升慢降（响应优先）
+→ 3: 慢升慢降（稳定优先）
+→ 4: 快升快降（激进模式）
+```
+
+**2b. 魔法值标注**
+识别用特殊数字/字符串表示特殊状态的字段：
+
+```
+示例：
+sys_hdds_max_temperature: 32768
+→ 32768 = 「无效/获取不到」的内部标记
+→ UI 必须转换为「—」或「不可用」，绝不能直接展示
+```
+
+**2c. 实体关系图**
+哪些实体之间有引用关系？用层级列表表示：
+
+```
+CoolingConfig（全局）
+└── CoolingArea（调速区域）
+    ├── CoolingRequirement（温度需求，引用传感器）
+    ├── CoolingPolicy（调速策略，含转速曲线）
+    └── CoolingFan（绑定的风扇）
+```
+
+标注：哪些关联是用户必须手动建立的，哪些是自动推导的。
+
+**2d. 动态字段标注**
+标注有特殊语法或动态行为的字段：
+
+```
+示例：
+sensor_reading: &quot;&lt;=/Scanner_Lm75_Inlet.Value&quot;
+→ CSR 动态语法：实时读取传感器值
+→ UI 层不能把它当普通字符串处理
+```
+
+### Step 3 — 业务流程还原
+
+读取：解析逻辑、校验规则、导出逻辑、操作顺序相关代码
+
+还原用户完成一个完整任务的操作顺序：
+
+```
+示例（cooling-web-config 核心流程）：
+1. 定义温度需求（CoolingRequirement）— 设置传感器和温度阈值
+2. 定义调速策略（CoolingPolicy）— 绘制温度-转速曲线
+3. 配置调速区域（CoolingArea）— 绑定需求、策略、风扇
+4. 设置风扇参数（CoolingFan）— 指定风扇板、槽位、类型
+5. 配置全局参数（CoolingConfig）— 调速模式、PID 参数
+6. 导出 YAML / 生成 CSR Objects 片段
+```
+
+标注：
+- 必须按顺序完成的步骤（先定义实体，再建立引用）
+- 可任意顺序完成的步骤
+- 步骤间的依赖约束（「必须先有策略才能绑定区域」）
+
+### Step 4 — 设计机会点识别
+
+对照以下维度逐一检查，分三级标注：
+
+**🟢 前端可独立实现**（不改后端、优先推进）
+**🟡 需后端配合**（增加字段、调整数据结构）
+**🔴 需要产品层决策**（涉及功能边界、需 PM 对齐）
+
+| 维度 | 检查项 |
+|------|--------|
+| **信息架构** | 层级是否清晰？用户在哪里最容易迷失？分组是否符合用户心智模型？ |
+| **引导性** | 新用户如何知道从哪里开始？必须按顺序的步骤是否有可见线索？ |
+| **状态反馈** | 错误、成功、等待状态是否有可见反馈？错误提示是否描述了「什么错了 + 怎么修」？ |
+| **依赖可见性** | 实体间的绑定关系是否可见？（温度点绑定了哪些传感器？区域引用了哪条策略？） |
+| **数据量扩展性** | 10 条数据和 100 条数据体验是否一样？大量配置项时导航是否仍可用？ |
+| **技术术语暴露** | 工程字段名是否直接展示给用户？枚举整数是否未经转换直接显示？ |
+
+&gt; **openUBMC 案例机会点**：
+&gt; 🟢 魔法值转换（32768 → 「—」）、枚举映射（pid_control_mode 1→「慢升快降」）、CSR 输出面板可调高度
+&gt; 🟢 三种调速模式曲线叠加对比显示、配置完成度步骤指示器
+&gt; 🟡 为枚举字段增加 label 映射 API（避免前端硬编码中文标签）
+&gt; 🔴 PID 控制模式是否需要实测数据支撑选择、多机型配置共享的 UI 方案
+
+### Step 5 — 写产品文档
+
+将以上分析整理为 `product-doc.md`，结构如下：
+
+```markdown
+# [产品名称] · 产品文档
+
+## 功能定义
+[一句话：这个工具/功能是什么，解决什么问题]
+
+## 用户与场景
+[谁在什么情况下用这个工具]
+
+## 数据结构概览
+[实体清单 + 实体关系层级图 + 魔法值说明 + 枚举映射表]
+
+## 核心操作流程
+[Step by step，标注顺序约束]
+
+## 设计机会点
+| # | 机会点 | 当前问题 | 建议方向 | 实现层级 |
+|---|--------|---------|---------|---------|
+| 1 | ...    | ...     | ...     | 🟢/🟡/🔴 |
+
+## 设计注意事项
+[约束条件、边界情况、必须在 UI 层处理的后端约定]
+```
+
+### Step 6 — 交给设计审查工具
+
+产品文档完成后，把它作为上下文传给：
+- `/design-critique`：系统性设计评审（信息架构 / 视觉一致性 / 反馈机制）
+- `/accessibility-review`：WCAG 2.1 AA 可访问性审查
+
+**给审查工具的标准上下文模板**：
+```
+请基于以下产品背景进行审查：
+- 产品类型：[工程工具 / 消费者应用 / 管理后台]
+- 核心用户：[职业 + 使用频率 + 使用环境]
+- 核心任务流：[从产品文档摘取]
+- 已知约束：[技术栈限制、不可改动的后端约定]
+
+产品文档：[附 product-doc.md 内容]
+```
+
+---
+
+## 产出
+
+| # | 文件 | 用途 |
+|---|------|------|
+| 1 | `product-doc.md` | 完整产品文档，供设计审查、团队对齐、新成员 onboarding 使用 |
+| 2 | `data-dictionary.md`（可选） | 字段词汇表：工程命名 ↔ 业务语言 ↔ UI 展示，供前后端长期查阅 |
+
+---
+
+## 来自 openUBMC Studio 的实践笔记
+
+**先读数据模型，再读代码。** `data-model.md` 里的信息密度比源代码高得多——它已经做了一次结构化，你从这里开始能节省大量时间。
+
+**样本数据是最好的字段说明书。** `sample-cooling.yaml` 里的真实值告诉你字段的实际值域，比类型定义（`string`）更有用。
+
+**魔法值是最优先要找的。** `32768`、`-1`、`&quot;N/A&quot;` 这类特殊值往往隐藏在业务逻辑里，不找就会漏到 UI 上——这是最容易被用户骂的那类 bug。
+
+**实体关系决定 UI 结构。** 如果 `CoolingArea` 必须先绑定 `CoolingRequirement` 才能绑定 `CoolingPolicy`，这个约束就应该在 UI 里可见——不然用户会不断碰到「为什么这个选项是灰的？」。
+
+**产品文档是审查工具的放大镜。** 同样的「对比度不足」问题，有了「核心用户是在嘈杂机房里长时间使用的固件工程师」这个上下文，严重程度和修复优先级会完全不同。
+</pre>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function downloadC2PSkillMd() {
+  const content = `---
+name: code-to-product-doc
+description: |
+  从后端代码、配置文件或数据模型出发，生成完整的产品文档。
+  产品文档是设计介入「后端先行」项目的地基——把工程代码翻译成
+  设计师和产品经理能直接使用的语言，为后续设计审查、可访问性分析、
+  工程实现提供统一的上下文。
+  中文触发词：帮我读这段代码 / 从代码生成产品文档 / 这个后端代码是做什么的 /
+  帮我梳理数据结构 / 代码里有哪些设计机会点 / 把代码转成产品说明。
+  English triggers: "read this backend code", "generate product doc from code",
+  "what does this code do", "summarize the data model", "find design opportunities in code".
+  只要存在「后端代码/配置/数据模型」+「理解产品/生成文档/找机会点」的意图，就调用此 skill。
+  通常作为 /backend-to-design 的第一步单独调用，产出物直接用于 /design-critique 和 /accessibility-review。
+---
+
+# 后端代码 → 产品文档
+
+这一步最容易被省略，但它是后续所有设计决策的基础。
+代码里藏着产品的真实逻辑——业务规则、数据约束、实体关系——
+设计师读懂它，才能做有根据的判断，而不是靠猜。
+
+---
+
+## 需求分析
+
+### 用户
+
+| 角色 | 使用场景 | 关注点 |
+|------|---------|--------|
+| 体验设计师 | 后端代码先于设计稿完成，需要快速理解产品是什么 | 读懂业务逻辑；找到设计介入点 |
+| 产品经理 | 无设计规格文档时，需要从代码还原产品定义 | 功能边界清晰；用户场景准确 |
+| 前端开发 | 接手陌生代码仓，需要快速建立业务理解 | 数据结构清楚；实体关系可见 |
+
+### 场景
+
+1. **后端先行**：工程师已有可运行的实现，但没有产品文档。设计师从代码反推产品定义。
+2. **设计接力**：接手他人已有的项目，没有文档传递，需要从代码建立理解。
+3. **设计审查前置**：在跑 \`/design-critique\` 或 \`/accessibility-review\` 之前，先用此 skill 建立产品上下文，让后续审查更有针对性。
+4. **技术术语翻译**：把工程师的字段命名（\`pid_control_mode: 1\`）翻译成用户语言（「慢升快降（省电优先）」），建立设计-开发共同词汇表。
+
+### 解决的问题
+
+- **设计师看不懂代码**：代码里有大量对设计决策有价值的信息（枚举值、魔法值、实体关系、校验规则），但缺少提取这些信息的方法。
+- **产品文档缺失**：工程工具类产品往往没有正式的产品说明，设计师只能靠运行软件来猜功能。
+- **设计审查缺少上下文**：直接跑审查工具，结论会是通用的「对比度不足」「缺少 ARIA 标签」，而不是「这个配置工具的核心用户是固件工程师，他们在嘈杂机房里长时间使用，字号 11px 是严重问题」。
+- **设计-开发对话低效**：设计师提「这里体验不好」，工程师不知道对应哪个字段。有了共同词汇表，沟通从定性变定量。
+
+### 设计点
+
+- **翻译是设计工作**：把 \`pid_control_mode: 1/2/3/4\` 翻译成「慢升快降（省电优先）/ 快升慢降（响应优先）/ ...」，这个过程本身就是设计判断——选择什么语言、粒度多细、用什么隐喻。
+- **产品文档决定审查质量**：用这份文档作为上下文去跑设计审查，得到的结论会精准 10 倍。
+- **机会点分级决定优先级**：不是所有问题都值得改。分清「前端独立实现」「需要后端配合」「需要产品层决策」，让改进建议可落地。
+
+---
+
+## 输入
+
+| 类型 | 示例 | 说明 |
+|------|------|------|
+| 代码仓 | GitHub / GitCode 链接，或本地目录路径 | 主要读取 |
+| 数据模型文档 | \`data-model.md\`、OpenAPI spec、ERD | 优先阅读，信息密度最高 |
+| 样本数据 | \`sample-*.yaml\`、\`*.json\` 样本文件 | 快速理解字段实际值域 |
+| 辅助工具代码 | VSCode 插件、CLI 工具、解析脚本 | 业务规则的隐性载体 |
+
+---
+
+## 工作流
+
+### Step 1 — 技术栈扫描（约 5 分钟）
+
+读取：\`package.json\` / \`requirements.txt\` / \`README\` / \`index.html\`
+
+确认：
+- 语言与框架（原生 JS / Vue / React / Python...）
+- 数据格式（YAML / JSON / XML）
+- 构建与部署方式（有无构建工具、是否支持 CDN 直接引入）
+- 前端关心的核心依赖（图表库、YAML 解析器、Canvas 库）
+
+> **openUBMC 案例**：\`cooling-web-config\` 是纯 HTML + CSS + JS，用 \`js-yaml\` CDN 解析 YAML，Canvas 绘制曲线编辑器，无需构建工具——这意味着所有工程级代码也必须保持同样的轻量约束。
+
+### Step 2 — 数据模型分析（核心步骤）
+
+读取：数据模型文档、样本数据文件、实体定义代码
+
+**2a. 实体清单**
+列出所有业务实体，每个记录：
+- 实体名称（英文原名 + 中文业务含义）
+- 核心字段（名称、类型、是否必填、取值范围）
+- 枚举值映射：工程值 → 用户可读标签
+
+\`\`\`
+示例：
+pid_control_mode: 1 | 2 | 3 | 4
+→ 1: 慢升快降（省电优先）
+→ 2: 快升慢降（响应优先）
+→ 3: 慢升慢降（稳定优先）
+→ 4: 快升快降（激进模式）
+\`\`\`
+
+**2b. 魔法值标注**
+识别用特殊数字/字符串表示特殊状态的字段：
+
+\`\`\`
+示例：
+sys_hdds_max_temperature: 32768
+→ 32768 = 「无效/获取不到」的内部标记
+→ UI 必须转换为「—」或「不可用」，绝不能直接展示
+\`\`\`
+
+**2c. 实体关系图**
+哪些实体之间有引用关系？用层级列表表示：
+
+\`\`\`
+CoolingConfig（全局）
+└── CoolingArea（调速区域）
+    ├── CoolingRequirement（温度需求，引用传感器）
+    ├── CoolingPolicy（调速策略，含转速曲线）
+    └── CoolingFan（绑定的风扇）
+\`\`\`
+
+标注：哪些关联是用户必须手动建立的，哪些是自动推导的。
+
+**2d. 动态字段标注**
+标注有特殊语法或动态行为的字段：
+
+\`\`\`
+示例：
+sensor_reading: "<=/Scanner_Lm75_Inlet.Value"
+→ CSR 动态语法：实时读取传感器值
+→ UI 层不能把它当普通字符串处理
+\`\`\`
+
+### Step 3 — 业务流程还原
+
+读取：解析逻辑、校验规则、导出逻辑、操作顺序相关代码
+
+还原用户完成一个完整任务的操作顺序：
+
+\`\`\`
+示例（cooling-web-config 核心流程）：
+1. 定义温度需求（CoolingRequirement）— 设置传感器和温度阈值
+2. 定义调速策略（CoolingPolicy）— 绘制温度-转速曲线
+3. 配置调速区域（CoolingArea）— 绑定需求、策略、风扇
+4. 设置风扇参数（CoolingFan）— 指定风扇板、槽位、类型
+5. 配置全局参数（CoolingConfig）— 调速模式、PID 参数
+6. 导出 YAML / 生成 CSR Objects 片段
+\`\`\`
+
+标注：
+- 必须按顺序完成的步骤（先定义实体，再建立引用）
+- 可任意顺序完成的步骤
+- 步骤间的依赖约束（「必须先有策略才能绑定区域」）
+
+### Step 4 — 设计机会点识别
+
+对照以下维度逐一检查，分三级标注：
+
+**🟢 前端可独立实现**（不改后端、优先推进）
+**🟡 需后端配合**（增加字段、调整数据结构）
+**🔴 需要产品层决策**（涉及功能边界、需 PM 对齐）
+
+| 维度 | 检查项 |
+|------|--------|
+| **信息架构** | 层级是否清晰？用户在哪里最容易迷失？分组是否符合用户心智模型？ |
+| **引导性** | 新用户如何知道从哪里开始？必须按顺序的步骤是否有可见线索？ |
+| **状态反馈** | 错误、成功、等待状态是否有可见反馈？错误提示是否描述了「什么错了 + 怎么修」？ |
+| **依赖可见性** | 实体间的绑定关系是否可见？（温度点绑定了哪些传感器？区域引用了哪条策略？） |
+| **数据量扩展性** | 10 条数据和 100 条数据体验是否一样？大量配置项时导航是否仍可用？ |
+| **技术术语暴露** | 工程字段名是否直接展示给用户？枚举整数是否未经转换直接显示？ |
+
+> **openUBMC 案例机会点**：
+> 🟢 魔法值转换（32768 → 「—」）、枚举映射（pid_control_mode 1→「慢升快降」）、CSR 输出面板可调高度
+> 🟢 三种调速模式曲线叠加对比显示、配置完成度步骤指示器
+> 🟡 为枚举字段增加 label 映射 API（避免前端硬编码中文标签）
+> 🔴 PID 控制模式是否需要实测数据支撑选择、多机型配置共享的 UI 方案
+
+### Step 5 — 写产品文档
+
+将以上分析整理为 \`product-doc.md\`，结构如下：
+
+\`\`\`markdown
+# [产品名称] · 产品文档
+
+## 功能定义
+[一句话：这个工具/功能是什么，解决什么问题]
+
+## 用户与场景
+[谁在什么情况下用这个工具]
+
+## 数据结构概览
+[实体清单 + 实体关系层级图 + 魔法值说明 + 枚举映射表]
+
+## 核心操作流程
+[Step by step，标注顺序约束]
+
+## 设计机会点
+| # | 机会点 | 当前问题 | 建议方向 | 实现层级 |
+|---|--------|---------|---------|---------|
+| 1 | ...    | ...     | ...     | 🟢/🟡/🔴 |
+
+## 设计注意事项
+[约束条件、边界情况、必须在 UI 层处理的后端约定]
+\`\`\`
+
+### Step 6 — 交给设计审查工具
+
+产品文档完成后，把它作为上下文传给：
+- \`/design-critique\`：系统性设计评审（信息架构 / 视觉一致性 / 反馈机制）
+- \`/accessibility-review\`：WCAG 2.1 AA 可访问性审查
+
+**给审查工具的标准上下文模板**：
+\`\`\`
+请基于以下产品背景进行审查：
+- 产品类型：[工程工具 / 消费者应用 / 管理后台]
+- 核心用户：[职业 + 使用频率 + 使用环境]
+- 核心任务流：[从产品文档摘取]
+- 已知约束：[技术栈限制、不可改动的后端约定]
+
+产品文档：[附 product-doc.md 内容]
+\`\`\`
+
+---
+
+## 产出
+
+| # | 文件 | 用途 |
+|---|------|------|
+| 1 | \`product-doc.md\` | 完整产品文档，供设计审查、团队对齐、新成员 onboarding 使用 |
+| 2 | \`data-dictionary.md\`（可选） | 字段词汇表：工程命名 ↔ 业务语言 ↔ UI 展示，供前后端长期查阅 |
+
+---
+
+## 来自 openUBMC Studio 的实践笔记
+
+**先读数据模型，再读代码。** \`data-model.md\` 里的信息密度比源代码高得多——它已经做了一次结构化，你从这里开始能节省大量时间。
+
+**样本数据是最好的字段说明书。** \`sample-cooling.yaml\` 里的真实值告诉你字段的实际值域，比类型定义（\`string\`）更有用。
+
+**魔法值是最优先要找的。** \`32768\`、\`-1\`、\`"N/A"\` 这类特殊值往往隐藏在业务逻辑里，不找就会漏到 UI 上——这是最容易被用户骂的那类 bug。
+
+**实体关系决定 UI 结构。** 如果 \`CoolingArea\` 必须先绑定 \`CoolingRequirement\` 才能绑定 \`CoolingPolicy\`，这个约束就应该在 UI 里可见——不然用户会不断碰到「为什么这个选项是灰的？」。
+
+**产品文档是审查工具的放大镜。** 同样的「对比度不足」问题，有了「核心用户是在嘈杂机房里长时间使用的固件工程师」这个上下文，严重程度和修复优先级会完全不同。
+`;
+  const blob = new Blob([content], {type: 'text/markdown;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'SKILL.md';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</div><!-- /tab-code2doc -->
 
 
 <div class="footnote">
