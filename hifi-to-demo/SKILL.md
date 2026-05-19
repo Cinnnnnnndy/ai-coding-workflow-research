@@ -1,5 +1,5 @@
 ---
-name: hifi-to-demo
+name: 高保真设计稿 → Demo → 工程代码
 description: |
   将高保真设计稿转换为可运行代码，分两阶段交付：
   第一阶段生成单文件快速 Demo 供设计评审与迭代；
