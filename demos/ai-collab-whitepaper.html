@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 协同设计 · openUBMC Studio 实践白皮书</title>
+  <style>
+:root {
+  --nav-offset: 60px;
+  --bg: #f7f8fb;
+  --ink: #182033;
+  --muted: #677085;
+  --line: #dfe4ee;
+  --panel: #ffffff;
+  --panel2: #f0f4f8;
+  --acc: #3b82f6;
+  --g: #059669;
+  --r: #dc2626;
+  --y: #b45309;
+  --bl: #2563eb;
+  --code: #111827;
+  --tg: #34d399;
+  --tb2: #60a5fa;
+  --tp: #a78bfa;
+  --ty: #fbbf24;
+  --err: #f87171;
+  --hint: #60a5fa;
+}
+* { box-sizing: border-box; }
+html {
+  scroll-padding-top: var(--nav-offset);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+}
+body { margin: 0; overflow-x: hidden; }
+a { color: var(--bl); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ─── TOP NAV ─── */
+.topnav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+  display: flex; align-items: center; gap: 16px; padding: 0 28px;
+  height: var(--nav-offset);
+  background: rgba(255,255,255,0.93);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+.brand { font-weight: 760; font-size: 15px; flex-shrink: 0; color: var(--ink); }
+.navlinks { display: flex; gap: 4px; flex-wrap: wrap; }
+.navlinks a {
+  padding: 6px 11px; border-radius: 6px; color: var(--muted);
+  font-size: 14px; white-space: nowrap; transition: background .12s;
+}
+.navlinks a:hover, .navlinks a.active { background: var(--panel2); color: var(--ink); text-decoration: none; }
+
+/* ─── FLOOR ─── */
+section.floor {
+  min-height: 100dvh;
+  padding: var(--nav-offset) 8vw 60px;
+  padding-top: calc(var(--nav-offset) + 56px);
+  display: flex; flex-direction: column; justify-content: flex-start;
+}
+section.floor.dense { padding-top: calc(var(--nav-offset) + 40px); }
+
+/* ─── TYPOGRAPHY ─── */
+.kicker { color: var(--acc); font-weight: 720; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 14px; }
+h1 { margin: 0 0 22px; font-size: clamp(36px, 5vw, 58px); line-height: 1.04; letter-spacing: -.01em; }
+h2 { margin: 0 0 18px; font-size: clamp(26px, 3.5vw, 38px); line-height: 1.12; letter-spacing: -.01em; }
+h3 { margin: 0 0 10px; font-size: 20px; letter-spacing: 0; }
+h4 { margin: 0 0 6px; font-size: 16px; font-weight: 700; }
+p { max-width: 900px; color: var(--muted); line-height: 1.72; font-size: 16px; margin: 0 0 12px; }
+.lead { font-size: 20px; line-height: 1.7; color: #344054; }
+.small { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+/* ─── GRID ─── */
+.grid { display: grid; gap: 18px; }
+.cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.cols-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.cols-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 22px;
+  box-shadow: 0 1px 4px rgba(16,24,40,.05);
+}
+.metric { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-height: 140px; }
+.metric strong { font-size: 52px; line-height: .95; letter-spacing: -.02em; color: var(--ink); }
+.metric span { color: var(--muted); font-size: 16px; line-height: 1.55; max-width: 220px; }
+
+/* ─── CALLOUT ─── */
+.callout {
+  border-left: 4px solid var(--acc); padding: 14px 18px;
+  background: #eef6ff; border-radius: 0 8px 8px 0; margin: 16px 0;
+  font-size: 16px; line-height: 1.65; color: #1e3a6a;
+}
+.callout.green { border-left-color: var(--g); background: #ecfdf5; color: #064e3b; }
+.callout.yellow { border-left-color: var(--y); background: #fffbeb; color: #78350f; }
+.callout.red { border-left-color: var(--r); background: #fef2f2; color: #7f1d1d; }
+
+/* ─── ARCH ─── */
+.arch { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
+.arch-layer { display: flex; align-items: stretch; border-bottom: 1px solid var(--line); }
+.arch-layer:last-of-type { border-bottom: none; }
+.arch-label {
+  width: 140px; min-width: 140px; padding: 14px 16px;
+  background: #eef3f9; color: #344054; font-weight: 720;
+  font-size: 14px; border-right: 1px solid var(--line);
+  display: flex; align-items: center;
+}
+.arch-boxes { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; align-items: center; flex: 1; }
+.arch-box {
+  background: var(--panel2); border: 1px solid var(--line);
+  border-radius: 6px; padding: 7px 14px;
+  font-size: 14px; color: #344054;
+}
+.arch-box.hi { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; font-weight: 600; }
+.arch-note { padding: 10px 16px; background: #f8fafc; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+
+/* ─── TERMINAL ─── */
+.mt { border-radius: 8px; overflow: hidden; border: 1px solid #263244; background: var(--code); margin-top: 14px; }
+.mtbar { display: flex; align-items: center; gap: 8px; padding: 9px 14px; background: #1f2937; color: #cbd5e1; font-size: 14px; }
+.mdt { width: 10px; height: 10px; border-radius: 50%; background: var(--r); box-shadow: 16px 0 var(--y), 32px 0 var(--g); margin-right: 32px; }
+.mb { padding: 16px 18px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; line-height: 1.65; white-space: pre; color: #e5e7eb; overflow-x: auto; }
+.err { color: var(--err); } .hint { color: var(--hint); } .green { color: var(--tg); } .yellow { color: var(--ty); } .purple { color: var(--tp); }
+
+/* ─── TABLE ─── */
+table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; font-size: 15px; }
+thead, tbody, tr { width: 100%; }
+th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+th { background: #eef3f9; color: #23304a; font-size: 14px; }
+tr:last-child td { border-bottom: 0; }
+
+/* ─── SCREENSHOT PANEL ─── */
+.screenshot { border: 1px solid #cfd7e6; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 4px 18px rgba(16,24,40,.08); }
+.shotbar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #edf1f7; border-bottom: 1px solid #cfd7e6; color: #475467; font-size: 14px; }
+.dots { width: 10px; height: 10px; border-radius: 50%; background: #ef4444; box-shadow: 16px 0 #f59e0b, 32px 0 #22c55e; margin-right: 34px; flex-shrink: 0; }
+.shotbody { padding: 20px; background: #fff; }
+.shotbody.flush { padding: 0; }
+.evidence-caption { padding: 10px 14px; border-top: 1px solid #e5e7eb; color: var(--muted); font-size: 14px; line-height: 1.55; }
+
+/* ─── REC-GRID ─── */
+.rec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
+.rec-panel { border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 20px; }
+.rec-panel h3 { font-size: 18px; margin: 0 0 4px; }
+.rec-item { display: grid; grid-template-columns: 40px 1fr; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.rec-num { font-weight: 850; color: var(--acc); font-size: 17px; }
+.rec-item b { display: block; margin-bottom: 3px; font-size: 15px; }
+.rec-item span { color: var(--muted); font-size: 14px; line-height: 1.55; }
+
+/* ─── TENSION ─── */
+.tension { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; margin-top: 18px; }
+.tension div { padding: 16px; border-radius: 10px; background: #f8fafc; border: 1px solid var(--line); }
+.tension b { display: block; margin-bottom: 6px; font-size: 16px; }
+.tension span { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* ─── JOURNEY MAP ─── */
+.journey-map { display: grid; grid-template-columns: 80px repeat(5, minmax(0,1fr)); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
+.jm-head, .jm-label, .jm-cell { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 10px 12px; }
+.journey-map > :nth-child(6n) { border-right: 0; }
+.journey-map > :nth-last-child(-n+6) { border-bottom: 0; }
+.jm-head { background: #eef3f9; font-weight: 720; text-align: center; font-size: 14px; }
+.jm-label { background: #f8fafc; color: var(--muted); font-size: 14px; font-weight: 720; }
+.jm-cell { min-height: 80px; font-size: 14px; line-height: 1.5; color: #344054; }
+.jm-cell.hi { background: #eff6ff; }
+
+/* ─── PILLS ─── */
+.pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.pill { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 6px; background: #eef3f9; color: #344054; border: 1px solid #d8e0ec; font-size: 14px; }
+.pill.hot { background: #fff1f2; color: #9f1239; border-color: #fecdd3; }
+.pill.good { background: #ecfdf3; color: #047857; border-color: #bbf7d0; }
+.pill.warn { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+.pill.blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+
+/* ─── FLOW STEPS ─── */
+.flow-steps { display: flex; gap: 0; align-items: stretch; margin-top: 18px; }
+.flow-step {
+  flex: 1; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 0; padding: 18px 16px; position: relative;
+  border-right: none;
+}
+.flow-step:first-child { border-radius: 10px 0 0 10px; }
+.flow-step:last-child { border-right: 1px solid var(--line); border-radius: 0 10px 10px 0; }
+.flow-step.active { background: #eff6ff; border-color: #93c5fd; z-index: 1; }
+.step-num { font-size: 11px; font-weight: 700; color: var(--acc); letter-spacing: .08em; margin-bottom: 6px; }
+.step-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.step-body { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+/* ─── SOURCE CARD ─── */
+.source-card {
+  margin-top: 20px; padding: 14px 16px;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--panel); box-shadow: 0 1px 4px rgba(16,24,40,.04);
+  font-size: 14px; color: var(--muted);
+}
+.source-card b { color: var(--ink); font-size: 15px; display: block; margin-bottom: 4px; }
+
+/* ─── DIVIDER ─── */
+.section-div { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
+
+/* ─── SCROLLSPY ─── */
+.navlinks a.active { background: var(--panel2); color: var(--ink); }
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">AI 协同设计 · openUBMC Studio</div>
+  <div class="navlinks">
+    <a href="#cover">封面</a>
+    <a href="#thesis">核心判断</a>
+    <a href="#overview">协同全景</a>
+    <a href="#mode1">读懂代码</a>
+    <a href="#mode2">设计洞察</a>
+    <a href="#mode3">工程实现</a>
+    <a href="#mode4">设计到代码</a>
+    <a href="#friction">摩擦边界</a>
+    <a href="#synthesis">能沉淀的</a>
+    <a href="#skills">三个 Skill</a>
+    <a href="#terms">术语</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     COVER
+════════════════════════════════════════════════ -->
+<section class="floor" id="cover">
+  <div class="kicker">Whitepaper · 2026 · openUBMC Studio × Claude Code</div>
+  <h1>设计 × 工程协同<br>的真实样子</h1>
+  <p class="lead" style="max-width:720px">不是自动化，不是替代——<br>
+  AI 让体验设计师在更早的阶段介入工程决策，把代码读成设计语言，把设计意图翻译成工程级代码。</p>
+
+  <div class="grid cols-4" style="margin-top:32px">
+    <div class="card metric">
+      <strong>3</strong>
+      <span>个 Claude Code Skill，对应三种协同模式</span>
+    </div>
+    <div class="card metric">
+      <strong>5</strong>
+      <span>步实际走过的协同流程，从后端交付到联调验证</span>
+    </div>
+    <div class="card metric">
+      <strong>3</strong>
+      <span>个 BMC 工具视图，完整完成从代码到产品文档的分析</span>
+    </div>
+    <div class="card metric">
+      <strong>1</strong>
+      <span>个关键发现：高保真交付仍是不可省的环节</span>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:36px;max-width:800px">
+    <b>这份白皮书在讲什么：</b>我们不讨论「AI 能不能替代设计师」，而是讨论「在 openUBMC Studio 的真实项目里，AI 协同改变了哪些工作节点，带来了什么，留下了什么摩擦」。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     THESIS — 总（开）
+════════════════════════════════════════════════ -->
+<section class="floor" id="thesis">
+  <div class="kicker">总 · 核心判断</div>
+  <h2>AI 在协同中扮演什么角色</h2>
+  <p class="lead">传统流程里，设计师在工程代码完成后才介入——审查、标注、返工。AI 协同改变的不是设计结论，而是<strong>介入的时机</strong>。</p>
+
+  <div class="tension" style="margin-top:28px">
+    <div>
+      <b>之前的问题</b>
+      <span>设计师拿到的是运行中的软件或设计稿，没有代码上下文，审查结论流于表面；工程师拿到的是标注文档，翻译成本高，还原度有限。</span>
+    </div>
+    <div style="background:#eff6ff;border-color:#93c5fd">
+      <b style="color:#1d4ed8">AI 改变的节点</b>
+      <span>设计师可以直接读代码——AI 负责翻译技术语言；工程师可以直接收到可接入的代码——AI 负责从设计意图生成结构。协同的起点前移了。</span>
+    </div>
+    <div>
+      <b>仍然不变的</b>
+      <span>设计判断、产品策略、用户洞察的提炼仍是人的工作。AI 提供的是原料和结构，而不是判断本身。</span>
+    </div>
+  </div>
+
+  <hr class="section-div">
+
+  <h3>三个协同模式的定位</h3>
+  <div class="grid cols-3" style="margin-top:16px">
+    <div class="card">
+      <div class="pill-row" style="margin-top:0;margin-bottom:10px"><span class="pill blue">模式一</span></div>
+      <h4>读懂代码</h4>
+      <p style="font-size:15px">后端先行，无文档交付。AI 把工程语言（十六进制命令字、位字段、表达式语法）翻译成设计师可用的产品语言。</p>
+      <div class="pill-row"><span class="pill good">/code-to-product-doc</span></div>
+    </div>
+    <div class="card">
+      <div class="pill-row" style="margin-top:0;margin-bottom:10px"><span class="pill blue">模式二 + 三</span></div>
+      <h4>从代码到设计分析与工程实现</h4>
+      <p style="font-size:15px">以代码为输入，AI 系统化地找出设计机会点，并直接生成可接入工程仓库的前端代码。</p>
+      <div class="pill-row"><span class="pill good">/backend-to-design</span></div>
+    </div>
+    <div class="card">
+      <div class="pill-row" style="margin-top:0;margin-bottom:10px"><span class="pill blue">模式四</span></div>
+      <h4>从设计稿到工程代码</h4>
+      <p style="font-size:15px">设计稿作为输入，AI 先生成可评审的 Demo，确认方向后输出工程级代码，两阶段交付。</p>
+      <div class="pill-row"><span class="pill good">/hifi-to-demo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERVIEW — 协同全景图
+════════════════════════════════════════════════ -->
+<section class="floor" id="overview">
+  <div class="kicker">分 · 协同全景</div>
+  <h2>五步协同流程</h2>
+  <p class="lead">这是在 openUBMC Studio 实际走过的完整协同流程，从后端交付代码 Demo 到联调验证。</p>
+
+  <div class="flow-steps" style="margin-top:24px">
+    <div class="flow-step">
+      <div class="step-num">STEP 01</div>
+      <div class="step-title">接收后端代码 Demo</div>
+      <div class="step-body">后端完成工具视图的基础实现，交付可运行的 HTML / Vue Demo 和配套数据文件。此时没有设计稿，也没有产品文档。</div>
+    </div>
+    <div class="flow-step active">
+      <div class="step-num">STEP 02</div>
+      <div class="step-title">读代码 → 产品文档</div>
+      <div class="step-body">设计师用 <code style="font-size:12px;color:#1d4ed8">/code-to-product-doc</code> 读懂代码，输出模块分析文档——场景、用户、痛点、数据结构、技术概念解释。</div>
+    </div>
+    <div class="flow-step active">
+      <div class="step-num">STEP 03</div>
+      <div class="step-title">设计分析 + 工程代码</div>
+      <div class="step-body">用 <code style="font-size:12px;color:#1d4ed8">/backend-to-design</code> 做可访问性审查、设计机会点挖掘，并生成工程级前端代码。</div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">STEP 04</div>
+      <div class="step-title">高保真 + Code Demo</div>
+      <div class="step-body">在 Step 03 基础上完善高保真设计稿，连同代码 Demo 一起提交给前后端。两条线并行，高保真保证细节还原度。</div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">STEP 05</div>
+      <div class="step-title">联调与迭代</div>
+      <div class="step-body">前端接入 Demo 代码，设计侧用 <code style="font-size:12px;color:#1d4ed8">/hifi-to-demo</code> 根据联调反馈快速迭代交互细节。</div>
+    </div>
+  </div>
+
+  <hr class="section-div">
+
+  <div class="journey-map" style="margin-top:4px">
+    <div class="jm-head"></div>
+    <div class="jm-head">Step 01<br>接收 Demo</div>
+    <div class="jm-head">Step 02<br>读代码</div>
+    <div class="jm-head">Step 03<br>设计分析</div>
+    <div class="jm-head">Step 04<br>高保真</div>
+    <div class="jm-head">Step 05<br>联调</div>
+
+    <div class="jm-label">AI 介入</div>
+    <div class="jm-cell">无</div>
+    <div class="jm-cell hi">✦ /code-to-product-doc<br>翻译技术语言</div>
+    <div class="jm-cell hi">✦ /backend-to-design<br>分析 + 生成代码</div>
+    <div class="jm-cell hi">✦ /hifi-to-demo<br>设计稿 → Demo</div>
+    <div class="jm-cell hi">✦ 快速迭代交互细节</div>
+
+    <div class="jm-label">设计产出</div>
+    <div class="jm-cell">—</div>
+    <div class="jm-cell">product-doc.md<br>场景分析报告</div>
+    <div class="jm-cell">设计机会点清单<br>工程级前端代码</div>
+    <div class="jm-cell">高保真设计稿<br>Code Demo</div>
+    <div class="jm-cell">迭代版本<br>联调记录</div>
+
+    <div class="jm-label">主要摩擦</div>
+    <div class="jm-cell">文档缺失</div>
+    <div class="jm-cell">技术概念多</div>
+    <div class="jm-cell">精度 vs 还原度</div>
+    <div class="jm-cell">两条线割裂</div>
+    <div class="jm-cell">Design/Code 切换成本</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MODE 1 — 读懂代码
+════════════════════════════════════════════════ -->
+<section class="floor" id="mode1">
+  <div class="kicker">分 · 模式一</div>
+  <h2>读懂代码，建立共同语言</h2>
+  <p class="lead">工程工具类产品的代码里充满了设计师不熟悉的术语——十六进制命令字、位字段、通信拓扑、表达式语法。这些不是障碍，是信息密度最高的地方。</p>
+
+  <div class="callout" style="margin-top:24px">
+    <b>核心问题：</b>「后端给了代码，设计师怎么知道这个工具是做什么的？」——在没有产品文档、没有老员工口传的情况下，代码是唯一的一手资料。
+  </div>
+
+  <hr class="section-div">
+
+  <h3>四步法：解释任何陌生技术概念</h3>
+  <p>无论遇到什么格式的数字、什么语法的表达式、什么缩写的术语，用四个问题把它讲清楚：</p>
+
+  <div class="arch" style="margin-top:18px">
+    <div class="arch-layer">
+      <div class="arch-label">① 它是什么</div>
+      <div class="arch-boxes">
+        <div class="arch-box hi">用一句话，不用行话</div>
+        <div class="arch-box">「这是一种……用来……的东西」的句式</div>
+        <div class="arch-box">不要用技术定义，用朴素描述</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">② 为什么这样</div>
+      <div class="arch-boxes">
+        <div class="arch-box hi">工程师的动机</div>
+        <div class="arch-box">节省空间 / 提高处理效率 / 遵循硬件规范</div>
+        <div class="arch-box">理解了动机，才能理解边界</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">③ 怎么工作</div>
+      <div class="arch-boxes">
+        <div class="arch-box hi">用实例 + 图示走一遍</div>
+        <div class="arch-box">拿一个真实的值，完整解析</div>
+        <div class="arch-box">「走一遍」比「讲原理」有效得多</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">④ 对设计意味着</div>
+      <div class="arch-boxes">
+        <div class="arch-box hi">翻译回界面语言</div>
+        <div class="arch-box">用户在哪一步接触它？</div>
+        <div class="arch-box">对交互有什么约束或机会？</div>
+      </div>
+    </div>
+    <div class="arch-note">这个四步框架是通用的——不只适用于命令字，任何「刚入职的设计师/开发新员工看到会有疑问」的东西都应该用这四个问题回答。</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MODE 1 — 案例：0x30440100
+════════════════════════════════════════════════ -->
+<section class="floor dense" id="mode1-example">
+  <div class="kicker">模式一 · 真实案例</div>
+  <h2>案例：命令字 0x30440100 的设计翻译</h2>
+  <p>SMC 偏移量计算器的核心输入是一个十六进制整数。工程师自然地写 <code style="color:#1d4ed8">cmd_word: 0x30440100</code>，设计师看到这行代码时完全不知道它意味着什么。</p>
+
+  <div class="grid cols-2" style="margin-top:24px;gap:20px">
+    <div>
+      <div class="mt">
+        <div class="mtbar"><div class="mdt"></div><span class="mtt">SMC 偏移量计算器 · 代码原文</span></div>
+        <div class="mb"><span class="yellow">// 工程师的表达</span>
+cmd_word: <span class="green">0x30440100</span>
+
+<span class="yellow">// 设计师看到的：一个神秘的十六进制数</span>
+<span class="err">❌ 不知道它有几个字段</span>
+<span class="err">❌ 不知道每段代表什么含义</span>
+<span class="err">❌ 不知道UI应该让用户填什么</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="mt">
+        <div class="mtbar"><div class="mdt"></div><span class="mtt">AI 协同后：四步法翻译结果</span></div>
+        <div class="mb"><span class="yellow">① 它是什么？</span>
+一个 32 位整数，里面打包了 4 段信息
+就像一个「压缩文件」，外面一个数，
+解压出来是多个独立字段。
+
+<span class="yellow">③ 怎么工作（走一遍 0x30440100）</span>
+Bit 31-24: <span class="green">0x30</span>  → 功能码（读操作）
+Bit 23-16: <span class="green">0x44</span>  → 设备类型（CPU 模组）
+Bit 15- 8: <span class="green">0x01</span>  → 功能号（温度读取）
+Bit  7- 0: <span class="green">0x00</span>  → 偏移量（寄存器起始位置）
+
+<span class="yellow">④ 对设计意味着什么？</span>
+<span class="green">✓</span> UI 应该是 4 个独立输入框，而非一个整数
+<span class="green">✓</span> 每个字段有枚举值 → 应该是下拉选择
+<span class="green">✓</span> 实时预览拼装结果 → 帮用户确认</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid cols-3" style="margin-top:24px">
+    <div class="card">
+      <div class="pill-row" style="margin-top:0;margin-bottom:8px"><span class="pill warn">痛点</span></div>
+      <h4>工程师每次发命令都要查阅两份文档</h4>
+      <p style="font-size:14px">功能码对照表 + 设备类型对照表分开存放，手动拼装时容易出错。</p>
+      <div class="callout yellow" style="margin-top:10px;font-size:14px;padding:10px 14px">
+        <b>痛点核心：</b>翻译比填写更高频——工程师花在「找对照关系」上的时间远多于「填写命令」本身。
+      </div>
+    </div>
+    <div class="card">
+      <div class="pill-row" style="margin-top:0;margin-bottom:8px"><span class="pill good">洞察</span></div>
+      <h4>规格文档里的字段定义 = 用户的操作界面</h4>
+      <p style="font-size:14px">用户不是「拿到命令字来解析字段」，而是「先有规格文档知道各段含义，再按规格填写」。</p>
+      <p style="font-size:14px">UI 的目标是让规格文档里的字段定义变成用户的操作界面，不是让用户手动做位运算。</p>
+    </div>
+    <div class="card">
+      <div class="pill-row" style="margin-top:0;margin-bottom:8px"><span class="pill blue">设计机会</span></div>
+      <h4>结构化输入 + 实时预览</h4>
+      <p style="font-size:14px">🟢 把一个整数输入框拆成 4 个结构化字段，每个字段有枚举选择和说明。</p>
+      <p style="font-size:14px">🟢 底部实时显示拼装后的命令字（十六进制 + 二进制），让用户看到「我填的东西是这样组合的」。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MODE 2 — 从代码到设计洞察
+════════════════════════════════════════════════ -->
+<section class="floor" id="mode2">
+  <div class="kicker">分 · 模式二</div>
+  <h2>从代码提取设计洞察</h2>
+  <p class="lead">有了产品文档之后，设计师可以做真正有根据的设计审查——不是「对比度不够」这样的泛泛观察，而是「核心用户是在嘈杂机房里长时间工作的固件工程师，这个颜色对比度不足会影响他在强光环境下的使用」。</p>
+
+  <div class="callout" style="margin-top:20px">
+    <b>AI 的具体作用：</b>系统化地把代码里散落的行为约束（字段依赖关系、操作顺序约束、边界值处理）翻译成「设计审查的检查项」，把原本依赖经验的审查变成可重复执行的流程。
+  </div>
+
+  <hr class="section-div">
+
+  <h3>三个 BMC 工具视图的分析结果</h3>
+  <div class="grid cols-3" style="margin-top:16px">
+    <div class="card">
+      <h4>SMC 偏移量计算器</h4>
+      <p style="font-size:14px">核心功能：构造和验证 32 位命令字</p>
+      <div class="pill-row">
+        <span class="pill warn">4 个核心痛点</span>
+        <span class="pill good">6 个设计机会</span>
+      </div>
+      <p style="font-size:14px;margin-top:10px">最高价值机会：结构化输入替代整数填写 🟢</p>
+    </div>
+    <div class="card">
+      <h4>批量表达式计算器</h4>
+      <p style="font-size:14px">核心功能：批量执行 pipe 语法表达式</p>
+      <div class="pill-row">
+        <span class="pill warn">5 个核心痛点</span>
+        <span class="pill good">8 个设计机会</span>
+      </div>
+      <p style="font-size:14px;margin-top:10px">最高价值机会：调试模式与用例模式意图分离 🟡</p>
+    </div>
+    <div class="card">
+      <h4>能效调速配置模板</h4>
+      <p style="font-size:14px">核心功能：定义风扇调速策略配置</p>
+      <div class="pill-row">
+        <span class="pill warn">5 个核心痛点</span>
+        <span class="pill good">9 个设计机会</span>
+      </div>
+      <p style="font-size:14px;margin-top:10px">最高价值机会：实体关系可视化、模板复用 🟡</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MODE 2 — 案例：批量表达式计算器痛点链
+════════════════════════════════════════════════ -->
+<section class="floor dense" id="mode2-example">
+  <div class="kicker">模式二 · 真实案例</div>
+  <h2>案例：批量表达式计算器的痛点→洞察链</h2>
+  <p>管道表达式语法 <code style="color:#1d4ed8">"&lt;=/Scanner_Lm75_Inlet.Value"</code> 是整个工具最难理解的部分。AI 协同把这个「技术语言的迷宫」拆成了设计决策的依据。</p>
+
+  <div class="mt" style="margin-top:20px">
+    <div class="mtbar"><div class="mdt"></div><span class="mtt">批量表达式计算器 · Pipe 语法解析</span></div>
+    <div class="mb"><span class="yellow">// 工程师写的表达式</span>
+sensor_reading: <span class="green">"&lt;=/Scanner_Lm75_Inlet.Value"</span>
+
+<span class="yellow">① 它是什么？</span>
+一种「实时读取传感器值」的简写语法
+<span class="purple">&lt;=</span>  管道符，代表「从……读取」
+<span class="purple">/Scanner_Lm75_Inlet</span>  传感器名称（在系统拓扑里的路径）
+<span class="purple">.Value</span>  读取它的当前值
+
+<span class="yellow">② 为什么这样设计？</span>
+避免在配置文件里硬编码传感器数值，让配置文件「动起来」
+
+<span class="yellow">③ 调试模式 vs 用例模式的本质差异</span>
+调试模式：<span class="green">「我要试试这条命令，看看结果」</span>  → 单次执行、看返回值
+用例模式：<span class="hint">「我要定义一套可重复的操作流程」</span>  → 批量执行、记录历史
+
+<span class="yellow">④ 对设计意味着什么？</span>
+两种模式的 UI 结构应该反映使用意图，而不是共用一个表单加一个 toggle</div>
+  </div>
+
+  <hr class="section-div">
+
+  <h3>痛点 → 洞察 → 设计策略</h3>
+  <div class="screenshot" style="margin-top:16px">
+    <div class="shotbar"><span class="dots"></span>批量表达式计算器 · 三列流视图</div>
+    <div class="shotbody">
+      <div style="display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;gap:0;align-items:stretch">
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px">用户痛点</div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:12px;font-size:14px;line-height:1.5">
+            <b style="color:#92400e">P1</b> 不知道 pipe 语法怎么写，每次要查文档<br><span style="color:var(--muted);font-size:13px">约 5–8 分钟/次</span>
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:12px;font-size:14px;line-height:1.5">
+            <b style="color:#92400e">P2</b> 调试单条表达式和批量运行混在同一个界面<br><span style="color:var(--muted);font-size:13px">操作意图不明确</span>
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:12px;font-size:14px;line-height:1.5">
+            <b style="color:#92400e">P3</b> 执行结果没有历史记录，需要截图保存<br><span style="color:var(--muted);font-size:13px">信息流失，无法回溯</span>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:center">
+          <svg width="30" height="100%" viewBox="0 0 30 200" xmlns="http://www.w3.org/2000/svg" style="height:180px">
+            <path d="M 5 40 C 15 40 15 60 25 60" stroke="#93c5fd" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+            <path d="M 5 100 C 15 100 15 100 25 100" stroke="#93c5fd" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+            <path d="M 5 160 C 15 160 15 140 25 140" stroke="#93c5fd" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+          </svg>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px">洞察汇聚</div>
+          <div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:8px;padding:12px;font-size:14px;line-height:1.5;flex:1">
+            <b style="color:#1d4ed8">L1</b> 翻译比填写更高频<br><span style="color:var(--muted);font-size:13px">P1+P2 同时出现的根因是：工程师花大量时间在「理解语法结构」而不是「填写具体值」</span>
+          </div>
+          <div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:8px;padding:12px;font-size:14px;line-height:1.5;flex:1;margin-top:14px">
+            <b style="color:#1d4ed8">L2</b> 使用意图决定界面结构<br><span style="color:var(--muted);font-size:13px">调试（试）和用例（固化）是两种不同的认知模式，共用界面导致双方都不顺手</span>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:center">
+          <svg width="30" height="100%" viewBox="0 0 30 200" xmlns="http://www.w3.org/2000/svg" style="height:180px">
+            <path d="M 5 65 C 15 65 15 60 25 60" stroke="#86efac" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+            <path d="M 5 115 C 15 115 15 140 25 140" stroke="#86efac" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+          </svg>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px">设计策略</div>
+          <div style="background:#ecfdf5;border:1px solid #6ee7b7;border-radius:8px;padding:12px;font-size:14px;line-height:1.5;flex:1">
+            <b style="color:#047857">S1</b> 语法引导 + 实时补全<br><span style="color:var(--muted);font-size:13px">输入时显示可用传感器列表，自动补全路径，消除查文档的成本。🟢 前端可独立实现</span>
+          </div>
+          <div style="background:#ecfdf5;border:1px solid #6ee7b7;border-radius:8px;padding:12px;font-size:14px;line-height:1.5;flex:1;margin-top:14px">
+            <b style="color:#047857">S2</b> 调试模式与用例模式分离<br><span style="color:var(--muted);font-size:13px">两个独立的交互模式，而不是 toggle。调试模式轻量、用例模式可保存复用。🟡 需后端配合</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="evidence-caption">痛点 P1+P2 共同指向洞察 L1；L2 独立来自 P2 的深层分析。三条策略对应两条洞察，实现层级不同。</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MODE 3 — 从代码到工程实现
+════════════════════════════════════════════════ -->
+<section class="floor" id="mode3">
+  <div class="kicker">分 · 模式三</div>
+  <h2>从代码到工程级实现</h2>
+  <p class="lead">设计分析完成后，下一步是把「设计意图」转换成「工程师可以直接用的代码」。这一步过去完全依赖前端开发，现在设计师可以直接参与生成。</p>
+
+  <div class="callout" style="margin-top:20px">
+    <b>边界说明：</b>AI 生成的工程代码处理的是「视觉结构 + 交互逻辑」，动态数据注入和业务逻辑仍需工程师接入。设计师主导静态结构，工程师接手动态部分。
+  </div>
+
+  <hr class="section-div">
+
+  <h3>能效调速配置模板 · 完整协同五步</h3>
+  <p>这个工具视图是 openUBMC Studio 最复杂的一个配置界面，涉及 8 种实体类型、跨实体引用关系、以及动态语法字段。以下是实际走过的协同过程：</p>
+
+  <div class="arch" style="margin-top:18px">
+    <div class="arch-layer">
+      <div class="arch-label">Step 1<br>读代码</div>
+      <div class="arch-boxes">
+        <div class="arch-box hi">识别 8 种实体：CoolingConfig、CoolingArea、CoolingFan、CoolingPolicy…</div>
+        <div class="arch-box">发现核心约束：先定义 CoolingArea，才能建立 CoolingRequirement 引用关系</div>
+        <div class="arch-box">标注魔法值：<code style="font-size:12px">sys_hdds_max_temperature: 32768</code> → 「无效」标记，UI 必须转为「—」</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">Step 2<br>产品文档</div>
+      <div class="arch-boxes">
+        <div class="arch-box hi">输出 product-doc.md：实体清单 + 关系层级图 + 枚举映射表</div>
+        <div class="arch-box">把 <code style="font-size:12px">pid_control_mode: 1/2/3/4</code> 翻译为：慢升快降 / 快升慢降 / 慢升慢降 / 快升快降</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">Step 3<br>设计分析</div>
+      <div class="arch-boxes">
+        <div class="arch-box hi">找出 5 个痛点：实体关系不可见、操作顺序不明、动态语法无提示…</div>
+        <div class="arch-box">提炼 9 个设计机会：关系可视化 / 操作向导 / 模板复用 / 实时预览…</div>
+        <div class="arch-box">WCAG 2.1 AA 可访问性审查：颜色对比度 + 键盘导航 + 表单标签</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">Step 4<br>生成代码</div>
+      <div class="arch-boxes">
+        <div class="arch-box hi">生成工程级前端：纯 HTML+CSS+JS，无构建工具，匹配 openUBMC Studio 技术栈</div>
+        <div class="arch-box">包含：实体关系可视层 + 配置表单组件 + 魔法值过滤逻辑</div>
+        <div class="arch-box">工程师接入：注入动态数据 + 连接 YAML 解析器 + 接入 CSR 数据源</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">Step 5<br>高保真</div>
+      <div class="arch-boxes">
+        <div class="arch-box">Code Demo 达到「可用」状态，但与现网高保真设计稿仍有细节距离</div>
+        <div class="arch-box hi">结论：高保真仍需单独交付 → 和 Code Demo 一起给前后端，两条线并行</div>
+      </div>
+    </div>
+    <div class="arch-note">Step 4 生成的代码是工程实现的起点，不是终点。设计师和工程师在这一步真正开始共享同一份代码。</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MODE 4 — 从设计稿到工程代码
+════════════════════════════════════════════════ -->
+<section class="floor" id="mode4">
+  <div class="kicker">分 · 模式四</div>
+  <h2>从设计稿到工程代码</h2>
+  <p class="lead">当有了设计稿之后，/ hifi-to-demo 把「设计稿 → Demo → 工程代码」拆成两个检查点——设计确认在前，工程代码在后，避免方向错误时的返工成本。</p>
+
+  <div class="grid cols-2" style="margin-top:24px;gap:20px">
+    <div>
+      <h3>第一阶段：快速 Demo</h3>
+      <div class="callout" style="margin-top:12px">
+        <b>目标：</b>在 1 小时内生成可点击的原型，供设计师自己评审，或与团队快速对齐方向。代码不追求工程质量，追求速度和可见性。
+      </div>
+      <div class="arch" style="margin-top:16px">
+        <div class="arch-layer">
+          <div class="arch-label">输入</div>
+          <div class="arch-boxes">
+            <div class="arch-box">设计稿截图 / Figma 链接 / 详细描述</div>
+            <div class="arch-box">技术栈偏好</div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label">分析</div>
+          <div class="arch-boxes">
+            <div class="arch-box hi">需求分析：用户 / 场景 / 解决的问题 / 设计点</div>
+            <div class="arch-box">识别交互组件 + 状态变化</div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label">输出</div>
+          <div class="arch-boxes">
+            <div class="arch-box hi">单文件 HTML Demo（自包含）</div>
+            <div class="arch-box">Mock 数据内联</div>
+          </div>
+        </div>
+        <div class="arch-note">⏸ 确认检查点：设计师确认 Demo 方向正确后，才进入 Phase 2</div>
+      </div>
+    </div>
+    <div>
+      <h3>第二阶段：工程代码</h3>
+      <div class="callout" style="margin-top:12px">
+        <b>目标：</b>在 Phase 1 确认的方向上，生成可以直接接入真实开发仓库的组件代码。追求可维护性、可接入性、与设计稿的还原度。
+      </div>
+      <div class="arch" style="margin-top:16px">
+        <div class="arch-layer">
+          <div class="arch-label">输入</div>
+          <div class="arch-boxes">
+            <div class="arch-box">Phase 1 Demo + 设计师确认</div>
+            <div class="arch-box">目标技术栈（Vue / React）</div>
+            <div class="arch-box">现有组件库规范</div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label">输出</div>
+          <div class="arch-boxes">
+            <div class="arch-box hi">工程级组件文件（Vue SFC / React TSX）</div>
+            <div class="arch-box hi">Props 接口定义</div>
+            <div class="arch-box">CSS Modules / Tailwind 类名</div>
+            <div class="arch-box">基础单元测试</div>
+          </div>
+        </div>
+        <div class="arch-note">工程师接入：数据绑定 + API 调用 + 状态管理</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout yellow" style="margin-top:24px">
+    <b>2026-05-19 观察：</b>即使 /backend-to-design 生成的 Code Demo 从交互到视觉已达到「可用」状态，与现网高保真设计稿的细节还原仍有明显距离。当前结论：仍需额外交付一版完整高保真，再将高保真 + Code Demo 一并提供给前后端。两条线并行，存在割裂感——这是尚未解决的摩擦点。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FRICTION — 摩擦与边界
+════════════════════════════════════════════════ -->
+<section class="floor" id="friction">
+  <div class="kicker">分 · 摩擦与边界</div>
+  <h2>发现的摩擦和当前的边界</h2>
+  <p class="lead">诚实地记录实践中遇到的摩擦点，不是为了否定协同价值，而是为了让下一个使用这套流程的人知道「哪里需要格外注意」。</p>
+
+  <div class="rec-grid" style="margin-top:24px">
+    <div class="rec-panel" style="border-left:4px solid var(--y)">
+      <h3 style="color:var(--y)">⚠ 高保真仍是不可省的环节</h3>
+      <div class="rec-item" style="border-top:none;margin-top:8px;padding-top:0">
+        <div class="rec-num" style="color:var(--y)">01</div>
+        <div>
+          <b>问题</b>
+          <span>AI 生成的 Code Demo 在交互逻辑和视觉结构上达到「可用」，但距离现网高保真设计稿的细节还原仍有距离——字体精度、间距一致性、边界状态处理等。</span>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num" style="color:var(--y)">02</div>
+        <div>
+          <b>现状</b>
+          <span>两条线并行：工程代码 + 高保真设计稿都需要交付。设计师负担增加，两份产出之间的一致性需要手动维护。</span>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num" style="color:var(--y)">03</div>
+        <div>
+          <b>方向探索</b>
+          <span>Claude Design 对「已有基础 HTML + 产品文档」的场景效果较好——可以在 Code Demo 基础上做视觉优化，减少高保真和代码的偏差。但这条路尚在探索中。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rec-panel" style="border-left:4px solid var(--r)">
+      <h3 style="color:var(--r)">✕ Design 与 Code 的协同割裂</h3>
+      <div class="rec-item" style="border-top:none;margin-top:8px;padding-top:0">
+        <div class="rec-num" style="color:var(--r)">01</div>
+        <div>
+          <b>问题</b>
+          <span>Claude Design 和 Claude Code 是两个独立工具。在 Claude Code 里完成分析和代码生成后，无法直接唤起 Claude Design——需要手动跳转，上下文不能自动传递。</span>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num" style="color:var(--r)">02</div>
+        <div>
+          <b>影响</b>
+          <span>视觉优化环节的成本没有降低；Code 生成的文件结构和 Design 的输入格式有时不完全匹配，需要手动整理才能传递。</span>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num" style="color:var(--r)">03</div>
+        <div>
+          <b>临时方案</b>
+          <span>先用 /code-to-product-doc 生成产品文档，把文档作为 Claude Design 的输入上下文，再结合基础 HTML 做视觉优化。这是目前最顺畅的衔接方式。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-div">
+
+  <h3>哪些判断仍然是人的工作</h3>
+  <div class="grid cols-3" style="margin-top:16px">
+    <div class="card">
+      <h4>产品策略判断</h4>
+      <p style="font-size:14px">「这个功能值不值得做」「哪个痛点优先级更高」「竞品差距是机会还是陷阱」——这些需要产品全景和业务上下文，AI 提供原料，人做判断。</p>
+    </div>
+    <div class="card">
+      <h4>用户洞察提炼</h4>
+      <p style="font-size:14px">从多个痛点提炼洞察（比如「翻译比填写更高频」），不是单纯归纳，是理解为什么这些痛点会同时出现的深层原因。这个提炼过程需要设计师的判断力。</p>
+    </div>
+    <div class="card">
+      <h4>新型交互模式</h4>
+      <p style="font-size:14px">对于行业里没有先例的交互设计（专利潜力高的机会点），AI 能提供参考方向，但最终的交互设计决策需要设计师自己做。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SYNTHESIS — 总（合）
+════════════════════════════════════════════════ -->
+<section class="floor" id="synthesis">
+  <div class="kicker">总 · 能沉淀的资产</div>
+  <h2>从实践到可复用方法</h2>
+  <p class="lead">这次探索不是一次性的项目，而是在积累「可以一直用下去的方法资产」。三个月的实践，沉淀下来最有价值的是这几件事：</p>
+
+  <div class="tension" style="margin-top:28px">
+    <div style="background:#eff6ff;border-color:#93c5fd">
+      <b style="color:#1d4ed8">Skill 资产</b>
+      <span>三个 Claude Code Skill 是最直接的沉淀——安装后任何项目都能用，触发词让 AI 自动进入正确的工作流，不需要每次重新写提示词。</span>
+    </div>
+    <div style="background:#ecfdf5;border-color:#6ee7b7">
+      <b style="color:#047857">方法论资产</b>
+      <span>四步法（是什么→为什么→怎么工作→对设计意味着）是通用框架，适用于任何工程工具类产品里的陌生技术概念。</span>
+    </div>
+    <div style="background:#fefce8;border-color:#fde68a">
+      <b style="color:#92400e">痛点结构资产</b>
+      <span>「用户痛点 → 洞察汇聚 → 设计策略」三列因果链，配合「痛点核心：」固定格式提炼，是可以直接复用的分析模板。</span>
+    </div>
+  </div>
+
+  <hr class="section-div">
+
+  <h3>工作流的起点选择</h3>
+  <p>根据项目的起始状态选择切入点：</p>
+
+  <table style="margin-top:16px">
+    <thead>
+      <tr>
+        <th>项目起点</th>
+        <th>第一步</th>
+        <th>Skill</th>
+        <th>产出</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>后端已有代码，无文档</b></td>
+        <td>读代码，建立产品上下文</td>
+        <td><code style="color:#1d4ed8">/code-to-product-doc</code></td>
+        <td>product-doc.md + 场景分析报告</td>
+      </tr>
+      <tr>
+        <td><b>有产品文档，需设计介入</b></td>
+        <td>设计分析 + 生成工程代码</td>
+        <td><code style="color:#1d4ed8">/backend-to-design</code></td>
+        <td>设计机会点清单 + 工程级前端代码</td>
+      </tr>
+      <tr>
+        <td><b>有设计稿，需生成代码</b></td>
+        <td>Phase 1 Demo → Phase 2 工程代码</td>
+        <td><code style="color:#1d4ed8">/hifi-to-demo</code></td>
+        <td>可评审 Demo + 工程级组件</td>
+      </tr>
+      <tr>
+        <td><b>有 Code Demo，需视觉优化</b></td>
+        <td>产品文档作为上下文输入 Claude Design</td>
+        <td>Claude Design + product-doc.md</td>
+        <td>视觉优化后的 HTML</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout green" style="margin-top:24px">
+    <b>最重要的一个习惯：</b>在跑设计审查或可访问性审查之前，先用 /code-to-product-doc 建立产品上下文。同样一个「对比度不足」的发现，有了「核心用户是在嘈杂机房里长时间工作的固件工程师」这个上下文，严重程度和修复优先级会完全不同。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SKILLS — 三个 Skill 的定位
+════════════════════════════════════════════════ -->
+<section class="floor" id="skills">
+  <div class="kicker">总 · 三个 Skill</div>
+  <h2>三个 Skill 的定位与触发场景</h2>
+  <p>这三个 Skill 安装在 <code style="color:#1d4ed8">~/.claude/skills/</code> 后，在 Claude Code 里输入 <code style="color:#1d4ed8">/</code> 即可看到。也可以用自然语言触发——Skill 的 description 里定义了触发词，AI 会自动判断何时调用。</p>
+
+  <div class="grid cols-3" style="margin-top:24px">
+    <div class="card">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:10px">SKILL 01</div>
+      <h3 style="font-size:18px">/code-to-product-doc</h3>
+      <p style="font-size:14px">后端代码 → 产品文档</p>
+      <hr style="border:none;border-top:1px solid var(--line);margin:14px 0">
+      <div class="pill-row" style="margin-top:0;margin-bottom:10px">
+        <span class="pill good">Step 1.5 模块识别</span>
+        <span class="pill">四步法解释</span>
+        <span class="pill">三列流视图</span>
+      </div>
+      <p style="font-size:13px;color:var(--muted)">触发词：「帮我读这段代码」「从代码生成产品文档」「这个视图面向哪些用户」「代码里有哪些设计机会点」</p>
+      <div class="mt" style="margin-top:12px">
+        <div class="mtbar"><div class="mdt"></div><span style="font-size:12px">安装</span></div>
+        <div class="mb" style="font-size:12px">cp 后端代码→产品文档.md \
+  ~/.claude/skills/code-to-product-doc/SKILL.md</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:10px">SKILL 02</div>
+      <h3 style="font-size:18px">/backend-to-design</h3>
+      <p style="font-size:14px">后端代码 → 设计分析 · 工程级代码</p>
+      <hr style="border:none;border-top:1px solid var(--line);margin:14px 0">
+      <div class="pill-row" style="margin-top:0;margin-bottom:10px">
+        <span class="pill good">可访问性审查</span>
+        <span class="pill">机会点挖掘</span>
+        <span class="pill">工程代码生成</span>
+      </div>
+      <p style="font-size:13px;color:var(--muted)">触发词：「帮我分析这段代码的设计问题」「看看这个配置的可访问性」「基于后端代码生成前端」</p>
+      <div class="mt" style="margin-top:12px">
+        <div class="mtbar"><div class="mdt"></div><span style="font-size:12px">安装</span></div>
+        <div class="mb" style="font-size:12px">cp 后端代码→设计反向分析.md \
+  ~/.claude/skills/backend-to-design/SKILL.md</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:10px">SKILL 03</div>
+      <h3 style="font-size:18px">/hifi-to-demo</h3>
+      <p style="font-size:14px">高保真设计稿 → Demo → 工程代码</p>
+      <hr style="border:none;border-top:1px solid var(--line);margin:14px 0">
+      <div class="pill-row" style="margin-top:0;margin-bottom:10px">
+        <span class="pill good">两阶段交付</span>
+        <span class="pill">需求分析</span>
+        <span class="pill">工程级输出</span>
+      </div>
+      <p style="font-size:13px;color:var(--muted)">触发词：「帮我把这个设计转成代码」「做一个前端 Demo」「生成可运行的原型」「工程化这个 Demo」</p>
+      <div class="mt" style="margin-top:12px">
+        <div class="mtbar"><div class="mdt"></div><span style="font-size:12px">安装</span></div>
+        <div class="mb" style="font-size:12px">cp 高保真设计稿→Demo→工程代码.md \
+  ~/.claude/skills/hifi-to-demo/SKILL.md</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="source-card" style="margin-top:24px">
+    <b>完整 Skill 文件下载</b>
+    三个 Skill 文件托管在 <a href="https://cinnnnnnndy.github.io/ai-coding-workflow-research/" target="_blank">ai-coding-workflow-research</a>，在对应 tab 页下载后放入 <code style="color:#1d4ed8">~/.claude/skills/&lt;skill-folder&gt;/SKILL.md</code> 即可使用。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     TERMS
+════════════════════════════════════════════════ -->
+<section class="floor" id="terms">
+  <div class="kicker">Appendix · 术语表</div>
+  <h2>术语与概念</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:180px">术语</th>
+        <th>定义</th>
+        <th style="width:160px">出现位置</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>cmd_word</b></td>
+        <td>32 位编码整数，将功能码、设备类型、功能号、偏移量四段信息打包存储。UI 层不应让用户直接填写整数，应拆成结构化字段。</td>
+        <td>模式一 · SMC 案例</td>
+      </tr>
+      <tr>
+        <td><b>位字段（Bit Field）</b></td>
+        <td>将一个整数按位分段，每段有独立含义。0x30440100 = 功能码 0x30 | 设备类型 0x44 | 功能号 0x01 | 偏移量 0x00。</td>
+        <td>模式一</td>
+      </tr>
+      <tr>
+        <td><b>Pipe 语法</b></td>
+        <td>BMC 批量表达式计算器使用的动态语法。<code>&lt;=/Scanner_Lm75_Inlet.Value</code> 表示「从传感器实时读取数值」，不是静态字符串。</td>
+        <td>模式二 · 表达式计算器</td>
+      </tr>
+      <tr>
+        <td><b>魔法值（Magic Value）</b></td>
+        <td>用特殊数字表示特殊状态的约定，如 32768 代表「无效/获取不到」。UI 必须拦截转换，不能直接展示给用户。</td>
+        <td>模式三 · 能效配置</td>
+      </tr>
+      <tr>
+        <td><b>Phase 1 / Phase 2</b></td>
+        <td>/hifi-to-demo 的两阶段交付。Phase 1 = 快速可评审 Demo；Phase 2 = 工程级组件代码。两者之间有确认检查点。</td>
+        <td>模式四</td>
+      </tr>
+      <tr>
+        <td><b>floor（楼层）</b></td>
+        <td>PTO 白皮书的页面布局单位。每个 section.floor 是一屏高度的内容块，通过 URL 锚点导航跳转。</td>
+        <td>本文档结构</td>
+      </tr>
+      <tr>
+        <td><b>三列流视图</b></td>
+        <td>设计机会点汇总的可视化格式：第一列用户痛点 → 第二列洞察汇聚 → 第三列设计策略，三列之间连线表达因果链。</td>
+        <td>模式二 · 案例图</td>
+      </tr>
+      <tr>
+        <td><b>痛点核心</b></td>
+        <td>每个痛点段落末尾的固定格式提炼：「痛点核心：……」一句话，可直接被汇总幻灯片引用，不需要重新提炼。</td>
+        <td>三个 Skill 的 Step 3/5</td>
+      </tr>
+      <tr>
+        <td><b>WCAG 2.1 AA</b></td>
+        <td>Web 内容可访问性指南 2.1 级别 AA，是前端开发和设计审查的基准标准。/accessibility-review Skill 以此为检查依据。</td>
+        <td>模式二 · 设计分析</td>
+      </tr>
+      <tr>
+        <td><b>Claude Design</b></td>
+        <td>Anthropic 推出的视觉设计 AI 工具。与 Claude Code 互相独立，需手动切换，目前不支持直接上下文传递。</td>
+        <td>摩擦边界</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="source-card" style="margin-top:32px">
+    <b>本白皮书依据的实践资料</b>
+    <div style="margin-top:8px;color:var(--muted);font-size:14px;line-height:1.7">
+      · openUBMC Studio AI 协同设计探索研究报告（stage-comparison.html）<br>
+      · BMC Studio Codex 工具视图分析（tool-views-analysis.md）<br>
+      · 三个 Claude Code Skill 文件（hifi-to-demo / backend-to-design / code-to-product-doc）<br>
+      · 设计 × 开发协同会议纪要（2026 首次对齐）<br>
+      · 工作流观察日志（2026-05-19）
+    </div>
+  </div>
+</section>
+
+<script>
+// scrollspy
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.navlinks a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector(`.navlinks a[href="#${e.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
