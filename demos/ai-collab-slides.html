@@ -692,7 +692,311 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
 </div>
 
 <!-- ════════════════════════════════════
-  03–05 phases: to be added in next batches
+  03 详细设计 — S1: /code-to-product-doc 详细流程
+════════════════════════════════════ -->
+<div class="slide" data-phase="detail">
+  <div class="tag" style="color:var(--cd)">03 详细设计</div>
+  <h2>/code-to-product-doc — 从代码到产品文档</h2>
+  <div class="cols gap14">
+    <div class="col">
+      <div class="card" style="flex:none">
+        <h3>分析流程 — 8 步</h3>
+        <div class="card-stack mt8">
+          <div class="arch-layer">
+            <div class="arch-label" style="font-size:9.5px">Step 1</div>
+            <div class="arch-items"><span class="arch-tag">技术栈扫描：语言 / 框架 / 数据格式 / 部署方式</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(94,92,230,.04);border-color:rgba(94,92,230,.2)">
+            <div class="arch-label" style="font-size:9.5px;color:var(--cd)">Step 1.5</div>
+            <div class="arch-items">
+              <span class="arch-tag hi" style="background:rgba(94,92,230,.08);border-color:rgba(94,92,230,.25);color:var(--cd)">功能模块识别与边界确认</span>
+              <span class="arch-tag warn">发给用户确认后再继续</span>
+            </div>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-label" style="font-size:9.5px">Step 2</div>
+            <div class="arch-items"><span class="arch-tag">数据模型分析：实体清单 / 魔法值 / 枚举映射 / 动态字段</span></div>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-label" style="font-size:9.5px">Step 3–7</div>
+            <div class="arch-items"><span class="arch-tag">逐模块深析：背景 / 场景 / 用户 / 痛点 / 机会点 / 竞品</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(26,127,66,.04);border-color:rgba(26,127,66,.2)">
+            <div class="arch-label" style="font-size:9.5px;color:var(--green)">Step 8</div>
+            <div class="arch-items">
+              <span class="arch-tag good">输出可视化分析报告（Whitepaper 楼层格式）</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <h3>主要产出</h3>
+        <div class="flex gap8 mt8" style="flex-wrap:wrap">
+          <span class="chip chip-blue">product-doc.md</span>
+          <span class="chip chip-blue">场景分析可视化报告</span>
+          <span class="chip chip-grey">data-dictionary.md（可选）</span>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="flex:none">
+        <h3>技术概念解释 — 四步法</h3>
+        <p class="mt6" style="font-size:11px">凡是「刚入职的体验设计师看到会有疑问」的技术概念，都用四步法解释：</p>
+        <div class="card-stack mt8">
+          <div class="arch-layer" style="background:rgba(0,113,227,.04);border-color:rgba(0,113,227,.2)">
+            <div class="arch-label" style="color:var(--blue)">① 是什么</div>
+            <div class="arch-items"><span class="arch-tag">用一句话，不用行话，「这是一种……用来……的东西」</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(0,113,227,.04);border-color:rgba(0,113,227,.2)">
+            <div class="arch-label" style="color:var(--blue)">② 为什么</div>
+            <div class="arch-items"><span class="arch-tag">工程师这样设计的动机——节省空间 / 提高效率 / 硬件规范</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(0,113,227,.04);border-color:rgba(0,113,227,.2)">
+            <div class="arch-label" style="color:var(--blue)">③ 怎么工作</div>
+            <div class="arch-items"><span class="arch-tag">用一个真实的值完整走一遍，必要时绘制结构图</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(0,113,227,.04);border-color:rgba(0,113,227,.2)">
+            <div class="arch-label" style="color:var(--blue)">④ 设计含义</div>
+            <div class="arch-items"><span class="arch-tag">翻译回界面语言：用户在哪一步接触它，UI 应该怎么处理</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <h3>模块边界确认 — 内置检查点</h3>
+        <p class="mt6" style="font-size:11px">Step 1.5 是整个 Skill 的关键控制点：AI 先列出识别到的模块清单，<span class="hl" style="color:var(--cd)">等设计师确认后</span>再进入逐模块深析。</p>
+        <div class="callout yellow mt8" style="font-size:11px">
+          <span class="hl">案例：</span>SR 文件预览和 MIB 检查入口相邻，但是完全独立的功能单元——AI 无法自动判断，需设计师确认模块边界。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+  03 详细设计 — S2: 案例 SMC 命令字 0x30440100
+════════════════════════════════════ -->
+<div class="slide" data-phase="detail">
+  <div class="tag" style="color:var(--cd)">03 详细设计 · 案例</div>
+  <h2>四步法应用 — SMC 命令字 <code style="font-size:18px;color:var(--cd)">0x30440100</code></h2>
+  <div class="cols gap14" style="flex:1">
+    <div class="col">
+      <div class="card" style="flex:none">
+        <h3>设计师拿到代码时的状态</h3>
+        <pre style="margin-top:8px;font-size:10px">// 工程师的原始代码
+cmd_word: <span style="color:#34d399">0x30440100</span>
+
+// ❌ 不知道这个数有几个字段
+// ❌ 不知道每段代表什么含义
+// ❌ 不知道 UI 应该让用户填什么</pre>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+          <span style="font-size:16px;font-weight:800;color:var(--blue)">①</span><h3>是什么</h3>
+        </div>
+        <p style="font-size:11px">32 位整数，里面打包了 5 段信息——就像压缩文件，外面一个数，解压出来是多个独立字段。</p>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+          <span style="font-size:16px;font-weight:800;color:var(--blue)">②</span><h3>为什么</h3>
+        </div>
+        <p style="font-size:11px">BMC 硬件寄存器地址空间有限，多字段打包成一个整数传输效率更高，也与硬件规范对齐。</p>
+      </div>
+    </div>
+    <div class="col col2">
+      <div class="card" style="flex:none">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+          <span style="font-size:16px;font-weight:800;color:var(--blue)">③</span><h3>怎么工作 — 0x30440100 完整解析</h3>
+        </div>
+        <div style="display:flex;border:1px solid var(--border);border-radius:7px;overflow:hidden;font-family:'JetBrains Mono',monospace">
+          <div style="flex:6;background:rgba(0,113,227,.07);border-right:1px solid var(--border);padding:9px 8px;text-align:center">
+            <div style="font-size:12px;font-weight:700;color:var(--blue)">Fn · 0x0C</div>
+            <div style="font-size:9px;color:var(--text3);margin-top:2px">Bit 31–26 · 6bit</div>
+            <div style="font-size:10px;color:var(--blue);margin-top:4px;font-weight:600">功能码</div>
+            <div style="font-size:9px;color:var(--text2)">温度管理</div>
+          </div>
+          <div style="flex:16;background:rgba(94,92,230,.07);border-right:1px solid var(--border);padding:9px 8px;text-align:center">
+            <div style="font-size:12px;font-weight:700;color:var(--cd)">Cmd · 0x1100</div>
+            <div style="font-size:9px;color:var(--text3);margin-top:2px">Bit 25–10 · 16bit</div>
+            <div style="font-size:10px;color:var(--cd);margin-top:4px;font-weight:600">命令编号</div>
+            <div style="font-size:9px;color:var(--text2)">查芯片手册</div>
+          </div>
+          <div style="flex:1;background:rgba(26,127,66,.07);border-right:1px solid var(--border);padding:9px 4px;text-align:center">
+            <div style="font-size:11px;font-weight:700;color:var(--green)">MS</div>
+            <div style="font-size:9px;color:var(--text3);margin-top:2px">Bit 9</div>
+            <div style="font-size:9px;color:var(--green);margin-top:4px">0=多</div>
+          </div>
+          <div style="flex:1;background:rgba(212,80,0,.07);border-right:1px solid var(--border);padding:9px 4px;text-align:center">
+            <div style="font-size:11px;font-weight:700;color:var(--orange)">RW</div>
+            <div style="font-size:9px;color:var(--text3);margin-top:2px">Bit 8</div>
+            <div style="font-size:9px;color:var(--orange);margin-top:4px">1=读</div>
+          </div>
+          <div style="flex:8;background:rgba(20,122,94,.07);padding:9px 8px;text-align:center">
+            <div style="font-size:11px;font-weight:700;color:var(--teal)">Param · 0x00</div>
+            <div style="font-size:9px;color:var(--text3);margin-top:2px">Bit 7–0 · 8bit</div>
+            <div style="font-size:10px;color:var(--teal);margin-top:4px;font-weight:600">附加参数</div>
+            <div style="font-size:9px;color:var(--text2)">无附加</div>
+          </div>
+        </div>
+        <p class="mt6 muted" style="font-size:10px">编码公式：<code>(Fn&lt;&lt;26)|(Cmd&lt;&lt;10)|(MS&lt;&lt;9)|(RW&lt;&lt;8)|Param</code>　关键认知：十六进制字符边界 ≠ 字段边界，无法直接读出各字段值，必须做位移运算。</p>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+          <span style="font-size:16px;font-weight:800;color:var(--blue)">④</span><h3>对设计意味着什么</h3>
+        </div>
+        <div class="cols gap10">
+          <div class="col">
+            <div class="callout red" style="font-size:11px;padding:8px 12px">
+              <span class="hl">之前：</span>一个整数输入框，用户手动填 <code>0x30440100</code>，需自己查两份对照表拼装
+            </div>
+          </div>
+          <div class="col">
+            <div class="callout green" style="font-size:11px;padding:8px 12px">
+              <span class="hl">机会：</span>5 个结构化字段选择框；底部实时预览拼装后的命令字；水印常驻解码
+            </div>
+          </div>
+        </div>
+        <div class="callout yellow mt8" style="font-size:11px">
+          <span class="hl">痛点核心：</span>翻译比填写更高频——工程师花在「查找对照关系」上的时间远多于「填写命令」本身。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+  03 详细设计 — S3: /backend-to-design 三工具分析
+════════════════════════════════════ -->
+<div class="slide" data-phase="detail">
+  <div class="tag" style="color:var(--cd)">03 详细设计</div>
+  <h2>/backend-to-design — 三工具视图分析结果</h2>
+  <div class="cols gap12" style="flex:none;margin-bottom:10px">
+    <div class="col">
+      <div class="card" style="display:flex;flex-direction:column;gap:6px">
+        <div class="tag" style="margin-bottom:2px">工具视图 01</div>
+        <h3>SMC 偏移量计算器</h3>
+        <div class="flex gap6" style="flex-wrap:wrap"><span class="chip chip-red">4 个核心痛点</span><span class="chip chip-green">6 个设计机会</span></div>
+        <div class="arch-layer" style="background:rgba(215,0,21,.04)"><div class="arch-items"><span class="arch-tag">命令字位字段对照表分散，需手动查两份文档</span></div></div>
+        <div class="arch-layer" style="background:rgba(26,127,66,.04)"><div class="arch-items"><span class="arch-tag good">🟢 结构化输入替代整数填写</span></div></div>
+        <div class="arch-layer" style="background:rgba(26,127,66,.04)"><div class="arch-items"><span class="arch-tag good">🟢 实时拼装预览 + 位图对照</span></div></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="display:flex;flex-direction:column;gap:6px">
+        <div class="tag" style="margin-bottom:2px">工具视图 02</div>
+        <h3>批量表达式计算器</h3>
+        <div class="flex gap6" style="flex-wrap:wrap"><span class="chip chip-red">5 个核心痛点</span><span class="chip chip-green">8 个设计机会</span></div>
+        <div class="arch-layer" style="background:rgba(215,0,21,.04)"><div class="arch-items"><span class="arch-tag">pipe 语法不熟悉，每次查文档约 5–8 分钟</span></div></div>
+        <div class="arch-layer" style="background:rgba(26,127,66,.04)"><div class="arch-items"><span class="arch-tag good">🟢 语法引导 + 传感器路径自动补全</span></div></div>
+        <div class="arch-layer" style="background:rgba(0,113,227,.04)"><div class="arch-items"><span class="arch-tag hi">🟡 调试/用例两种模式结构分离（需后端）</span></div></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="display:flex;flex-direction:column;gap:6px">
+        <div class="tag" style="margin-bottom:2px">工具视图 03</div>
+        <h3>能效调速配置模板</h3>
+        <div class="flex gap6" style="flex-wrap:wrap"><span class="chip chip-red">5 个核心痛点</span><span class="chip chip-green">9 个设计机会</span></div>
+        <div class="arch-layer" style="background:rgba(215,0,21,.04)"><div class="arch-items"><span class="arch-tag">实体关系不可见，操作顺序约束隐性</span></div></div>
+        <div class="arch-layer" style="background:rgba(26,127,66,.04)"><div class="arch-items"><span class="arch-tag good">🟢 实体关系可视化层</span></div></div>
+        <div class="arch-layer" style="background:rgba(215,0,21,.04)"><div class="arch-items"><span class="arch-tag warn">魔法值 32768 必须 UI 层拦截，直接展示会误导用户</span></div></div>
+      </div>
+    </div>
+  </div>
+  <!-- 案例：批量表达式三列流 -->
+  <div class="flex gap10" style="flex:1;align-items:stretch;min-height:0">
+    <div style="flex:none;width:200px">
+      <div class="col-title" style="color:var(--red)">用户痛点 · 工具视图 02</div>
+      <div class="flow-col">
+        <div class="flow-card fc-pain"><div class="fc-id">P1</div><h4>不知道 pipe 语法怎么写</h4><p>每次使用前查两份文档，约 5–8 分钟/次</p></div>
+        <div class="flow-card fc-pain"><div class="fc-id">P2</div><h4>调试与用例操作意图混乱</h4><p>「试一下」和「定义可重复流程」共用同一输入界面</p></div>
+        <div class="flow-card fc-pain"><div class="fc-id">P3</div><h4>执行结果无历史记录</h4><p>结果只显示在当前页，刷新即消失，依赖截图</p></div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div style="flex:none;width:196px">
+      <div class="col-title" style="color:var(--blue)">洞察汇聚</div>
+      <div class="flow-col">
+        <div class="flow-card fc-insight" style="margin-bottom:10px"><h4 style="color:var(--blue)">翻译比填写更高频</h4><p>P1+P2 根因：工程师花在「理解和查找语法」上的时间远多于「填写具体参数值」。工具把认知负担放错了位置。</p></div>
+        <div class="flow-card fc-insight"><h4 style="color:var(--blue)">操作意图决定界面结构</h4><p>调试（单次探索）和用例（批量固化）是两种认知模式，界面应分别服务。</p></div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div style="flex:1;min-width:0">
+      <div class="col-title" style="color:var(--cd)">设计策略</div>
+      <div class="flow-col">
+        <div class="flow-card fc-strategy" style="margin-bottom:8px"><h4 style="color:var(--green)">语法引导 + 路径补全 <span class="chip chip-green" style="font-size:9px;padding:1px 6px">前端独立</span></h4><p>输入框内置传感器树形选择，自动生成正确的 pipe 路径；输入时高亮语法段落，识别错误立即提示。</p></div>
+        <div class="flow-card fc-strategy"><h4 style="color:var(--green)">调试/用例模式结构分离 <span class="chip chip-yellow" style="font-size:9px;padding:1px 6px">需后端</span></h4><p>两个独立交互入口，调试模式轻量即时，用例模式支持命名保存和批量复用，历史记录自动保留。</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+  03 详细设计 — S4: /hifi-to-demo 两阶段机制
+════════════════════════════════════ -->
+<div class="slide" data-phase="detail">
+  <div class="tag" style="color:var(--cd)">03 详细设计</div>
+  <h2>/hifi-to-demo — 两阶段交付机制</h2>
+  <div class="flex gap12 mt8" style="flex:1;align-items:stretch">
+    <div class="phase-box">
+      <div class="phase-num-label">PHASE 1</div>
+      <div class="phase-title">快速 Demo</div>
+      <p style="font-size:11.5px;margin-bottom:10px">以设计稿为输入，快速生成可点击的单文件 HTML 原型，供设计评审和方向确认，不追求工程代码质量。</p>
+      <div class="card-stack">
+        <div class="arch-layer">
+          <div class="arch-label">输入</div>
+          <div class="arch-items"><span class="arch-tag">设计稿截图 / Figma 链接 / 描述</span><span class="arch-tag">技术栈偏好</span></div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label">AI 分析</div>
+          <div class="arch-items">
+            <span class="arch-tag hi">需求分析：用户 / 场景 / 解决的问题 / 设计点</span>
+            <span class="arch-tag">识别交互组件 + 状态变化</span>
+          </div>
+        </div>
+        <div class="arch-layer" style="background:rgba(26,127,66,.04);border-color:rgba(26,127,66,.2)">
+          <div class="arch-label" style="color:var(--green)">输出</div>
+          <div class="arch-items"><span class="arch-tag good">单文件 HTML Demo（自包含，Mock 数据内联）</span></div>
+        </div>
+      </div>
+      <div class="callout mt10" style="font-size:11px">目标：在 <span class="hl">1 小时内</span>生成可点击原型，供团队快速对齐设计方向。</div>
+    </div>
+
+    <div class="phase-mid">
+      <div style="font-size:18px;color:var(--border)">→</div>
+      <div class="checkpoint">确认检查点<br><span style="font-size:9px;font-weight:400">设计师确认 Demo 方向<br>正确后进入 Phase 2</span></div>
+      <div style="font-size:18px;color:var(--border)">→</div>
+    </div>
+
+    <div class="phase-box">
+      <div class="phase-num-label">PHASE 2</div>
+      <div class="phase-title">工程代码</div>
+      <p style="font-size:11.5px;margin-bottom:10px">在 Phase 1 确认的方向上，生成可直接接入真实仓库的组件代码，追求可维护性和与设计稿的还原度。</p>
+      <div class="card-stack">
+        <div class="arch-layer">
+          <div class="arch-label">输入</div>
+          <div class="arch-items"><span class="arch-tag">Phase 1 Demo + 设计师确认</span><span class="arch-tag">目标技术栈（Vue / React）</span><span class="arch-tag">现有组件库规范</span></div>
+        </div>
+        <div class="arch-layer" style="background:rgba(94,92,230,.04);border-color:rgba(94,92,230,.2)">
+          <div class="arch-label" style="color:var(--cd)">输出</div>
+          <div class="arch-items">
+            <span class="arch-tag hi" style="background:rgba(94,92,230,.08);border-color:rgba(94,92,230,.25);color:var(--cd)">Vue SFC / React TSX 组件文件</span>
+            <span class="arch-tag hi" style="background:rgba(94,92,230,.08);border-color:rgba(94,92,230,.25);color:var(--cd)">Props 接口定义</span>
+            <span class="arch-tag">CSS Modules / 样式变量</span>
+            <span class="arch-tag">基础单元测试</span>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label">工程师接入</div>
+          <div class="arch-items"><span class="arch-tag">数据绑定 + API 调用 + 状态管理</span></div>
+        </div>
+      </div>
+      <div class="callout mt10" style="font-size:11px">两阶段拆分：方向不对时只浪费 Phase 1 的时间；确认后 Phase 2 可以全速推进。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+  04–05 phases: to be added in next batches
 ════════════════════════════════════ -->
 
 </div><!-- /deck -->
@@ -711,8 +1015,9 @@ const phaseMap = [
   'cover',
   'research','research','research',
   'concept','concept','concept',
+  'detail','detail','detail','detail',
 ];
-const phaseFirst = { cover:0, research:1, concept:4 };
+const phaseFirst = { cover:0, research:1, concept:4, detail:7 };
 const phaseLabel = {
   cover:'封面', research:'研究洞察', concept:'概要设计',
   detail:'详细设计', dev:'开发跟踪', eval:'体验评估'
