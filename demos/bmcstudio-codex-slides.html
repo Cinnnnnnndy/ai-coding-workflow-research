@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>openUBMC Studio IDE · 场景分析</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f5f7;--bg2:#ffffff;--bg3:#ebebed;--border:#d2d2d7;
+  --text:#1d1d1f;--text2:#4a4a52;--text3:#86868b;
+  --blue:#0071e3;--blue2:#0066cc;
+  --green:#1a7f42;--yellow:#b06000;--red:#d70015;
+  --purple:#5e5ce6;--orange:#d45000;--teal:#147a5e;
+  --m1:#d45000;--m2:#5e5ce6;
+}
+html,body{width:100%;height:100%;background:#e0e0e5;overflow:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Noto Sans CJK SC',sans-serif}
+.deck-wrapper{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.deck{position:absolute;width:1280px;height:720px;transform-origin:top left;background:var(--bg);
+  overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.18),0 2px 8px rgba(0,0,0,.08)}
+
+/* ── Slide base ── */
+.slide{display:none;position:absolute;top:40px;left:0;right:0;bottom:0;
+  padding:26px 48px 28px;overflow:hidden;flex-direction:column;font-size:13.5px;color:var(--text)}
+.slide.active{display:flex}
+
+/* ── Header ── */
+.deck-header{position:absolute;top:0;left:0;right:0;height:40px;z-index:200;
+  display:flex;align-items:center;padding:0 20px;gap:10px;
+  background:rgba(255,255,255,.94);border-bottom:1px solid var(--border)}
+.hdr-brand{font-size:11px;font-weight:700;color:var(--text2);white-space:nowrap;letter-spacing:-.01em}
+.hdr-sep{width:1px;height:14px;background:var(--border);flex-shrink:0}
+.hdr-modules{display:flex;gap:3px;flex:1;justify-content:center}
+.hdr-pill{padding:3px 11px;border-radius:99px;font-size:10px;font-weight:500;
+  border:1px solid transparent;cursor:pointer;color:var(--text3);background:transparent;
+  transition:.15s;white-space:nowrap;font-family:inherit;line-height:1.5}
+.hdr-pill:hover{background:var(--bg3);color:var(--text2)}
+.hdr-pill.active{background:var(--text);color:#fff}
+.hdr-nav{display:flex;align-items:center;gap:5px}
+.hdr-nav button{background:none;border:1px solid var(--border);cursor:pointer;
+  color:var(--text2);font-size:11.5px;padding:2px 9px;border-radius:5px;
+  transition:.15s;font-family:inherit}
+.hdr-nav button:hover{background:var(--bg3)}
+.hdr-counter{font-size:10.5px;color:var(--text3);min-width:42px;text-align:center}
+
+/* ── Typography ── */
+.tag{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;color:var(--text3)}
+h1{font-size:38px;font-weight:800;line-height:1.1;color:var(--text)}
+h2{font-size:22px;font-weight:700;line-height:1.2;margin-bottom:14px;color:var(--text)}
+h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px}
+h4{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
+p{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* ── Layout ── */
+.cols{display:flex;gap:18px;flex:1}
+.col{flex:1;min-width:0}
+.col2{flex:2;min-width:0}
+
+/* ── Cards ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:12px 15px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card+.card{margin-top:8px}
+
+/* ── List ── */
+ul.list{list-style:none;display:flex;flex-direction:column;gap:5px}
+ul.list li{display:flex;gap:7px;align-items:flex-start;font-size:12px;color:var(--text2);line-height:1.5}
+ul.list li::before{content:'›';color:var(--blue);font-size:13px;flex-shrink:0;margin-top:-1px}
+
+/* ── Code ── */
+pre,code{font-family:'JetBrains Mono','Fira Code',Menlo,monospace}
+pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;overflow-x:auto;
+  color:#f5f5f7;font-size:10.5px;line-height:1.5}
+code{background:var(--bg3);border-radius:4px;padding:1px 5px;font-size:10px;color:var(--orange)}
+
+/* ── Chips ── */
+.chip{display:inline-block;padding:2px 9px;border-radius:99px;font-size:10.5px;font-weight:500;border:1px solid}
+.chip-green{color:var(--green);border-color:rgba(26,127,66,.35);background:rgba(26,127,66,.08)}
+.chip-yellow{color:var(--yellow);border-color:rgba(176,96,0,.35);background:rgba(176,96,0,.08)}
+.chip-red{color:var(--red);border-color:rgba(215,0,21,.35);background:rgba(215,0,21,.08)}
+.chip-blue{color:var(--blue);border-color:rgba(0,113,227,.35);background:rgba(0,113,227,.08)}
+
+/* ── Section divider slide ── */
+.section-slide{justify-content:center;align-items:flex-start}
+.sec-num{font-size:72px;font-weight:800;line-height:1;opacity:.07;margin-bottom:-8px}
+.sec-line{height:3px;width:76px;border-radius:2px;margin:13px 0}
+.sec-title{font-size:30px;font-weight:800}
+.sec-sub{font-size:13.5px;color:var(--text2);margin-top:7px;max-width:520px;line-height:1.5}
+.sec-bg{margin-top:20px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;max-width:600px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+
+/* ── Table ── */
+table{border-collapse:collapse;width:100%}
+th{background:var(--bg3);color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.04em;padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:6px 10px;border-bottom:1px solid var(--border);color:var(--text2);font-size:11px;vertical-align:top}
+tr:last-child td{border-bottom:none}
+.comp-gap{color:var(--green)!important;font-weight:500}
+.user-name{color:var(--text)!important;font-weight:600;white-space:nowrap}
+
+/* ── Bit diagram ── */
+.bit-row{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.bit-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:8px 3px;font-size:9px;font-family:monospace;text-align:center;border-right:1px solid var(--border)}
+.bit-cell:last-child{border-right:none}
+.bit-fn{background:rgba(0,113,227,.08);color:var(--blue)}
+.bit-cmd{background:rgba(94,92,230,.08);color:var(--purple)}
+.bit-ms{background:rgba(26,127,66,.08);color:var(--green)}
+.bit-rw{background:rgba(212,80,0,.08);color:var(--orange)}
+.bit-param{background:rgba(20,122,94,.08);color:var(--teal)}
+.bit-lbl{font-size:8px;opacity:.6;margin-top:2px}
+
+/* ── Opportunity rows ── */
+.opp{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--border)}
+.opp:last-child{border-bottom:none}
+.opp-ic{font-size:13px;flex-shrink:0;margin-top:1px}
+.opp h4{font-size:11.5px}
+.opp p{font-size:11px}
+
+/* ── Patent box ── */
+.patent{display:flex;align-items:flex-start;gap:9px;background:rgba(176,96,0,.06);
+  border:1px solid rgba(176,96,0,.22);border-radius:9px;padding:10px 12px;margin-top:7px}
+.patent-text{font-size:11px;color:var(--yellow);line-height:1.55}
+
+/* ── Pipe chain ── */
+.pipe-chain{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:6px}
+.pipe-in{background:rgba(26,127,66,.08);border:1px solid rgba(26,127,66,.3);border-radius:4px;
+  padding:4px 8px;font-family:monospace;font-size:10px;color:var(--green)}
+.pipe-op{color:var(--text3);padding:0 5px;font-size:11px}
+.pipe-fn{background:rgba(94,92,230,.08);border:1px solid rgba(94,92,230,.3);border-radius:4px;
+  padding:4px 8px;font-family:monospace;font-size:10px;color:var(--purple)}
+.pipe-out{background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.3);border-radius:4px;
+  padding:4px 8px;font-family:monospace;font-size:10px;color:var(--blue)}
+
+/* ── Scenario blocks ── */
+.scenario{border-left:3px solid var(--border);padding-left:10px;margin-bottom:9px}
+.scenario:last-child{margin-bottom:0}
+.sc-tag{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+
+/* ── Flow / summary slide ── */
+.flow-card{border-radius:7px;padding:7px 10px;position:relative;border:1px solid;margin-bottom:5px}
+.flow-card:last-child{margin-bottom:0}
+.fc-pain{background:rgba(215,0,21,.04);border-color:rgba(215,0,21,.18)}
+.fc-insight{background:rgba(0,113,227,.04);border-color:rgba(0,113,227,.18)}
+.fc-strategy{background:rgba(26,127,66,.04);border-color:rgba(26,127,66,.18)}
+.fc-id{position:absolute;top:5px;right:8px;font-size:8.5px;font-weight:700;opacity:.28;font-family:monospace}
+.flow-card h4{font-size:11px;margin-bottom:2px;padding-right:20px}
+.flow-card p{font-size:10px}
+.col-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  text-align:center;padding:4px 0 7px;border-bottom:1px solid var(--border);margin-bottom:6px}
+
+/* ── Design notes grid ── */
+.dn-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;flex:1}
+.dn-card{border-radius:10px;padding:13px 15px;border:1px solid;display:flex;flex-direction:column;gap:5px;
+  box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.dn-icon{font-size:17px}
+.dn-card h3{font-size:12px;margin-bottom:0}
+.dn-card ul.list li{font-size:11px}
+.dn-card ul.list{gap:4px}
+.dn-safety{background:rgba(215,0,21,.04);border-color:rgba(215,0,21,.18)}
+.dn-infra{background:rgba(176,96,0,.04);border-color:rgba(176,96,0,.18)}
+.dn-refresh{background:rgba(0,113,227,.04);border-color:rgba(0,113,227,.18)}
+.dn-perf{background:rgba(94,92,230,.04);border-color:rgba(94,92,230,.18)}
+.src-tag{display:inline-block;font-size:9.5px;padding:1px 7px;border-radius:4px;font-weight:600;margin-bottom:3px}
+.src-json{background:rgba(0,113,227,.1);color:var(--blue)}
+.src-sr{background:rgba(26,127,66,.1);color:var(--green)}
+
+/* ── Architecture layers ── */
+.arch-layer{padding:8px 12px;border-radius:6px;border:1px solid var(--border);margin-bottom:4px;
+  position:relative;background:var(--bg2)}
+.arch-arrow{text-align:center;color:var(--text3);font-size:11px;margin:1px 0;line-height:1}
+.arch-title{font-size:11.5px;font-weight:600;margin-bottom:2px;color:var(--text)}
+.arch-sub{font-size:10px;color:var(--text2)}
+.arch-badge{position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  font-size:8.5px;padding:2px 7px;border-radius:4px;font-weight:600;white-space:nowrap}
+
+/* ── Utilities ── */
+.muted{color:var(--text3)}
+.hl{color:var(--blue);font-weight:600}
+.mt6{margin-top:6px}.mt8{margin-top:8px}.mt10{margin-top:10px}.mt12{margin-top:12px}
+.mb6{margin-bottom:6px}.mb8{margin-bottom:8px}.mb10{margin-bottom:10px}.mb12{margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="deck-wrapper">
+<div class="deck" id="deck">
+
+<!-- ── Fixed header navigation ── -->
+<header class="deck-header">
+  <span class="hdr-brand">openUBMC Studio IDE</span>
+  <div class="hdr-sep"></div>
+  <div class="hdr-modules">
+    <button class="hdr-pill active" data-module="cover" onclick="jumpModule('cover')">封面</button>
+    <button class="hdr-pill" data-module="smc" onclick="jumpModule('smc')">① SMC 命令字</button>
+    <button class="hdr-pill" data-module="pipe" onclick="jumpModule('pipe')">② 管道表达式</button>
+    <button class="hdr-pill" data-module="summary" onclick="jumpModule('summary')">横向分析</button>
+  </div>
+  <div class="hdr-nav">
+    <button onclick="go(-1)">←</button>
+    <span class="hdr-counter" id="counter">1 / 17</span>
+    <button onclick="go(1)">→</button>
+  </div>
+</header>
+
+<!-- ════════════════════════ COVER ════════════════════════ -->
+<div class="slide active" data-module="cover" style="justify-content:center">
+  <div class="tag">场景研究 · 功能模块分析</div>
+  <h1 style="margin-top:10px">openUBMC Studio <span style="color:var(--blue)">IDE</span></h1>
+  <div style="height:3px;width:100px;background:linear-gradient(90deg,var(--m1),var(--m2),transparent);border-radius:2px;margin:16px 0"></div>
+  <p style="font-size:14px;max-width:580px;line-height:1.7">
+    为 openUBMC 固件工程师设计的 VS Code 扩展。<br>
+    本文档分析 <span class="hl">2 个核心工具模块</span>的使用场景、痛点、设计机会点与竞品差异化，
+    并整合来自相邻模块的技术约束。
+  </p>
+  <div style="margin-top:26px;display:flex;gap:14px">
+    <span class="chip" style="color:var(--m1);border-color:rgba(212,80,0,.35);background:rgba(212,80,0,.07);font-size:12.5px;padding:5px 14px">01 &nbsp;SMC 命令字计算器</span>
+    <span class="chip" style="color:var(--m2);border-color:rgba(94,92,230,.35);background:rgba(94,92,230,.07);font-size:12.5px;padding:5px 14px">02 &nbsp;管道表达式计算器</span>
+  </div>
+  <div style="margin-top:26px;display:flex;gap:24px">
+    <span style="font-size:11.5px;color:var(--text3)"><strong style="color:var(--text2)">版本</strong> v0.0.29</span>
+    <span style="font-size:11.5px;color:var(--text3)"><strong style="color:var(--text2)">测试</strong> 790/790 通过</span>
+    <span style="font-size:11.5px;color:var(--text3)"><strong style="color:var(--text2)">日期</strong> 2026-05-20</span>
+  </div>
+</div>
+
+<!-- ════════════ MODULE 1 DIVIDER ════════════ -->
+<div class="slide section-slide" data-module="smc">
+  <div class="sec-num" style="color:var(--m1)">01</div>
+  <div class="sec-line" style="background:var(--m1)"></div>
+  <div class="sec-title" style="color:var(--m1)">SMC 命令字计算器</div>
+  <div class="sec-sub">32 位位字段可视化填写 · 双向编解码 · 内联水印解码</div>
+  <div class="sec-bg">
+    <p style="font-size:11.5px"><span style="color:var(--m1);font-weight:700">背景&nbsp;</span>SMC（System Management Controller）命令字是一个 32 位整数，将 5 个字段压缩进 4 个字节。每接入一个新硬件，工程师就需要查阅芯片规格文档、手动做位移和或运算，填入 SR 文件的 <code>offset</code> 字段。这是高频且高错误率的操作，错误要到运行时才暴露。</p>
+  </div>
+</div>
+
+<!-- SMC: 背景 · BMC 技术栈 -->
+<div class="slide" data-module="smc">
+  <div class="tag" style="color:var(--m1)">SMC 命令字计算器 · 需求背景</div>
+  <h2>SMC 命令字在 BMC 技术栈中的位置</h2>
+  <div class="cols">
+    <div class="col2">
+      <div class="arch-layer" style="border-color:rgba(212,80,0,.3);background:rgba(212,80,0,.04)">
+        <div class="arch-title" style="color:var(--m1)">固件应用层 — SMC 命令字（32-bit offset）</div>
+        <div class="arch-sub">「我要读哪个 CSR 对象的哪个属性」— 这个工具处理的层</div>
+        <span class="arch-badge" style="background:rgba(212,80,0,.12);color:var(--m1)">← 这个工具</span>
+      </div>
+      <div class="arch-arrow">↓ 中间件将命令字解析，定位 CSR 对象</div>
+      <div class="arch-layer">
+        <div class="arch-title">CSR 对象层 — 逻辑视图</div>
+        <div class="arch-sub"><code>Fan_1</code> / <code>Scanner_CpuTemp</code> / <code>Accessor_*</code> — BMC 对硬件的软件抽象</div>
+      </div>
+      <div class="arch-arrow">↓ CSR 对象绑定真实硬件访问方式</div>
+      <div class="arch-layer">
+        <div class="arch-title">硬件驱动层 — 物理协议</div>
+        <div class="arch-sub">I2C / PECI / IPMI 等 — 哪条总线、哪个芯片地址、哪个寄存器</div>
+      </div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">
+        <div class="arch-title muted">物理硬件</div>
+        <div class="arch-sub">传感器 / 风扇 / 电源模块 / 存储背板</div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb8" style="border-color:rgba(0,113,227,.2);background:rgba(0,113,227,.04)">
+        <h3 style="color:var(--blue)">BMC 是服务器的「隐形管理员」</h3>
+        <p>BMC（Baseboard Management Controller）与主 CPU 完全独立，即使服务器断电也在运行。它负责读取 CPU 温度、控制风扇转速、检测硬件故障……需与数十甚至数百个硬件组件实时通信。</p>
+      </div>
+      <div class="card mb8" style="border-color:rgba(212,80,0,.2);background:rgba(212,80,0,.04)">
+        <h3 style="color:var(--m1)">命令字是 CSR 对象的「访问门牌」</h3>
+        <p>SMC 命令字<strong style="color:var(--text)">不是直接发给 I2C 芯片</strong>，而是发给 CSR 对象（如 <code>Fan_1</code>）——它是访问「某个 CSR 对象的某个属性」的唯一索引键。</p>
+        <p class="mt6" style="font-size:11px">中间件拿到这个 32-bit 门牌，精确定位 CSR 对象和属性，再映射到底层寄存器操作。</p>
+      </div>
+      <div class="card" style="border-color:rgba(215,0,21,.2);background:rgba(215,0,21,.04)">
+        <h3 style="color:var(--red)">工具的核心价值</h3>
+        <p>把「查手册 → 手算位运算 → 填数字」转变为「分字段填表 → 实时预览合成值 → 一键写回」。双向翻译：编码填写 + 解码阅读。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SMC: 概念解释 · 位图 -->
+<div class="slide" data-module="smc">
+  <div class="tag" style="color:var(--m1)">SMC 命令字计算器 · 概念解释</div>
+  <h2>SMC 命令字 · 32 位位字段结构</h2>
+  <div class="cols">
+    <div class="col2">
+      <!-- WHAT -->
+      <div class="card mb8">
+        <h3 class="mb10">位布局（Bit31 → Bit0）</h3>
+        <div class="bit-row">
+          <div class="bit-cell bit-fn" style="flex:6">Function<div class="bit-lbl">Bit31–26 · 6bit · 0–63</div></div>
+          <div class="bit-cell bit-cmd" style="flex:16">Command<div class="bit-lbl">Bit25–10 · 16bit · 0–65535</div></div>
+          <div class="bit-cell bit-ms" style="flex:1">MS<div class="bit-lbl">Bit9·0/1</div></div>
+          <div class="bit-cell bit-rw" style="flex:1">RW<div class="bit-lbl">Bit8·0/1</div></div>
+          <div class="bit-cell bit-param" style="flex:8">Parameter<div class="bit-lbl">Bit7–0 · 8bit · 0–255</div></div>
+        </div>
+        <p class="mt8 muted" style="font-size:11px">编码公式：<code>(Fn&lt;&lt;26)|(Cmd&lt;&lt;10)|(MS&lt;&lt;9)|(RW&lt;&lt;8)|Param</code></p>
+      </div>
+      <!-- WHY each field -->
+      <div class="card">
+        <h3>字段语义</h3>
+        <table>
+          <thead><tr><th>字段</th><th>范围</th><th>语义</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--blue)">Function</td><td>0x00–0x3F</td><td>硬件子系统：0x06=散热, 0x09=供电</td></tr>
+            <tr><td style="color:var(--purple)">Command</td><td>0x0000–0xFFFF</td><td>子系统内的具体操作编号（查芯片手册）</td></tr>
+            <tr><td style="color:var(--green)">MS</td><td>0 / 1</td><td>0=多读（批量）, 1=单读（精确）</td></tr>
+            <tr><td style="color:var(--orange)">RW</td><td>0 / 1</td><td>0=写（下令）, 1=读（查询）</td></tr>
+            <tr><td style="color:var(--teal)">Parameter</td><td>0x00–0xFF</td><td>附加参数（设备编号、目标转速等）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col">
+      <!-- HOW: concrete example -->
+      <div class="card mb8">
+        <h3>实例解读 · <code>0x30440100</code></h3>
+        <pre style="font-size:10px">十六进制:  3    0    4    4    0    1    0    0
+二进制:  0011 0000 0100 0100 0000 0001 0000 0000
+
+字符'0'(位27-24) ← 跨越两个字段!
+  bits27-26 → Function 末2位
+  bits25-24 → Command  头2位
+
+字符'1'(位11-8)  ← 同时含三个字段!
+  bits11-10 → Command 末2位
+  bit  9    → MS = 0
+  bit  8    → RW = 1 (读操作)
+
+→ Function=0x0C(12), Command=0x1100, RW=1</pre>
+      </div>
+      <div style="padding:10px 12px;background:rgba(215,0,21,.05);border:1px solid rgba(215,0,21,.18);border-radius:8px;margin-bottom:8px">
+        <p style="color:var(--red);font-size:11.5px"><strong>关键认知：十六进制字符边界 ≠ 字段边界</strong><br>无法直接从十六进制读出各字段值，必须做位移运算。工具把不可见的字段边界变成可见的独立输入框。</p>
+      </div>
+      <div style="padding:9px 12px;background:rgba(0,113,227,.05);border:1px solid rgba(0,113,227,.18);border-radius:8px">
+        <p style="font-size:11px"><strong style="color:var(--blue)">日志中为何出现十进制？</strong> 同一个值，固件源码是 <code>0x30440100</code>，系统日志是 <code>809893888</code>——日志框架和数据库默认整数类型。工程师需要在两种表示间切换。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SMC: 使用场景 · 目标用户 -->
+<div class="slide" data-module="smc">
+  <div class="tag" style="color:var(--m1)">SMC 命令字计算器 · 使用场景 · 目标用户</div>
+  <h2>使用场景 &amp; 目标用户</h2>
+  <div class="cols">
+    <div class="col2">
+      <div class="scenario mb10" style="border-color:var(--m1)">
+        <div class="sc-tag" style="color:var(--m1)">场景 A · 开发阶段 · 编码方向</div>
+        <p>工程师查到芯片手册：Fn=0x06、Cmd=0x4480、RW=1。点击 SR 文件中 <code>offset</code> 字段旁的 <code>[Calculate Offset]</code> CodeLens，分字段填写，实时看到合成的 32 位值，点「应用」写回文件。<strong>全程 30 秒，以前手算移位需 5–10 分钟。</strong></p>
+      </div>
+      <div class="scenario mb10" style="border-color:var(--m1)">
+        <div class="sc-tag" style="color:var(--m1)">场景 B · 调试阶段 · 解码方向</div>
+        <p>线上服务器报错，日志显示 SMC 命令失败，偏移量是 <code>809893888</code>（十进制）。工程师把这个数粘入计算器，立即看到 Fn=0x0C（温度管理）、Cmd=0x0011、RW=1——快速定位是哪个功能模块出了问题。没有工具，需要临时开 Python 做三步转换。</p>
+      </div>
+      <div class="scenario" style="border-color:var(--m1)">
+        <div class="sc-tag" style="color:var(--m1)">场景 C · 代码 Review · 理解魔数</div>
+        <p>同事代码里有 <code>smc_read(0x30280001)</code>，Reviewer 看到这个魔数完全不知含义，无法判断字段值是否合理。打开计算器解码，立刻显示字段含义——每次 Review 省去「去哪查文档 + 手算」的沟通成本。</p>
+      </div>
+    </div>
+    <div class="col">
+      <h3 class="mb8">目标用户</h3>
+      <table class="mb10">
+        <thead><tr><th>角色</th><th>主要操作方向</th><th>频率</th></tr></thead>
+        <tbody>
+          <tr><td class="user-name">固件工程师</td><td>编码（开发期）</td><td><span class="chip chip-red" style="font-size:9.5px">每天</span></td></tr>
+          <tr><td class="user-name">调试工程师</td><td>解码（排查期）</td><td><span class="chip chip-yellow" style="font-size:9.5px">按事件</span></td></tr>
+          <tr><td class="user-name">代码 Reviewer</td><td>解码（审查）</td><td><span class="chip chip-blue" style="font-size:9.5px">低频</span></td></tr>
+          <tr><td class="user-name">新团队成员</td><td>两个方向</td><td><span class="chip chip-blue" style="font-size:9.5px">学习期</span></td></tr>
+        </tbody>
+      </table>
+      <div class="card" style="background:rgba(215,0,21,.04);border-color:rgba(215,0,21,.2)">
+        <h3 style="color:var(--red)">操作安全性要求</h3>
+        <ul class="list">
+          <li>字段填错一位可能命令发给错误设备，校验必须即时且清晰</li>
+          <li>超出 32 位时代码取低 32 位（<code>&gt;&gt;&gt;0</code>）— UI 必须显示溢出警告</li>
+          <li>offset 为变量引用（<code>${Var}</code>）时，计算器需优雅处理</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SMC: 核心痛点 -->
+<div class="slide" data-module="smc">
+  <div class="tag" style="color:var(--m1)">SMC 命令字计算器 · 核心痛点</div>
+  <h2>核心痛点</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="card mb8">
+        <div class="opp"><div class="opp-ic">⏱️</div><div>
+          <h4>手工位移计算极易出错，且错了很难发现</h4>
+          <p>位移计算涉及多步：<code>Fn&lt;&lt;26</code>、<code>Cmd&lt;&lt;10</code>、OR 合并……每步都可能算错。最终数字仍是「合法的 32-bit 整数」——编译器不报错，只有运行时访问错误硬件地址时才暴露 Bug，定位往往耗费数小时。</p>
+          <p class="mt6" style="font-size:10.5px;color:var(--red)"><strong>痛点核心：错误完全隐蔽，代价极高。</strong></p>
+        </div></div>
+      </div>
+      <div class="card">
+        <div class="opp"><div class="opp-ic">🔢</div><div>
+          <h4>日志中的十进制数字对人脑「不透明」</h4>
+          <p>十六进制 <code>0x30440100</code> 一眼能看出功能码前缀，但十进制 <code>809893888</code> 毫无规律。工程师被迫在脑内执行「十进制→十六进制→拆字段」三步转换，实际上都要临时开 Python 搭脚手架。</p>
+          <p class="mt6" style="font-size:10.5px;color:var(--red)"><strong>痛点核心：每次调试都需要临时搭脚手架，中断工作流。</strong></p>
+        </div></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb8">
+        <div class="opp"><div class="opp-ic">👥</div><div>
+          <h4>字段含义对非原始开发者不透明</h4>
+          <p>命令字由原始开发者设计，但代码在整个团队中流转。新加入的工程师、跨团队 Reviewer 看到 <code>0x30280001</code>，完全不知道代表什么功能。询问原作者需要时间，查文档需要知道去哪查，产生大量隐形沟通成本。</p>
+          <p class="mt6" style="font-size:10.5px;color:var(--red)"><strong>痛点核心：知识孤岛，代码可读性差，新人上手成本高。</strong></p>
+        </div></div>
+      </div>
+      <div class="card">
+        <div class="opp"><div class="opp-ic">🔒</div><div>
+          <h4>当前工具只在 VS Code 扩展内可用</h4>
+          <p>工程师使用其他编辑器、在 Code Review 平台查看代码、或在另一台测试机上调试时，工具完全不可用——退回到纸和 Python 的时代。工具的可发现性也依赖于知道 CodeLens 在哪触发。</p>
+          <p class="mt6" style="font-size:10.5px;color:var(--yellow)"><strong>痛点核心：工具可达性受限，使用场景覆盖不完整。</strong></p>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SMC: 设计机会点 · 竞品 · 专利 -->
+<div class="slide" data-module="smc">
+  <div class="tag" style="color:var(--m1)">SMC 命令字计算器 · 设计机会点 · 竞品 · 专利</div>
+  <h2>设计机会点 · 竞品 &amp; 专利</h2>
+  <div class="cols">
+    <div class="col2">
+      <div class="card" style="padding:10px 14px">
+        <div class="opp"><div class="opp-ic">🔴</div><div><h4>A. 缺少位图可视化</h4><p>用户修改字段时无法感知影响 32 位中的哪些 bit。建议：增加 32-bit 位图，修改字段时对应颜色块实时高亮。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+        <div class="opp"><div class="opp-ic">🔴</div><div><h4>B. 解码入口可发现性低、标题有歧义</h4><p>「反查偏移量」是调试核心需求但视觉权重低；标题「10进制」不准确（支持 0x 前缀）。建议：解码区升为一级区块，Placeholder 改为「支持十进制或 0x 十六进制」。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+        <div class="opp"><div class="opp-ic">🟡</div><div><h4>C. 无历史记录</h4><p>调试时反复输入不同参数对比，每次刷新归零。建议：存储最近 10 条输入，历史列表一键回填。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+        <div class="opp"><div class="opp-ic">🟡</div><div><h4>D. 结果复制格式不可定制</h4><p>当前固定输出 Hex + Dec 两种，写代码时只需要 Hex。建议：复制按钮旁加下拉「仅 Hex / 仅 Dec / 两者」。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+        <div class="opp"><div class="opp-ic">🟡</div><div><h4>E. 无功能码 / 命令码语义参考</h4><p>输入 0x0C 时工具无法告知「温度管理模块」。建议：支持导入团队维护的 JSON 速查表，悬停字段时显示模块名称。</p><div class="mt6"><span class="chip chip-yellow">需后端配合</span></div></div></div>
+        <div class="opp"><div class="opp-ic">🟢</div><div><h4>F. 字段布局不够直观</h4><p>Command（16-bit）比其他字段宽，视觉节奏不匹配。建议：「Function + Command」一行，「MS + RW + Parameter」另一行。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+      </div>
+    </div>
+    <div class="col">
+      <h3 class="mb8">竞品分析</h3>
+      <table class="mb8">
+        <thead><tr><th>竞品</th><th>差距</th></tr></thead>
+        <tbody>
+          <tr><td>在线位计算器</td><td class="comp-gap">独立工具，无 IDE 上下文，无文件写回</td></tr>
+          <tr><td>VS Code Hex Editor</td><td class="comp-gap">读二进制文件；不做协议字段计算</td></tr>
+          <tr><td>Excel / 自定义脚本</td><td class="comp-gap">完全脱离编辑器，无预填，无水印</td></tr>
+        </tbody>
+      </table>
+      <div class="patent">
+        <div>🏷️</div>
+        <div class="patent-text">
+          <strong>交互专利潜力（中高）</strong><br>
+          用户在文件编辑上下文中，通过感知式触发进入协议位字段可视化填写界面，界面自动预填当前值、提供分字段实时合成预览、一键写回文件——写回后保持常驻水印解码。<br><br>
+          <strong>三个交互创新点：①上下文感知预填体验 ②编辑-写回-水印的闭环交互 ③水印常驻解码作为内嵌「知识层」</strong>。三者组合未见先例。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ MODULE 2 DIVIDER ════════════ -->
+<div class="slide section-slide" data-module="pipe">
+  <div class="sec-num" style="color:var(--m2)">02</div>
+  <div class="sec-line" style="background:var(--m2)"></div>
+  <div class="sec-title" style="color:var(--m2)">管道表达式计算器</div>
+  <div class="sec-sub">调试模式（单步可视） · 用例模式（批量验证） · 文件保存同步</div>
+  <div class="sec-bg">
+    <p style="font-size:11.5px"><span style="color:var(--m2);font-weight:700">背景&nbsp;</span>SR 文件中的传感器字段可包含管道表达式——描述「从哪里取原始值，经过哪几步变换，得到最终显示值」。工程师开发这些表达式时，没有可视化的调试手段；验证正确性时，没有批量测试的基础设施，仅靠人工抽查。</p>
+  </div>
+</div>
+
+<!-- Pipe: 概念解释 · 双模式 -->
+<div class="slide" data-module="pipe">
+  <div class="tag" style="color:var(--m2)">管道表达式计算器 · 概念解释 · 双模式设计</div>
+  <h2>管道表达式语法 &amp; 双模式设计</h2>
+  <div class="cols">
+    <div class="col">
+      <!-- WHAT -->
+      <div class="card mb8">
+        <h3 class="mb8">输入类型前缀</h3>
+        <table>
+          <thead><tr><th>前缀</th><th>语义</th><th>刷新行为</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;=/</code></td><td>同步：周期推送</td><td>自动刷新</td></tr>
+            <tr><td><code>#/</code></td><td>引用：访问时读</td><td>按需读取</td></tr>
+            <tr><td><code>${...}</code></td><td>模板常量</td><td>启动时替换</td></tr>
+            <tr><td>无前缀</td><td>字面量</td><td>固定值</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- HOW: pipe chain examples -->
+      <div class="card">
+        <h3>管道链示例</h3>
+        <div class="pipe-chain"><div class="pipe-in">&lt;=/Sensor.Value</div><div class="pipe-op">|&gt;</div><div class="pipe-fn">expr($1/256)</div><div class="pipe-op">→</div><div class="pipe-out">25.0 °C</div></div>
+        <p class="mb8 muted" style="font-size:10.5px">单输入 · 单级管道</p>
+        <div class="pipe-chain" style="flex-wrap:wrap;gap:4px">
+          <div class="pipe-in">&lt;=/S1;&nbsp;#/S2</div>
+          <div class="pipe-op">|&gt;</div>
+          <div class="pipe-fn">expr($1+$2)</div>
+          <div class="pipe-op">|&gt;</div>
+          <div class="pipe-fn">string.format("%.1f",$1)</div>
+        </div>
+        <p class="muted" style="font-size:10.5px">多输入（分号分隔：$1/$2）· 多级管道链</p>
+      </div>
+    </div>
+    <div class="col">
+      <!-- WHY two modes -->
+      <div class="card mb8" style="border-color:rgba(94,92,230,.3);background:rgba(94,92,230,.04)">
+        <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
+          <span>🔬</span><h3 style="color:var(--m2)">调试模式</h3>
+        </div>
+        <p style="font-size:11.5px;margin-bottom:7px"><strong>意图：</strong>「我正在写这个表达式，想确认逻辑」</p>
+        <ul class="list" style="gap:4px">
+          <li style="font-size:11.5px">单输入值，实时计算，每级管道的中间结果可见</li>
+          <li style="font-size:11.5px">失败时精确定位到哪一级出错</li>
+          <li style="font-size:11.5px">类比：代码调试器的「单步执行」</li>
+        </ul>
+      </div>
+      <div class="card mb8" style="border-color:rgba(0,113,227,.3);background:rgba(0,113,227,.04)">
+        <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
+          <span>✅</span><h3 style="color:var(--blue)">用例模式</h3>
+        </div>
+        <p style="font-size:11.5px;margin-bottom:7px"><strong>意图：</strong>「表达式写完了，我要全面验证它」</p>
+        <ul class="list" style="gap:4px">
+          <li style="font-size:11.5px">粘贴文本或导入 .txt/.csv 批量用例</li>
+          <li style="font-size:11.5px">每条展示：输入 | 期望 | 实际 | ✅/❌</li>
+          <li style="font-size:11.5px">类比：JUnit / pytest 单元测试框架</li>
+        </ul>
+      </div>
+      <div style="padding:9px 11px;background:rgba(215,0,21,.05);border:1px solid rgba(215,0,21,.18);border-radius:7px">
+        <p style="font-size:11.5px;color:var(--red)"><strong>两种模式是两种不同意图</strong>，不能共用一个表单加 toggle。切换模式时，已输入的数据不能丢失。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pipe: 使用场景 · 目标用户 -->
+<div class="slide" data-module="pipe">
+  <div class="tag" style="color:var(--m2)">管道表达式计算器 · 使用场景 · 目标用户</div>
+  <h2>使用场景 &amp; 目标用户</h2>
+  <div class="cols">
+    <div class="col2">
+      <div class="scenario mb10" style="border-color:var(--m2)">
+        <div class="sc-tag" style="color:var(--m2)">场景 A · 开发一个新表达式（调试模式核心）</div>
+        <p>工程师为新硬件写温度转换表达式：<code>&lt;=/Sensor.Value |&gt; expr($1/256.0)</code>。在调试模式里输入 6400，面板显示：<code>expr($1/256.0) → 25.0</code>。确认正确后提交配置。<strong>全程即时反馈，以前要编译→部署→触发场景→看日志，一次迭代 5–10 分钟。</strong></p>
+      </div>
+      <div class="scenario mb10" style="border-color:var(--m2)">
+        <div class="sc-tag" style="color:var(--m2)">场景 B · 修改表达式后回归验证（用例模式核心）</div>
+        <p>工程师对已有表达式做了优化，担心影响边界情况。从历史测试记录找到 50 组「输入→预期输出」对，粘贴进用例模式，一键执行，看到「48/50 通过，第 23 条和第 37 条失败」——立即定位问题所在。</p>
+      </div>
+      <div class="scenario" style="border-color:var(--m2)">
+        <div class="sc-tag" style="color:var(--m2)">场景 C · 调试线上异常值（调试模式 + 多参数）</div>
+        <p>线上某台服务器报告不合理的风速计算值。工程师把怀疑的表达式粘贴进调试模式，填入出问题时的实际传感器读数（$1 和 $2），逐阶段追踪哪一步产生了异常输出。</p>
+      </div>
+    </div>
+    <div class="col">
+      <h3 class="mb8">目标用户</h3>
+      <table class="mb10">
+        <thead><tr><th>角色</th><th>主要模式</th><th>频率</th></tr></thead>
+        <tbody>
+          <tr><td class="user-name">固件工程师（开发期）</td><td>调试模式为主</td><td><span class="chip chip-red" style="font-size:9.5px">每天</span></td></tr>
+          <tr><td class="user-name">固件工程师（验证期）</td><td>用例模式为主</td><td><span class="chip chip-yellow" style="font-size:9.5px">按迭代</span></td></tr>
+          <tr><td class="user-name">测试 / 验证工程师</td><td>用例模式批量导入</td><td><span class="chip chip-yellow" style="font-size:9.5px">阶段性</span></td></tr>
+          <tr><td class="user-name">系统架构师</td><td>调试模式（评审验证）</td><td><span class="chip chip-blue" style="font-size:9.5px">低频</span></td></tr>
+        </tbody>
+      </table>
+      <div class="card" style="background:rgba(215,0,21,.04);border-color:rgba(215,0,21,.2)">
+        <h3 style="color:var(--red)">用例数据不持久化（有意设计）</h3>
+        <p style="font-size:11.5px">用例数据保存在面板运行时内存，关闭面板后丢失。改变此行为需引入持久化存储——是需产品层决策的机会点（参见「共性机会点」）。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pipe: 核心痛点 -->
+<div class="slide" data-module="pipe">
+  <div class="tag" style="color:var(--m2)">管道表达式计算器 · 核心痛点</div>
+  <h2>核心痛点</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="card">
+        <div class="opp"><div class="opp-ic">👻</div><div>
+          <h4>开发表达式是「盲飞」</h4>
+          <p>没有工具时，必须编译→部署→触发场景→看日志，一次迭代最短 5–10 分钟。一个稍复杂的表达式往往要迭代 5–10 次——一小时就这么没了。</p>
+          <p class="mt6" style="font-size:10.5px;color:var(--red)"><strong>痛点核心：开发反馈周期极长，改一行配置等同于一次完整的编译+部署。</strong></p>
+        </div></div>
+        <div class="opp"><div class="opp-ic">🔬</div><div>
+          <h4>管道的中间状态完全不可见</h4>
+          <p>固件日志通常只报「最终结果异常」，不告诉你是第 2 步还是第 4 步出了问题。工程师被迫逐段注释、逐段测试，用排除法在黑盒里摸索。</p>
+          <p class="mt6" style="font-size:10.5px;color:var(--red)"><strong>痛点核心：表达式对工程师是黑盒，调试需要大量「人肉二分法」。</strong></p>
+        </div></div>
+        <div class="opp"><div class="opp-ic">🔄</div><div>
+          <h4>修改表达式后面板不同步</h4>
+          <p>编辑 SR 文件后，面板显示的还是旧表达式，需关闭重开，且丢失已输入的测试数据——中断了「改→验」的连续流程。</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="opp"><div class="opp-ic">📋</div><div>
+          <h4>批量验证完全依赖人工</h4>
+          <p>需要覆盖 20–50 组边界情况（0°C / 最大值 / 负数 / 边界 ADC 值……）。没有工具时要么写临时脚本，要么逐条手验——覆盖率无法保证，且不可复用。</p>
+          <p class="mt6" style="font-size:10.5px;color:var(--red)"><strong>痛点核心：验证过程非标准化，无法追溯。</strong></p>
+        </div></div>
+        <div class="opp"><div class="opp-ic">🗂️</div><div>
+          <h4>测试用例无处留存</h4>
+          <p>今天写了 30 条测试用例验证了一个表达式，下次修改时这 30 条早已丢失——没有地方存放它们。每次验证都要重新思考「应该测哪些边界」，测试知识无法积累。</p>
+          <p class="mt6" style="font-size:10.5px;color:var(--red)"><strong>痛点核心：测试知识无法积累，每次验证都是从零开始。</strong></p>
+        </div></div>
+        <div class="opp"><div class="opp-ic">🔀</div><div>
+          <h4>多输入参数的组合测试手工做几乎不可能</h4>
+          <p>表达式有 $1 和 $2 两个输入时，要覆盖「低-低、低-高、高-低、高-高、边界值」等组合，工作量呈指数增长。</p>
+          <p class="mt6" style="font-size:10.5px;color:var(--red)"><strong>痛点核心：全面验证成本与参数数量成指数关系。</strong></p>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pipe: 设计机会点 🔴 -->
+<div class="slide" data-module="pipe">
+  <div class="tag" style="color:var(--m2)">管道表达式计算器 · 设计机会点 · 高优先级</div>
+  <h2>设计机会点 · 🔴 高优先级</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="card mb8">
+        <h3 style="color:var(--red)" class="mb8">A. 双模式工作流割裂</h3>
+        <p>用例模式中某条测试用例失败，工程师想看该组输入的中间状态，必须手动复制输入值→切换模式→重新粘贴——三次操作打断了排查流程。</p>
+        <div class="mt8" style="padding:9px 11px;background:rgba(0,113,227,.05);border:1px solid rgba(0,113,227,.18);border-radius:7px">
+          <p style="font-size:11.5px"><strong style="color:var(--blue)">建议：</strong>不再是 Tab 切换。改为上下区域：上方始终是调试面板，下方是用例批量区。<strong>用例区某行失败时，提供「在调试区打开」按钮，一键将该行输入填充到调试区并自动运行。</strong></p>
+        </div>
+        <div class="mt6"><span class="chip chip-green">前端独立</span></div>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--red)" class="mb8">B. 测试用例输入格式脆弱</h3>
+        <p>当前格式「空格分隔，最后一列为预期输出」，多个参数时很容易数错列，新手不知道哪列是预期、哪列是输入。</p>
+        <p class="mt6"><strong>建议：</strong>改为带表头的表格式输入，或支持 CSV 粘贴，错误定位到「第 N 行第 M 列」。</p>
+        <div class="mt6"><span class="chip chip-green">前端独立</span></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <h3 style="color:var(--red)" class="mb8">C. 失败结果无字符级 diff</h3>
+        <p>期望值 <code>"0X00000096"</code> vs 实际值 <code>"0x00000096"</code>——差了一个大小写，但整行用红色背景标注，工程师还是要靠肉眼找差异。</p>
+        <p class="mt6"><strong>建议：</strong>对期望与实际字符串做字符级 diff，用红/绿底色标出差异字符。</p>
+        <div class="mt6"><span class="chip chip-green">前端独立</span></div>
+      </div>
+      <div class="mt8" style="padding:12px 14px;background:rgba(94,92,230,.06);border:1px solid rgba(94,92,230,.22);border-radius:9px">
+        <h3 style="color:var(--purple);margin-bottom:8px">三个高优机会点的共同模式</h3>
+        <ul class="list">
+          <li>A 解决「模式切换时的上下文丢失」— 状态连续性</li>
+          <li>B 解决「数据录入门槛高」— 输入可达性</li>
+          <li>C 解决「结果对比费力」— 失败可定位性</li>
+        </ul>
+        <p class="mt8 muted" style="font-size:11px">三者组合：从「知道失败了」升级到「立刻知道哪里失败了、为什么失败、怎么修」。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pipe: 设计机会点 🟡🟢 · 竞品 -->
+<div class="slide" data-module="pipe">
+  <div class="tag" style="color:var(--m2)">管道表达式计算器 · 设计机会点 · 竞品 · 专利</div>
+  <h2>设计机会点 🟡🟢 · 竞品 &amp; 专利</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="card" style="padding:10px 14px">
+        <div class="opp"><div class="opp-ic">🟡</div><div><h4>D. 函数速查可发现性差</h4><p>所有函数被压缩在一行小字提示里，无签名、无示例。建议：增加「函数参考」侧边栏，以分组卡片展示，点击将示例插入光标处。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+        <div class="opp"><div class="opp-ic">🟡</div><div><h4>E. 无表达式历史</h4><p>调试过程中的中间版本永久丢失，无法回溯。建议：自动保存最近 20 条（含时间戳），工具栏提供历史下拉。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+        <div class="opp"><div class="opp-ic">🟡</div><div><h4>F. 多输入变量管理笨拙</h4><p>无法为 $N 命名，看不出各变量代表什么物理量。建议：允许为每个 $N 附加备注标签（如 <code>$1 [CPU温度]</code>），管道阶段展示时同步显示。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+        <div class="opp"><div class="opp-ic">🟢</div><div><h4>G. 管道阶段连接视觉不够强</h4><p>各阶段无箭头连线，「管道流」隐喻不够强烈。建议：相邻阶段之间加 → 符号或微动画过渡。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+        <div class="opp"><div class="opp-ic">🟢</div><div><h4>H. 导出格式单一</h4><p>「复制结果」只输出 TSV。建议：导出格式提供下拉：TSV / Markdown 表格 / JSON 数组。</p><div class="mt6"><span class="chip chip-green">前端独立</span></div></div></div>
+      </div>
+    </div>
+    <div class="col">
+      <h3 class="mb8">竞品分析</h3>
+      <table class="mb8">
+        <thead><tr><th>竞品</th><th>差距</th></tr></thead>
+        <tbody>
+          <tr><td>Regex101</td><td class="comp-gap">只测正则，无管道链，无批量用例</td></tr>
+          <tr><td>Jupyter Notebook</td><td class="comp-gap">独立环境，无文件绑定，无保存同步</td></tr>
+          <tr><td>VS Code 代码运行器</td><td class="comp-gap">运行通用脚本，不理解管道表达式语义</td></tr>
+          <tr><td>单元测试框架</td><td class="comp-gap">需写测试代码，不支持文本粘贴用例</td></tr>
+        </tbody>
+      </table>
+      <div class="patent">
+        <div>🏷️</div>
+        <div class="patent-text">
+          <strong>交互专利潜力（高）</strong><br>
+          用户在开发工具内直接感知表达式每一级管道变换的中间结果（调试模式）；验证阶段无缝切换批量用例模式，失败行一键跳转调试区，保持工作流连续性。<br><br>
+          <strong>两个核心交互创新点：①逐级管道中间状态的可视化感知；②调试与验证两种意图间的状态连续性设计（失败行→调试区一键转跳）。</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ 两工具定位矩阵 ════════════ -->
+<div class="slide" data-module="summary">
+  <div class="tag">横向对比 · 两工具定位矩阵</div>
+  <h2>两个工具的定位矩阵</h2>
+  <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+    <table style="flex:1">
+      <thead><tr><th style="width:20%">维度</th><th style="color:var(--m1)">① SMC 命令字计算器</th><th style="color:var(--m2)">② 管道表达式计算器</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--text);font-weight:600">核心价值</td><td>消除手工位运算，双向编解码</td><td>缩短表达式调试周期，系统化批量验证</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">交互复杂度</td><td>低（单界面，2 个操作方向）</td><td>中（双模式，嵌套状态管理）</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">典型使用频率</td><td>高频、零散（每次接入新硬件时）</td><td>中频、集中（开发 / 验证迭代期）</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">错误代价</td><td>低（算错了重算）；但错误有延迟暴露风险</td><td>中（表达式逻辑错误影响一整类数据转换）</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">最大用户痛点</td><td>手工位移出错 + 日志十进制不可读</td><td>反馈周期长（5–10 min/次）+ 中间状态不可见</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">最大设计缺口</td><td>位图可视化 + 解码入口发现性低</td><td>双模式工作流割裂 + 失败 diff 缺失</td></tr>
+        <tr><td style="color:var(--text);font-weight:600">专利潜力</td><td class="comp-gap">中高（预填＋写回＋水印三合一）</td><td class="comp-gap">高（中间状态可视＋双模式调试器）</td></tr>
+      </tbody>
+    </table>
+    <div style="padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:9px;box-shadow:0 1px 3px rgba(0,0,0,.05)">
+      <p style="font-size:12px"><strong style="color:var(--text)">工具互补性：</strong>SMC 计算器处理的是「如何表达意图」（填写 32-bit 命令字），管道表达式计算器处理的是「如何变换数据」（转换原始传感器值）。两者在 SR 文件同一行上下文中协作——SMC 的 offset 决定读哪个传感器，管道表达式决定怎么处理读到的值。长期机会：工具间上下文传递（一键跳转到该 CSR 对象的管道表达式）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ 共性机会点 ════════════ -->
+<div class="slide" data-module="summary">
+  <div class="tag">横向对比 · 两工具共性设计机会</div>
+  <h2>两工具共有的设计机会点</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1">
+    <div class="card" style="display:flex;gap:12px;align-items:flex-start">
+      <div style="font-size:22px;flex-shrink:0">💾</div>
+      <div>
+        <h3 class="mb6">① 历史记录与会话恢复</h3>
+        <p>两个工具都没有持久化机制，刷新页面输入全部丢失。调试场景经常需要反复切换、对比不同版本。</p>
+        <p class="mt6" style="font-size:11px"><strong style="color:var(--blue)">建议：</strong>统一存储输入状态，页面加载时自动恢复上次会话；支持手动命名保存（「正式机型A」「测试用例集v2」）。</p>
+        <div class="mt6"><span class="chip chip-green">前端独立</span></div>
+      </div>
+    </div>
+    <div class="card" style="display:flex;gap:12px;align-items:flex-start">
+      <div style="font-size:22px;flex-shrink:0">⌨️</div>
+      <div>
+        <h3 class="mb6">② 无快捷键支持</h3>
+        <p>专业工具用户对键盘效率有强烈期望，但两个视图均无快捷键。</p>
+        <p class="mt6" style="font-size:11px"><strong style="color:var(--blue)">建议：</strong>为核心操作定义快捷键：<code>Ctrl+Enter</code>=执行/计算，<code>Ctrl+Shift+C</code>=复制结果，<code>Escape</code>=重置，并在 Tooltip 里展示。</p>
+        <div class="mt6"><span class="chip chip-green">前端独立</span></div>
+      </div>
+    </div>
+    <div class="card" style="display:flex;gap:12px;align-items:flex-start">
+      <div style="font-size:22px;flex-shrink:0">🔗</div>
+      <div>
+        <h3 class="mb6">③ 深链接 / 分享</h3>
+        <p>工程师在 Review 或讨论 Bug 时希望把「当前填写的参数状态」分享给同事，但两个工具的状态都不体现在 URL 中。</p>
+        <p class="mt6" style="font-size:11px"><strong style="color:var(--blue)">建议：</strong>将关键输入状态序列化为 URL QueryString，支持一键「复制分享链接」。</p>
+        <div class="mt6"><span class="chip chip-yellow">需后端配合</span></div>
+      </div>
+    </div>
+    <div class="card" style="display:flex;gap:12px;align-items:flex-start">
+      <div style="font-size:22px;flex-shrink:0">🎨</div>
+      <div>
+        <h3 class="mb6">④ 主题自适应</h3>
+        <p>两个工具内部面板都是硬编码的深色调色板，部分工程师在明亮环境下工作时可读性下降。</p>
+        <p class="mt6" style="font-size:11px"><strong style="color:var(--blue)">建议：</strong>改用 CSS custom properties，监听 <code>prefers-color-scheme</code> 自动切换，或在全局提供主题开关。</p>
+        <div class="mt6"><span class="chip chip-green">前端独立</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt10" style="display:flex;gap:12px;align-items:flex-start">
+    <div style="font-size:22px;flex-shrink:0">🔀</div>
+    <div style="flex:1">
+      <h3 class="mb6">⑤ 跨工具的上下文传递（长期机会）</h3>
+      <p>两个工具目前完全独立。实际工作流中，工程师可能先用「SMC 计算器」得到一个偏移量，再把它作为「管道表达式计算器」的输入参数；或从 SMC 计算器识别出 CSR 对象名称，跳转到该对象的管道表达式。工具之间没有数据传递通道。</p>
+      <p class="mt6" style="font-size:11px"><strong style="color:var(--blue)">建议：</strong>在工具间提供「发送到 X 工具」的快捷操作，把当前计算结果预填到另一个工具的输入框中，打通工作流。</p>
+      <div class="mt6"><span class="chip chip-red">需产品层决策</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ 设计机会点汇总（3列流）════════════ -->
+<div class="slide" data-module="summary" id="opp-slide">
+  <div class="tag">跨模块 · 设计机会点汇总</div>
+  <h2 style="margin-bottom:12px">用户痛点 → 洞察汇聚 → 设计策略</h2>
+  <div style="position:relative;flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:stretch">
+    <svg id="opp-svg" style="position:absolute;inset:0;pointer-events:none;overflow:visible;width:100%;height:100%"></svg>
+
+    <!-- Col 1: 痛点 -->
+    <div style="padding-right:26px">
+      <div class="col-title" style="color:var(--red)">用户痛点</div>
+      <div class="flow-card fc-pain" id="p1"><div class="fc-id">P1</div><h4 style="color:var(--red)">命令字手算 5–10 分钟</h4><p>位宽容易记错，错误运行时才暴露</p></div>
+      <div class="flow-card fc-pain" id="p2"><div class="fc-id">P2</div><h4 style="color:var(--red)">存量 offset 数字不可读</h4><p>看到 809893888 不知含义，需手工解码</p></div>
+      <div class="flow-card fc-pain" id="p3"><div class="fc-id">P3</div><h4 style="color:var(--red)">字段含义对团队不透明</h4><p>新成员和 Reviewer 看到魔数无法理解</p></div>
+      <div class="flow-card fc-pain" id="p4"><div class="fc-id">P4</div><h4 style="color:var(--red)">调试无中间过程可见</h4><p>只能看最终结果，不知哪级出问题</p></div>
+      <div class="flow-card fc-pain" id="p5"><div class="fc-id">P5</div><h4 style="color:var(--red)">边缘场景无批量验证</h4><p>靠人工抽查，覆盖率无法保证</p></div>
+      <div class="flow-card fc-pain" id="p6"><div class="fc-id">P6</div><h4 style="color:var(--red)">测试用例无处留存</h4><p>每次验证从零开始，知识无法积累</p></div>
+    </div>
+
+    <!-- Col 2: 洞察 -->
+    <div style="padding:0 26px">
+      <div class="col-title" style="color:var(--blue)">洞察汇聚</div>
+      <div class="flow-card fc-insight" id="i1" style="margin-bottom:14px"><div class="fc-id">I1</div><h4 style="color:var(--blue)">「翻译」比「填写」更高频</h4><p>读懂存量配置的需求远大于填写新配置。解码可见性优先于编码便利性。</p></div>
+      <div class="flow-card fc-insight" id="i2" style="margin-bottom:14px"><div class="fc-id">I2</div><h4 style="color:var(--blue)">过程可见是工程调试的核心</h4><p>工程师需要看「每一步发生了什么」，结果正确不代表过程正确。</p></div>
+      <div class="flow-card fc-insight" id="i3"><div class="fc-id">I3</div><h4 style="color:var(--blue)">开发与验证是两种不同意图</h4><p>不能共用同一个界面。需要明确切换，且状态独立、可持久化。</p></div>
+    </div>
+
+    <!-- Col 3: 策略 -->
+    <div style="padding-left:26px">
+      <div class="col-title" style="color:var(--green)">设计策略</div>
+      <div class="flow-card fc-strategy" id="s1"><div class="fc-id">S1</div><h4 style="color:var(--green)">表单替代位运算 + 水印常驻解码</h4><p>双向翻译：填写时实时合成，阅读时水印解码。</p></div>
+      <div class="flow-card fc-strategy" id="s2"><div class="fc-id">S2</div><h4 style="color:var(--green)">管道逐级可视化</h4><p>每个 |&gt; 阶段单独展示输入、输出和错误信息。</p></div>
+      <div class="flow-card fc-strategy" id="s3"><div class="fc-id">S3</div><h4 style="color:var(--green)">调试/验证双模式 + 保存触发同步</h4><p>两种模式状态独立；失败行一键跳转调试区。</p></div>
+      <div class="flow-card fc-strategy" id="s4"><div class="fc-id">S4</div><h4 style="color:var(--green)">策略模式用例加载器 + 持久化</h4><p>文本粘贴 / 文件导入；持久化存储测试集。</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ 设计注意事项 ════════════ -->
+<div class="slide" data-module="summary">
+  <div class="tag">设计注意事项 · 技术约束</div>
+  <h2>前端必须知道的约束</h2>
+  <div class="dn-grid">
+
+    <div class="dn-card dn-safety">
+      <div class="dn-icon">⚠️</div>
+      <h3 style="color:var(--red)">操作安全性</h3>
+      <ul class="list">
+        <li>SMC 字段填错一位可能发给错误设备，字段校验必须即时且可读</li>
+        <li>超出 32 位时代码取低 32 位（<code>&gt;&gt;&gt; 0</code>）——UI 必须显示溢出警告，不能静默</li>
+        <li>offset 为变量引用（<code>${Var}</code>）时，计算器需优雅处理，不能崩溃</li>
+        <li>管道表达式最长 1000 字符硬限制，超长不解析，UI 需给出明确提示</li>
+      </ul>
+    </div>
+
+    <div class="dn-card dn-infra">
+      <div class="dn-icon">🔗</div>
+      <div><span class="src-tag src-json">来源：JSON 北向接口模块</span></div>
+      <h3 style="color:var(--yellow)">共享基础设施约束</h3>
+      <ul class="list">
+        <li>SMC 计算器的 CodeLens 扫描、预填当前值、水印装饰定位，三者依赖同一套 JSON 解析基础设施</li>
+        <li>JSON 北向接口模块的解析器也依赖同一基础设施，修改解析逻辑可能破坏 offset 字段定位</li>
+        <li>如设计方案涉及「从合并视图触发 SMC 计算器」，需评估 JSON 解析器是否支持从合并文档中定位原始字段范围</li>
+      </ul>
+    </div>
+
+    <div class="dn-card dn-refresh">
+      <div class="dn-icon">🔄</div>
+      <div><span class="src-tag src-sr">来源：SR 文件预览模块</span></div>
+      <h3 style="color:var(--blue)">刷新粒度不一致约束</h3>
+      <ul class="list">
+        <li>SR 预览实时刷新；管道表达式面板保存后才更新；SMC 水印有 100ms 防抖——三种粒度并存</li>
+        <li>这是有意设计，不是 bug，设计时需向用户明确各功能的刷新时机</li>
+        <li>CodeLens 基于单文件。offset 字段若定义在 <code>_soft.sr</code> 里，CodeLens 出现在那个文件</li>
+      </ul>
+    </div>
+
+    <div class="dn-card dn-perf">
+      <div class="dn-icon">⚡</div>
+      <h3 style="color:var(--purple)">数据格式 &amp; 性能边界</h3>
+      <ul class="list">
+        <li>SR 文件是 <strong>JSONC</strong>（含注释），标准 <code>JSON.parse</code> 会报错，必须用 <code>jsonc-parser</code></li>
+        <li>SMC 偏移量支持十进制、<code>0x</code> 十六进制、<code>0o</code> 八进制输入，三种都要正确解析</li>
+        <li>管道表达式解析是文本扫描（非正则），因为表达式嵌在 JSON 字符串内</li>
+        <li>用例数据保存在面板运行时内存，关闭面板后丢失（有意设计，非 bug）</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /deck -->
+</div><!-- /deck-wrapper -->
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const counter = document.getElementById('counter');
+let current = 0;
+
+// Module assignment per slide index
+const moduleMap = [
+  'cover',
+  'smc','smc','smc','smc','smc','smc',
+  'pipe','pipe','pipe','pipe','pipe','pipe',
+  'summary','summary','summary','summary'
+];
+
+// Jump to first slide of a module
+const moduleFirst = {cover:0, smc:1, pipe:7, summary:13};
+function jumpModule(mod){
+  const idx = moduleFirst[mod];
+  if(idx !== undefined) goTo(idx);
+}
+
+function updateHeader(n){
+  const mod = moduleMap[n] || 'cover';
+  document.querySelectorAll('.hdr-pill').forEach(pill=>{
+    pill.classList.toggle('active', pill.dataset.module === mod);
+  });
+  counter.textContent = `${n+1} / ${slides.length}`;
+}
+
+function goTo(n){
+  slides[current].classList.remove('active');
+  current = Math.max(0, Math.min(slides.length - 1, n));
+  slides[current].classList.add('active');
+  updateHeader(current);
+  if(slides[current].id === 'opp-slide') setTimeout(drawConnections, 80);
+}
+function go(dir){ goTo(current + dir); }
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+document.getElementById('deck').addEventListener('click', e=>{
+  if(e.target.closest('.hdr-modules')||e.target.closest('.hdr-nav')) return;
+  const x = e.clientX, w = window.innerWidth;
+  if(x < w * .25) go(-1);
+  else if(x > w * .75) go(1);
+});
+
+// ── SVG connection lines ──
+const connections = [
+  ['p1','i1','rgba(215,0,21,.42)'],
+  ['p2','i1','rgba(215,0,21,.42)'],
+  ['p3','i1','rgba(215,0,21,.32)'],
+  ['p4','i2','rgba(215,0,21,.42)'],
+  ['p5','i3','rgba(215,0,21,.42)'],
+  ['p6','i3','rgba(215,0,21,.32)'],
+  ['i1','s1','rgba(0,113,227,.48)'],
+  ['i2','s2','rgba(0,113,227,.48)'],
+  ['i3','s3','rgba(0,113,227,.48)'],
+  ['i3','s4','rgba(0,113,227,.32)'],
+];
+
+function drawConnections(){
+  const deck  = document.getElementById('deck');
+  const slide = document.getElementById('opp-slide');
+  const svg   = document.getElementById('opp-svg');
+  if(!slide || !svg) return;
+  // getBoundingClientRect returns screen-pixel coords.
+  // The deck is scaled via CSS transform; divide by that scale to get
+  // deck-internal (layout) coords that match the SVG coordinate space.
+  const m = deck.style.transform.match(/scale\(([^)]+)\)/);
+  const scale = m ? parseFloat(m[1]) : 1;
+  const sr = slide.getBoundingClientRect();
+  let paths = '';
+  for(const [fromId, toId, color] of connections){
+    const fe = document.getElementById(fromId);
+    const te = document.getElementById(toId);
+    if(!fe || !te) continue;
+    const fr = fe.getBoundingClientRect();
+    const tr = te.getBoundingClientRect();
+    const x1 = (fr.right  - sr.left) / scale;
+    const y1 = ((fr.top + fr.bottom) / 2 - sr.top) / scale;
+    const x2 = (tr.left   - sr.left) / scale;
+    const y2 = ((tr.top + tr.bottom) / 2 - sr.top) / scale;
+    const cx = (x2 - x1) * 0.42;
+    paths += `<path d="M${x1},${y1} C${x1+cx},${y1} ${x2-cx},${y2} ${x2},${y2}" `
+           + `stroke="${color}" stroke-width="1.5" fill="none" stroke-dasharray="5 3"/>`;
+  }
+  svg.innerHTML = paths;
+}
+
+// ── 16:9 scaling ──
+function resizeDeck(){
+  const deck = document.getElementById('deck');
+  const ww = window.innerWidth, wh = window.innerHeight;
+  const scale = Math.min(ww / 1280, wh / 720);
+  deck.style.transform = `scale(${scale})`;
+  deck.style.left = ((ww - 1280 * scale) / 2) + 'px';
+  deck.style.top  = ((wh -  720 * scale) / 2) + 'px';
+}
+window.addEventListener('resize', ()=>{
+  resizeDeck();
+  if(slides[current].id === 'opp-slide') setTimeout(drawConnections, 80);
+});
+resizeDeck();
+updateHeader(0);
+</script>
+</body>
+</html>
