@@ -996,8 +996,436 @@ cmd_word: <span style="color:#34d399">0x30440100</span>
 </div>
 
 <!-- ════════════════════════════════════
-  04–05 phases: to be added in next batches
+  04 开发跟踪 — S1: 高保真 + Code Demo 并行交付
 ════════════════════════════════════ -->
+<div class="slide" data-phase="dev">
+  <div class="tag" style="color:var(--cv)">04 开发跟踪</div>
+  <h2>高保真设计稿与 Code Demo 并行交付</h2>
+  <div class="cols gap14" style="flex:1">
+    <div class="col">
+      <div class="card" style="flex:none">
+        <h3>/backend-to-design 生成的 Code Demo — 当前状态</h3>
+        <div class="card-stack mt8">
+          <div class="arch-layer" style="background:rgba(26,127,66,.04);border-color:rgba(26,127,66,.2)">
+            <div class="arch-label" style="color:var(--green)">已达到</div>
+            <div class="arch-items">
+              <span class="arch-tag good">交互逻辑可用</span>
+              <span class="arch-tag good">视觉结构基本正确</span>
+              <span class="arch-tag good">数据绑定接口已定义</span>
+              <span class="arch-tag good">魔法值过滤逻辑就位</span>
+            </div>
+          </div>
+          <div class="arch-layer" style="background:rgba(176,96,0,.04);border-color:rgba(176,96,0,.2)">
+            <div class="arch-label" style="color:var(--yellow)">未达到</div>
+            <div class="arch-items">
+              <span class="arch-tag warn">与现网高保真的字体精度有偏差</span>
+              <span class="arch-tag warn">间距系统未完全对齐设计规范</span>
+              <span class="arch-tag warn">边界状态（空态/错误态）处理不完整</span>
+            </div>
+          </div>
+        </div>
+        <div class="callout yellow mt8" style="font-size:11px">
+          <span class="hl">2026-05-19 观察：</span>Code Demo 已从交互到视觉达到「可用」状态，但与现网高保真设计稿的细节还原仍有明显距离。
+        </div>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <h3>魔法值处理示例</h3>
+        <pre style="font-size:10px;margin-top:8px">// 代码里发现的魔法值
+sys_hdds_max_temperature: <span style="color:#f87171">32768</span>
+
+// → 32768 = 「无效/获取不到」的内部标记
+// UI 层必须拦截：
+if (value === 32768) return <span style="color:#34d399">'—'</span>;
+// ❌ 绝不能直接展示 32768 给用户</pre>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="flex:1;display:flex;flex-direction:column">
+        <h3>当前交付方式 — 两条线并行</h3>
+        <div class="cols gap10 mt10" style="flex:1;align-items:stretch">
+          <div class="col" style="background:rgba(0,113,227,.04);border:1px solid rgba(0,113,227,.2);border-radius:8px;padding:12px">
+            <div class="tag" style="color:var(--blue)">交付物 A</div>
+            <h4 style="margin-top:4px">Code Demo</h4>
+            <ul class="list mt8">
+              <li>工程级前端代码</li>
+              <li>完整交互逻辑</li>
+              <li>数据绑定接口定义</li>
+              <li>前端可直接接入</li>
+            </ul>
+          </div>
+          <div class="col" style="background:rgba(94,92,230,.04);border:1px solid rgba(94,92,230,.2);border-radius:8px;padding:12px">
+            <div class="tag" style="color:var(--cd)">交付物 B</div>
+            <h4 style="margin-top:4px">高保真设计稿</h4>
+            <ul class="list mt8">
+              <li>完整视觉还原度</li>
+              <li>每个状态都有标注</li>
+              <li>设计规范对齐</li>
+              <li>视觉验收依据</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout mt10" style="font-size:11px;flex:none">
+          工程师以 Code Demo 为代码起点，以高保真为还原标准，两份交付物一并提交前后端。
+        </div>
+        <div class="callout red mt8" style="font-size:11px;flex:none">
+          <span class="hl">摩擦点：</span>两条线并行增加了设计侧工作量；两份产出之间的一致性需要手动维护。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+  04 开发跟踪 — S2: 能效调速配置完整五步细节
+════════════════════════════════════ -->
+<div class="slide" data-phase="dev">
+  <div class="tag" style="color:var(--cv)">04 开发跟踪 · 完整案例</div>
+  <h2>能效调速配置模板 — 五步协同完整细节</h2>
+  <div class="cols gap14" style="flex:1">
+    <div class="col col2">
+      <div class="card-stack" style="height:100%">
+        <div class="arch-layer" style="background:rgba(0,113,227,.04);border-color:rgba(0,113,227,.2)">
+          <div class="arch-label" style="color:var(--blue);font-size:10px">Step 1<br>读代码</div>
+          <div class="arch-items">
+            <span class="arch-tag hi">识别 8 种实体：CoolingConfig / Area / Fan / Policy / Requirement…</span>
+            <span class="arch-tag warn">核心约束：先定义 CoolingArea，才能建立 CoolingRequirement 引用</span>
+            <span class="arch-tag">发现魔法值：sys_hdds_max_temperature: 32768 → UI 必须拦截</span>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label" style="font-size:10px">Step 2<br>产品文档</div>
+          <div class="arch-items">
+            <span class="arch-tag">输出 product-doc.md：实体清单 + 关系层级图 + 枚举映射表</span>
+            <span class="arch-tag hi">pid_control_mode: 1/2/3/4 → 慢升快降 / 快升慢降 / 慢升慢降 / 快升快降</span>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label" style="font-size:10px">Step 3<br>设计分析</div>
+          <div class="arch-items">
+            <span class="arch-tag">5 个痛点：实体关系不可见 / 操作顺序隐性 / 动态语法无提示…</span>
+            <span class="arch-tag good">9 个设计机会：关系可视化 / 操作向导 / 模板复用 / 实时预览…</span>
+            <span class="arch-tag">WCAG 2.1 AA 审查：3 项 Critical/Moderate 问题</span>
+          </div>
+        </div>
+        <div class="arch-layer" style="background:rgba(26,127,66,.04);border-color:rgba(26,127,66,.2)">
+          <div class="arch-label" style="color:var(--green);font-size:10px">Step 4<br>生成代码</div>
+          <div class="arch-items">
+            <span class="arch-tag hi">工程级前端：纯 HTML+CSS+JS，匹配 Studio Webview 技术栈</span>
+            <span class="arch-tag good">实体关系可视层 + 配置表单组件 + 魔法值过滤逻辑</span>
+            <span class="arch-tag">工程师接入：动态数据注入 + YAML 解析 + CSR 数据源</span>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label" style="font-size:10px">Step 5<br>高保真</div>
+          <div class="arch-items">
+            <span class="arch-tag">Code Demo 达到「可用」，细节还原与现网高保真仍有距离</span>
+            <span class="arch-tag warn">结论：高保真仍需单独交付 → 和 Code Demo 一起给前后端</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="flex:none;width:280px">
+      <div class="card" style="flex:none">
+        <h3>实体关系层级（代码里读出）</h3>
+        <pre style="font-size:10px;margin-top:8px">CoolingConfig (全局)
+└── CoolingArea (调速区域)
+    ├── CoolingRequirement
+    │   └── 引用: 温度传感器
+    ├── CoolingPolicy (调速策略)
+    │   └── 含: 转速曲线定义
+    └── CoolingFan (绑定风扇)
+
+关联类型:
+→ 自动推导 (系统计算)
+→ 用户手动建立 (需明确提示)</pre>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <h3>枚举映射翻译示例</h3>
+        <table style="margin-top:8px;font-size:10.5px">
+          <thead><tr><th>工程值</th><th>用户可读标签</th></tr></thead>
+          <tbody>
+            <tr><td><code>pid_control_mode: 1</code></td><td>慢升快降（省电优先）</td></tr>
+            <tr><td><code>pid_control_mode: 2</code></td><td>快升慢降（响应优先）</td></tr>
+            <tr><td><code>pid_control_mode: 3</code></td><td>慢升慢降（稳定优先）</td></tr>
+            <tr><td><code>pid_control_mode: 4</code></td><td>快升快降（激进模式）</td></tr>
+          </tbody>
+        </table>
+        <div class="callout mt8" style="font-size:11px">
+          枚举翻译由 <code>/code-to-product-doc</code> 从代码中提取，写入 product-doc.md 后传给 <code>/backend-to-design</code> 直接生成下拉选项标签。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+  04 开发跟踪 — S3: Claude Design 协同细节
+════════════════════════════════════ -->
+<div class="slide" data-phase="dev">
+  <div class="tag" style="color:var(--cv)">04 开发跟踪</div>
+  <h2>引入 Claude Design — 场景与摩擦</h2>
+  <div class="cols gap14" style="flex:1">
+    <div class="col">
+      <div class="card" style="flex:none">
+        <h3>引入原因</h3>
+        <p class="mt6" style="font-size:11.5px">Claude Code 在生成代码的交互逻辑方面能力强，但对视觉细节（字体精度、间距一致性、视觉层次）的优化精度偏低。引入 Claude Design 补足这一环节。</p>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <h3>效果较好的使用场景</h3>
+        <div class="card-stack mt8">
+          <div class="arch-layer" style="background:rgba(26,127,66,.04);border-color:rgba(26,127,66,.2)">
+            <div class="arch-label" style="color:var(--green)">适用</div>
+            <div class="arch-items">
+              <span class="arch-tag good">已有基础 HTML（Code Demo 产出）</span>
+              <span class="arch-tag good">已有产品文档（/code-to-product-doc 产出）</span>
+            </div>
+          </div>
+        </div>
+        <p class="mt8" style="font-size:11px">以产品文档作为上下文输入 Claude Design，结合基础 HTML 做视觉优化——这是目前最顺畅的衔接方式。</p>
+      </div>
+      <div class="callout mt8" style="font-size:11.5px;flex:none">
+        <span class="hl">当前工作流：</span>product-doc.md → 输入 Claude Design → 视觉优化 HTML → 回到 Claude Code 做逻辑接入
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="flex:none">
+        <h3 style="color:var(--red)">主要摩擦点</h3>
+        <div class="card-stack mt10">
+          <div class="arch-layer" style="background:rgba(215,0,21,.04);border-color:rgba(215,0,21,.2)">
+            <div class="arch-label" style="color:var(--red)">无法直连</div>
+            <div class="arch-items"><span class="arch-tag">Claude Design 和 Claude Code 是两个独立工具，需手动跳转切换</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(215,0,21,.04);border-color:rgba(215,0,21,.2)">
+            <div class="arch-label" style="color:var(--red)">上下文断裂</div>
+            <div class="arch-items"><span class="arch-tag">Code 中的分析上下文不能自动传递给 Design，需手动整理输入</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(215,0,21,.04);border-color:rgba(215,0,21,.2)">
+            <div class="arch-label" style="color:var(--red)">格式不匹配</div>
+            <div class="arch-items"><span class="arch-tag">Code 生成的文件结构有时与 Design 的输入格式不完全对应</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <h3>Design 介入前后对比</h3>
+        <table style="margin-top:8px">
+          <thead><tr><th></th><th>Claude Code 直接输出</th><th>经 Claude Design 优化</th></tr></thead>
+          <tbody>
+            <tr><td>交互逻辑</td><td style="color:var(--green)">✓ 完整</td><td style="color:var(--green)">✓ 完整</td></tr>
+            <tr><td>视觉细节精度</td><td style="color:var(--red)">⚠ 偏低</td><td style="color:var(--green)">✓ 提升明显</td></tr>
+            <tr><td>与高保真偏差</td><td style="color:var(--red)">较大</td><td style="color:var(--yellow)">缩小，但仍存在</td></tr>
+            <tr><td>切换成本</td><td>—</td><td style="color:var(--yellow)">需手动跳转 + 重新整理上下文</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+  05 体验评估 — S1: WCAG 可访问性审查
+════════════════════════════════════ -->
+<div class="slide" data-phase="eval">
+  <div class="tag" style="color:var(--ce)">05 体验评估</div>
+  <h2>WCAG 2.1 AA 可访问性审查</h2>
+  <div class="cols gap14" style="flex:1">
+    <div class="col">
+      <div class="card" style="flex:none">
+        <h3>审查上下文</h3>
+        <p class="mt6" style="font-size:11px">以产品文档中的「核心用户是在嘈杂机房里长时间使用的固件工程师」为上下文，对三个工具视图进行系统审查。</p>
+      </div>
+      <div class="card mt8">
+        <h3>发现汇总</h3>
+        <div class="card-stack mt8">
+          <div class="arch-layer" style="background:rgba(215,0,21,.04);border-color:rgba(215,0,21,.2)">
+            <div class="arch-label" style="color:var(--red)">🔴 Critical</div>
+            <div class="arch-items"><span class="arch-tag">表单控件无 label 关联，屏幕阅读器无法读取字段含义</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(176,96,0,.04);border-color:rgba(176,96,0,.2)">
+            <div class="arch-label" style="color:var(--yellow)">🟡 Moderate</div>
+            <div class="arch-items"><span class="arch-tag">颜色对比度不足，状态指示仅靠颜色区分，色盲用户无法判断</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(176,96,0,.04);border-color:rgba(176,96,0,.2)">
+            <div class="arch-label" style="color:var(--yellow)">🟡 Moderate</div>
+            <div class="arch-items"><span class="arch-tag">键盘导航焦点顺序与视觉布局不匹配</span></div>
+          </div>
+          <div class="arch-layer" style="background:rgba(26,127,66,.04);border-color:rgba(26,127,66,.2)">
+            <div class="arch-label" style="color:var(--green)">🟢 Minor</div>
+            <div class="arch-items"><span class="arch-tag">图标无 alt 文字（仅装饰性图标，影响低）</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="flex:1">
+        <h3>三工具视图审查详情</h3>
+        <table class="mt8">
+          <thead><tr><th>工具视图</th><th>Critical</th><th>Moderate</th><th>Minor</th><th>主要问题</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600;color:var(--text)">SMC 计算器</td>
+              <td style="color:var(--red)">1</td><td style="color:var(--yellow)">2</td><td>1</td>
+              <td>字段 label 缺失；RW/MS 仅靠颜色区分读写</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--text)">管道表达式</td>
+              <td style="color:var(--red)">1</td><td style="color:var(--yellow)">1</td><td>2</td>
+              <td>表达式输入框无辅助说明；失败状态仅红色背景</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--text)">能效调速</td>
+              <td style="color:var(--red)">2</td><td style="color:var(--yellow)">2</td><td>1</td>
+              <td>实体类型下拉无描述文本；操作顺序约束无提示</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="callout yellow mt10" style="font-size:11px">
+          <span class="hl">机房使用场景补充约束：</span>工程师常在强光或弱光环境下操作，对比度要求比标准更高；长时间专注操作时键盘效率尤其重要。这两点应作为设计决策的优先加权因素。
+        </div>
+        <div class="callout green mt8" style="font-size:11px">
+          <span class="hl">Quick Wins（前端独立可修复）：</span>所有 Critical 和大多数 Moderate 问题均可在不改后端的情况下修复——添加 label 关联、补充图标文字标注、修正 tab-index 顺序。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+  05 体验评估 — S2: 主要摩擦点发现
+════════════════════════════════════ -->
+<div class="slide" data-phase="eval">
+  <div class="tag" style="color:var(--ce)">05 体验评估</div>
+  <h2>主要摩擦点发现</h2>
+  <div class="cols gap12" style="flex:1">
+    <div class="col" style="display:flex;flex-direction:column">
+      <div style="height:4px;background:var(--red);border-radius:2px;margin-bottom:10px"></div>
+      <div class="card" style="flex:1">
+        <div style="font-size:22px;margin-bottom:6px">①</div>
+        <h3>高保真交付仍是不可省的环节</h3>
+        <ul class="list mt8">
+          <li>Code Demo 已达交互和视觉「可用」，但与现网高保真的细节还原仍有明显距离</li>
+          <li>字体精度、间距系统、边界状态处理等需要高保真补全</li>
+          <li>当前结论：两份产出（Code Demo + 高保真）都需要交付给前后端</li>
+          <li>设计侧工作量增加，两份产出之间的一致性需手动维护</li>
+        </ul>
+        <div class="callout yellow mt10" style="font-size:11px">探索中：Claude Design 在视觉优化环节有改善，但还不能完全替代高保真的细节精度。</div>
+      </div>
+    </div>
+    <div class="col" style="display:flex;flex-direction:column">
+      <div style="height:4px;background:var(--orange);border-radius:2px;margin-bottom:10px"></div>
+      <div class="card" style="flex:1">
+        <div style="font-size:22px;margin-bottom:6px">②</div>
+        <h3>Design 与 Code 的协同割裂</h3>
+        <ul class="list mt8">
+          <li>两个工具独立，不能在 Claude Code 里直接唤起 Claude Design</li>
+          <li>上下文不自动传递——Code 里的分析结果需手动整理后输入 Design</li>
+          <li>文件格式有时不匹配，需要额外整理步骤</li>
+          <li>当前绕过方式：产品文档作为中间载体手动传递</li>
+        </ul>
+        <div class="callout red mt10" style="font-size:11px">期望状态：在 Claude Code 里完成分析后，可直接「发送到 Claude Design」并携带上下文，无需重新整理。</div>
+      </div>
+    </div>
+    <div class="col" style="display:flex;flex-direction:column">
+      <div style="height:4px;background:var(--yellow);border-radius:2px;margin-bottom:10px"></div>
+      <div class="card" style="flex:1">
+        <div style="font-size:22px;margin-bottom:6px">③</div>
+        <h3>模块边界判断需要人工确认</h3>
+        <ul class="list mt8">
+          <li>Step 1.5（功能模块识别）中，AI 有时难以准确区分「独立功能模块」和「同一模块的子功能」</li>
+          <li>案例：SR 文件预览和 MIB 检查入口相邻，但是完全独立的功能单元</li>
+          <li>需要设计师确认模块边界，再进入逐模块分析</li>
+          <li>如果边界判断错误，后续所有分析的颗粒度都会偏差</li>
+        </ul>
+        <div class="callout mt10" style="font-size:11px">Skill 里已内置「模块边界确认」步骤——识别后先向用户列出模块清单，确认后再继续，避免后续返工。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+  05 体验评估 — S3: 沉淀资产 & 方法论
+════════════════════════════════════ -->
+<div class="slide" data-phase="eval">
+  <div class="tag" style="color:var(--ce)">05 体验评估</div>
+  <h2>沉淀的工作资产</h2>
+  <div class="cols gap14" style="flex:1">
+    <div class="col">
+      <div class="card" style="flex:none">
+        <h3>三个 Claude Code Skill</h3>
+        <p class="mt6" style="font-size:11px">安装在 <code>~/.claude/skills/</code> 后，任何项目可直接复用。触发词定义在 Skill description 里，AI 自动判断何时调用。</p>
+        <div class="card-stack mt8">
+          <div class="arch-layer" style="background:rgba(20,122,94,.04);border-color:rgba(20,122,94,.2)">
+            <div class="arch-label" style="color:var(--cr);font-family:monospace;font-size:10px">/c2pdoc</div>
+            <div class="arch-items">
+              <span class="arch-tag hi" style="background:rgba(20,122,94,.08);border-color:rgba(20,122,94,.25);color:var(--cr)">后端代码 → 产品文档</span>
+              <span class="arch-tag">模块识别 + 四步法 + 三列流 + Whitepaper 报告</span>
+            </div>
+          </div>
+          <div class="arch-layer" style="background:rgba(0,113,227,.04);border-color:rgba(0,113,227,.2)">
+            <div class="arch-label" style="color:var(--cc);font-family:monospace;font-size:10px">/b2d</div>
+            <div class="arch-items">
+              <span class="arch-tag hi">后端代码 → 设计分析 + 工程代码</span>
+              <span class="arch-tag">可访问性审查 + 机会点挖掘 + 工程级前端生成</span>
+            </div>
+          </div>
+          <div class="arch-layer" style="background:rgba(94,92,230,.04);border-color:rgba(94,92,230,.2)">
+            <div class="arch-label" style="color:var(--cd);font-family:monospace;font-size:10px">/hifi</div>
+            <div class="arch-items">
+              <span class="arch-tag hi" style="background:rgba(94,92,230,.08);border-color:rgba(94,92,230,.25);color:var(--cd)">设计稿 → Demo → 工程代码</span>
+              <span class="arch-tag">两阶段交付 + 需求分析 + 工程级组件输出</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="flex:none">
+        <h3>方法论资产</h3>
+        <div class="card-stack mt8">
+          <div class="arch-layer">
+            <div class="arch-label">四步法</div>
+            <div class="arch-items">
+              <span class="arch-tag good">是什么 → 为什么 → 怎么工作 → 对设计意味着什么</span>
+              <span class="arch-tag">适用于任何工程工具类产品的技术概念解释</span>
+            </div>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-label">三列流视图</div>
+            <div class="arch-items">
+              <span class="arch-tag good">用户痛点 → 洞察汇聚 → 设计策略</span>
+              <span class="arch-tag">「痛点核心：」固定格式提炼，可直接被报告引用</span>
+            </div>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-label">两阶段检查</div>
+            <div class="arch-items">
+              <span class="arch-tag good">快速 Demo 确认方向 → 工程代码全速推进</span>
+              <span class="arch-tag">避免方向错误时的大量返工成本</span>
+            </div>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-label">模块确认</div>
+            <div class="arch-items">
+              <span class="arch-tag good">Step 1.5 边界确认内置在 Skill 中</span>
+              <span class="arch-tag">阻止颗粒度偏差向后续步骤传导</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt8" style="flex:none">
+        <h3>按项目起点快速切入</h3>
+        <table style="margin-top:8px">
+          <thead><tr><th>起点</th><th>第一步</th></tr></thead>
+          <tbody>
+            <tr><td>后端已有代码，无文档</td><td><code>/code-to-product-doc</code></td></tr>
+            <tr><td>有产品文档，需设计分析</td><td><code>/backend-to-design</code></td></tr>
+            <tr><td>有设计稿，需生成代码</td><td><code>/hifi-to-demo</code></td></tr>
+            <tr><td>有 Code Demo，需视觉优化</td><td>product-doc.md → Claude Design</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div><!-- /deck -->
 </div><!-- /deck-wrapper -->
@@ -1016,8 +1444,10 @@ const phaseMap = [
   'research','research','research',
   'concept','concept','concept',
   'detail','detail','detail','detail',
+  'dev','dev','dev',
+  'eval','eval','eval',
 ];
-const phaseFirst = { cover:0, research:1, concept:4, detail:7 };
+const phaseFirst = { cover:0, research:1, concept:4, detail:7, dev:11, eval:14 };
 const phaseLabel = {
   cover:'封面', research:'研究洞察', concept:'概要设计',
   detail:'详细设计', dev:'开发跟踪', eval:'体验评估'
