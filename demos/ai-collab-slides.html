@@ -1300,63 +1300,68 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
 ════════════════════════════════ -->
 <div class="slide" data-phase="assets">
   <div class="tag">沉淀资产</div>
-  <h2 style="margin-bottom:8px">三个 Claude Code Skill</h2>
+  <h2 style="margin-bottom:10px">三个 Claude Code Skill · 阶段分布</h2>
 
-  <!-- Phase belt -->
-  <div style="display:flex;gap:0;margin-bottom:10px;border:1px solid var(--border);border-radius:8px;overflow:hidden;flex-shrink:0">
-    <div style="flex:1;padding:5px 10px;background:rgba(20,122,94,.07);border-right:1px solid var(--border);font-size:9px;font-weight:700;color:var(--cr);text-align:center">研究洞察</div>
-    <div style="flex:1;padding:5px 10px;background:rgba(0,113,227,.07);border-right:1px solid var(--border);font-size:9px;font-weight:700;color:var(--cc);text-align:center">概要设计</div>
-    <div style="flex:1;padding:5px 10px;background:rgba(94,92,230,.07);border-right:1px solid var(--border);font-size:9px;font-weight:700;color:var(--cd);text-align:center">详细设计</div>
-    <div style="flex:1;padding:5px 10px;background:var(--bg3);border-right:1px solid var(--border);font-size:9px;color:var(--text3);text-align:center">开发跟踪</div>
-    <div style="flex:1;padding:5px 10px;background:var(--bg3);font-size:9px;color:var(--text3);text-align:center">体验评估</div>
+  <!-- 5-col phase grid — header + content share same columns -->
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:36px 1fr;gap:2px;flex:1;min-height:0;background:#c4c4c8;border:1px solid #c4c4c8;border-radius:10px;overflow:hidden">
+
+    <!-- ── Row 1: Phase headers ── -->
+    <div style="background:#2c2c2e;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.9);border-bottom:3px solid var(--cr)">研究洞察</div>
+    <div style="background:#2c2c2e;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.9);border-bottom:3px solid var(--cc)">概要设计</div>
+    <div style="background:#2c2c2e;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.9);border-bottom:3px solid var(--cd)">详细设计</div>
+    <div style="background:#2c2c2e;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.3)">开发跟踪</div>
+    <div style="background:#2c2c2e;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.3)">体验评估</div>
+
+    <!-- ── Row 2: /code-to-product-doc ── -->
+    <div style="background:#fff;padding:16px 15px;display:flex;flex-direction:column;gap:7px;min-height:0;overflow:hidden">
+      <div style="font-family:'JetBrains Mono',Menlo,monospace;font-size:11.5px;font-weight:700;color:var(--cr);line-height:1.3">/code-to-<br>product-doc</div>
+      <div style="font-size:10px;color:var(--text2);line-height:1.6">把工程代码翻译成设计师能直接用的语言，为后续一切设计决策提供工程锚点。</div>
+      <div style="border-top:1px solid var(--border);padding-top:8px;display:grid;grid-template-columns:36px 1fr;gap:3px 7px;font-size:9.5px">
+        <span style="color:var(--text3);font-weight:600;padding-top:1px">输入</span><span style="color:var(--text2)">后端代码 / 配置 / 数据模型</span>
+        <span style="color:var(--text3);font-weight:600;padding-top:1px">产出</span><span style="color:var(--text2)">product-doc.md<br>data-dictionary.md</span>
+        <span style="color:var(--text3);font-weight:600;padding-top:1px">来源</span><span style="color:var(--text2)">例子 B · Step 02</span>
+      </div>
+      <div style="margin-top:auto;font-size:9px;color:var(--cr);background:rgba(20,122,94,.08);border-radius:5px;padding:4px 9px;font-weight:600;line-height:1.4">最容易被省略<br>但最不该省略的一步</div>
+    </div>
+
+    <!-- ── Row 2: /backend-to-design ── -->
+    <div style="background:#fff;padding:16px 15px;display:flex;flex-direction:column;gap:7px;min-height:0;overflow:hidden">
+      <div style="font-family:'JetBrains Mono',Menlo,monospace;font-size:11.5px;font-weight:700;color:var(--cc);line-height:1.3">/backend-to-<br>design</div>
+      <div style="font-size:10px;color:var(--text2);line-height:1.6">反向分析后端代码，输出可访问性报告、设计审查、机会点，并生成工程级前端代码。</div>
+      <div style="border-top:1px solid var(--border);padding-top:8px;display:grid;grid-template-columns:36px 1fr;gap:3px 7px;font-size:9.5px">
+        <span style="color:var(--text3);font-weight:600;padding-top:1px">输入</span><span style="color:var(--text2)">后端代码 / API 文档</span>
+        <span style="color:var(--text3);font-weight:600;padding-top:1px">产出</span><span style="color:var(--text2)">6 个标准文件<br>+ 工程级前端代码</span>
+        <span style="color:var(--text3);font-weight:600;padding-top:1px">来源</span><span style="color:var(--text2)">例子 B · Step 03</span>
+      </div>
+      <div style="margin-top:auto;font-size:9px;color:var(--cc);background:rgba(0,113,227,.08);border-radius:5px;padding:4px 9px;font-weight:600;line-height:1.4">P 痛点 → L 洞察 → S 策略<br>三列设计分析框架</div>
+    </div>
+
+    <!-- ── Row 2: /hifi-to-demo ── -->
+    <div style="background:#fff;padding:16px 15px;display:flex;flex-direction:column;gap:7px;min-height:0;overflow:hidden">
+      <div style="font-family:'JetBrains Mono',Menlo,monospace;font-size:11.5px;font-weight:700;color:var(--cd);line-height:1.3">/hifi-to-demo</div>
+      <div style="font-size:10px;color:var(--text2);line-height:1.6">高保真截图 → 可运行工程代码。两阶段机制，从「有设计稿」到「有代码」最快 1 小时内。</div>
+      <div style="border-top:1px solid var(--border);padding-top:8px;display:grid;grid-template-columns:44px 1fr;gap:3px 7px;font-size:9.5px">
+        <span style="color:var(--text3);font-weight:600;padding-top:1px">输入</span><span style="color:var(--text2)">高保真截图 / Figma</span>
+        <span style="color:var(--text3);font-weight:600;padding-top:1px">Phase 1</span><span style="color:var(--text2)">零依赖 HTML Demo<br>&lt; 1 小时</span>
+        <span style="color:var(--text3);font-weight:600;padding-top:1px">Phase 2</span><span style="color:var(--text2)">Vue/React 工程组件</span>
+      </div>
+      <div style="margin-top:auto;font-size:9px;color:var(--cd);background:rgba(94,92,230,.08);border-radius:5px;padding:4px 9px;font-weight:600;line-height:1.4">评测 · 有 Skill 100% 通过<br>vs 无 Skill 基线 44%</div>
+    </div>
+
+    <!-- ── Row 2: 开发跟踪 · 空 ── -->
+    <div style="background:#ebebee;display:flex;align-items:center;justify-content:center">
+      <span style="font-size:9px;color:var(--text3);letter-spacing:.03em">—</span>
+    </div>
+
+    <!-- ── Row 2: 体验评估 · 空 ── -->
+    <div style="background:#ebebee;display:flex;align-items:center;justify-content:center">
+      <span style="font-size:9px;color:var(--text3);letter-spacing:.03em">—</span>
+    </div>
+
   </div>
 
-  <div class="cols" style="flex:1;align-items:flex-start">
-    <div class="skill-card" style="border-top:3px solid var(--cr)">
-      <div style="font-size:8px;font-weight:700;color:var(--cr);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px">研究洞察阶段</div>
-      <div class="sc-trigger">/code-to-product-doc</div>
-      <div class="sc-desc">把工程代码翻译成设计师和产品经理能直接使用的语言。后端先行流程的第一步，也是最容易被省略、但最不该省略的一步。</div>
-      <div class="sc-meta">
-        <span class="sc-label">输入</span>
-        <span class="sc-val">后端代码 / 配置文件 / 数据模型</span>
-        <span class="sc-label">产出</span>
-        <span class="sc-val">product-doc.md · data-dictionary.md</span>
-        <span class="sc-label">沉淀于</span>
-        <span class="sc-val">例子 B · Step 02</span>
-      </div>
-    </div>
-
-    <div class="skill-card" style="border-top:3px solid var(--cc)">
-      <div style="font-size:8px;font-weight:700;color:var(--cc);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px">概要设计阶段</div>
-      <div class="sc-trigger">/backend-to-design</div>
-      <div class="sc-desc">从后端交付物反向进行可访问性分析、设计审查、机会点挖掘，并生成可直接接入工程的工程级前端代码。</div>
-      <div class="sc-meta">
-        <span class="sc-label">输入</span>
-        <span class="sc-val">后端代码 / API 文档 / 数据模型</span>
-        <span class="sc-label">产出</span>
-        <span class="sc-val">6 个标准文件 + 工程级前端代码</span>
-        <span class="sc-label">沉淀于</span>
-        <span class="sc-val">例子 B · Step 03</span>
-      </div>
-    </div>
-
-    <div class="skill-card" style="border-top:3px solid var(--cd)">
-      <div style="font-size:8px;font-weight:700;color:var(--cd);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px">详细设计阶段</div>
-      <div class="sc-trigger">/hifi-to-demo</div>
-      <div class="sc-desc">将高保真设计截图转化为可运行工程代码。两阶段机制：Phase 1 快速生成 HTML Demo，Phase 2 输出 Vue/React 工程组件。</div>
-      <div class="sc-meta">
-        <span class="sc-label">输入</span>
-        <span class="sc-val">高保真截图 / Figma + 交互说明（可选）</span>
-        <span class="sc-label">Phase 1</span>
-        <span class="sc-val">零依赖 HTML Demo，浏览器直接运行</span>
-        <span class="sc-label">Phase 2</span>
-        <span class="sc-val">Vue/React 工程组件，可接入真实数据</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="callout green mt10">
-    三个 Skill 覆盖「后端先行」项目中设计师的全程工具需求——从读懂代码，到设计策略，到产出可运行代码
+  <div class="callout green mt10" style="flex-shrink:0">
+    三个 Skill 覆盖「后端先行」项目中设计师全程工具需求——从读懂代码，到设计策略，到产出可运行代码
   </div>
 </div>
 
