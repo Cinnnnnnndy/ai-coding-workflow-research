@@ -347,7 +347,7 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
   <div class="hdr-sep"></div>
   <div class="hdr-nav">
     <button onclick="go(-1)">←</button>
-    <span class="hdr-counter" id="counter">1 / 15</span>
+    <span class="hdr-counter" id="counter">1 / 18</span>
     <button onclick="go(1)">→</button>
   </div>
 </header>
@@ -1296,61 +1296,303 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
 </div>
 
 <!-- ════════════════════════════════
-  SLIDE 14 · 三个 Skills
+  SLIDE 14 · 三个 Skills 总览
 ════════════════════════════════ -->
 <div class="slide" data-phase="assets">
   <div class="tag">沉淀资产</div>
-  <h2>三个 Claude Code Skill</h2>
+  <h2 style="margin-bottom:8px">三个 Claude Code Skill</h2>
+
+  <!-- Phase belt -->
+  <div style="display:flex;gap:0;margin-bottom:10px;border:1px solid var(--border);border-radius:8px;overflow:hidden;flex-shrink:0">
+    <div style="flex:1;padding:5px 10px;background:rgba(20,122,94,.07);border-right:1px solid var(--border);font-size:9px;font-weight:700;color:var(--cr);text-align:center">研究洞察</div>
+    <div style="flex:1;padding:5px 10px;background:rgba(0,113,227,.07);border-right:1px solid var(--border);font-size:9px;font-weight:700;color:var(--cc);text-align:center">概要设计</div>
+    <div style="flex:1;padding:5px 10px;background:rgba(94,92,230,.07);border-right:1px solid var(--border);font-size:9px;font-weight:700;color:var(--cd);text-align:center">详细设计</div>
+    <div style="flex:1;padding:5px 10px;background:var(--bg3);border-right:1px solid var(--border);font-size:9px;color:var(--text3);text-align:center">开发跟踪</div>
+    <div style="flex:1;padding:5px 10px;background:var(--bg3);font-size:9px;color:var(--text3);text-align:center">体验评估</div>
+  </div>
 
   <div class="cols" style="flex:1;align-items:flex-start">
-    <div class="skill-card">
+    <div class="skill-card" style="border-top:3px solid var(--cr)">
+      <div style="font-size:8px;font-weight:700;color:var(--cr);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px">研究洞察阶段</div>
       <div class="sc-trigger">/code-to-product-doc</div>
-      <div class="sc-desc">将后端代码或工程 Demo 转化为产品视角文档。帮助设计师快速理解后端逻辑，是路径 B 的第一步。</div>
+      <div class="sc-desc">把工程代码翻译成设计师和产品经理能直接使用的语言。后端先行流程的第一步，也是最容易被省略、但最不该省略的一步。</div>
       <div class="sc-meta">
         <span class="sc-label">输入</span>
-        <span class="sc-val">后端代码 / Demo 截图 / API 说明</span>
-        <span class="sc-label">输出</span>
-        <span class="sc-val">功能说明 + 操作路径 + 关键痛点</span>
-        <span class="sc-label">触发</span>
-        <span class="sc-val">收到后端 Demo，需先理解功能时</span>
+        <span class="sc-val">后端代码 / 配置文件 / 数据模型</span>
+        <span class="sc-label">产出</span>
+        <span class="sc-val">product-doc.md · data-dictionary.md</span>
         <span class="sc-label">沉淀于</span>
         <span class="sc-val">例子 B · Step 02</span>
       </div>
     </div>
 
-    <div class="skill-card">
+    <div class="skill-card" style="border-top:3px solid var(--cc)">
+      <div style="font-size:8px;font-weight:700;color:var(--cc);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px">概要设计阶段</div>
       <div class="sc-trigger">/backend-to-design</div>
-      <div class="sc-desc">从产品文档提炼设计挑战，输出 P-L-S 三列分析框架（痛点→洞察→策略），并标注前端独立实现 vs 需后端支持。</div>
+      <div class="sc-desc">从后端交付物反向进行可访问性分析、设计审查、机会点挖掘，并生成可直接接入工程的工程级前端代码。</div>
       <div class="sc-meta">
         <span class="sc-label">输入</span>
-        <span class="sc-val">产品文档 + 用户场景描述</span>
-        <span class="sc-label">输出</span>
-        <span class="sc-val">P 痛点 / L 洞察 / S 策略（含依赖标注）</span>
-        <span class="sc-label">触发</span>
-        <span class="sc-val">需要将产品理解转化为设计策略时</span>
+        <span class="sc-val">后端代码 / API 文档 / 数据模型</span>
+        <span class="sc-label">产出</span>
+        <span class="sc-val">6 个标准文件 + 工程级前端代码</span>
         <span class="sc-label">沉淀于</span>
         <span class="sc-val">例子 B · Step 03</span>
       </div>
     </div>
 
-    <div class="skill-card">
+    <div class="skill-card" style="border-top:3px solid var(--cd)">
+      <div style="font-size:8px;font-weight:700;color:var(--cd);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px">详细设计阶段</div>
       <div class="sc-trigger">/hifi-to-demo</div>
-      <div class="sc-desc">将高保真设计截图转化为可运行工程代码。两阶段机制：Phase 1 快速生成 HTML Demo，Phase 2 输出 Vue/React 组件。</div>
+      <div class="sc-desc">将高保真设计截图转化为可运行工程代码。两阶段机制：Phase 1 快速生成 HTML Demo，Phase 2 输出 Vue/React 工程组件。</div>
       <div class="sc-meta">
         <span class="sc-label">输入</span>
-        <span class="sc-val">高保真设计稿截图 + 交互说明（可选）</span>
+        <span class="sc-val">高保真截图 / Figma + 交互说明（可选）</span>
         <span class="sc-label">Phase 1</span>
-        <span class="sc-val">静态 HTML/CSS Demo，&lt;1 小时</span>
+        <span class="sc-val">零依赖 HTML Demo，浏览器直接运行</span>
         <span class="sc-label">Phase 2</span>
         <span class="sc-val">Vue/React 工程组件，可接入真实数据</span>
-        <span class="sc-label">沉淀于</span>
-        <span class="sc-val">例子 A + 例子 B Step 04</span>
       </div>
     </div>
   </div>
 
   <div class="callout green mt10">
-    三个 Skill 覆盖「后端先行」项目中设计师的全程工具需求——从读代码，到设计分析，到产出可运行代码
+    三个 Skill 覆盖「后端先行」项目中设计师的全程工具需求——从读懂代码，到设计策略，到产出可运行代码
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+  SLIDE 15 · Skill 详解 — /hifi-to-demo
+════════════════════════════════ -->
+<div class="slide" data-phase="assets">
+  <div class="step-bar">
+    <span class="sb-step sb-d">总览</span><span class="sb-sep">›</span>
+    <span class="sb-step sb-a">设计稿→Demo</span><span class="sb-sep">›</span>
+    <span class="sb-step sb-f">代码→设计</span><span class="sb-sep">›</span>
+    <span class="sb-step sb-f">代码→文档</span>
+    <span style="margin-left:auto;font-size:9px;color:var(--cd);font-weight:700">详细设计阶段</span>
+  </div>
+  <div class="tag">沉淀 Skill · 详细设计</div>
+  <h2>/hifi-to-demo — 设计稿 → Demo → 工程代码</h2>
+
+  <div class="cols" style="flex:1;align-items:flex-start">
+    <div class="col col2" style="gap:8px">
+      <div class="skill-card" style="flex:unset;border-top:3px solid var(--cd)">
+        <div class="sc-trigger">/hifi-to-demo</div>
+        <div class="sc-desc">将高保真设计截图转化为可运行工程代码。把「有设计稿」到「有可运行代码」的时间从数天压缩到 1 小时内，同时保持 Mock 数据与 API 契约一致。</div>
+        <div class="sc-meta">
+          <span class="sc-label">输入</span>
+          <span class="sc-val">高保真截图 / Figma 链接 / 设计描述 + 交互说明（可选）</span>
+          <span class="sc-label">Phase 1</span>
+          <span class="sc-val">零依赖单文件 HTML Demo，浏览器双击即运行，&lt; 1 小时</span>
+          <span class="sc-label">Phase 2</span>
+          <span class="sc-val">Vue / React 工程组件，支持 Props / Emit，可接入真实数据</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>5 个标准交付物</h3>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-top:7px">
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px">
+            <span style="color:var(--cd);font-weight:700;min-width:16px">①</span>
+            <span><code>design-structure.md</code><span style="color:var(--text3)"> — 组件清单 · 色值 Token · 数据接口</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px">
+            <span style="color:var(--cd);font-weight:700;min-width:16px">②</span>
+            <span><code>interaction-spec.md</code><span style="color:var(--text3)"> — 状态枚举 · 交互序列 · 待确认问题</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px">
+            <span style="color:var(--cd);font-weight:700;min-width:16px">③</span>
+            <span><code>tech-selection.md</code><span style="color:var(--text3)"> — 技术栈选型理由 · 权衡分析 · 迁移路径</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px;font-weight:600">
+            <span style="color:var(--cd);font-weight:700;min-width:16px">④</span>
+            <span><code>demo/index.html</code><span style="color:var(--cd)"> — 核心产物，零依赖可运行 Demo</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px">
+            <span style="color:var(--cd);font-weight:700;min-width:16px">⑤</span>
+            <span><code>prompt-asset.md</code><span style="color:var(--text3)"> — Seed prompt + 4 个后续迭代 prompt</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col" style="gap:8px">
+      <div class="card">
+        <h3>实证评测 · 3 组场景 · 18 断言</h3>
+        <div class="metric-row" style="margin-top:8px">
+          <div class="metric-box">
+            <div class="metric-num" style="color:var(--green);font-size:24px">100%</div>
+            <div class="metric-lbl">有 Skill<br>断言通过率</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-num" style="color:var(--text3);font-size:24px">44%</div>
+            <div class="metric-lbl">无 Skill<br>基线通过率</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Field Notes · 三条关键规则</h3>
+        <ul class="list" style="margin-top:6px">
+          <li><strong>Hex 优于色名</strong> — <code>#141420</code> 无歧义，「深蓝黑」不是规格</li>
+          <li><strong>图布局用引擎</strong> — 5 个节点也用 dagre / ELK，不写硬编码坐标</li>
+          <li><strong>Mock 数据 = API 契约</strong> — 字段命名遵循真实 API，Demo 直接用于接口协商</li>
+        </ul>
+      </div>
+      <div class="callout purple">
+        <strong>安装：</strong>SKILL.md 放入 <code>~/.claude/skills/hifi-to-demo/</code>，在 Claude Code 中输入 <code>/hifi-to-demo</code> 触发
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+  SLIDE 16 · Skill 详解 — /backend-to-design
+════════════════════════════════ -->
+<div class="slide" data-phase="assets">
+  <div class="step-bar">
+    <span class="sb-step sb-d">总览</span><span class="sb-sep">›</span>
+    <span class="sb-step sb-f">设计稿→Demo</span><span class="sb-sep">›</span>
+    <span class="sb-step sb-a">代码→设计</span><span class="sb-sep">›</span>
+    <span class="sb-step sb-f">代码→文档</span>
+    <span style="margin-left:auto;font-size:9px;color:var(--cc);font-weight:700">概要设计阶段</span>
+  </div>
+  <div class="tag">沉淀 Skill · 概要设计</div>
+  <h2>/backend-to-design — 后端代码 → 设计策略 · 工程实现</h2>
+
+  <div class="cols" style="flex:1;align-items:flex-start">
+    <div class="col col2" style="gap:8px">
+      <div class="skill-card" style="flex:unset;border-top:3px solid var(--cc)">
+        <div class="sc-trigger">/backend-to-design</div>
+        <div class="sc-desc">从后端交付物出发，反向进行可访问性分析、设计检查、设计机会点挖掘，并生成可直接接入开发工程的工程级前端代码。6 个标准产出文件。</div>
+        <div class="sc-meta">
+          <span class="sc-label">输入</span>
+          <span class="sc-val">后端代码 / 配置文件 / 数据模型 / API 文档</span>
+          <span class="sc-label">触发</span>
+          <span class="sc-val">基于后端代码做设计分析 / 检查可访问性 / 生成前端代码</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>6 个标准产出文件</h3>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-top:7px">
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px">
+            <span style="color:var(--cc);font-weight:700;min-width:16px">1</span>
+            <span><code>code-reading.md</code><span style="color:var(--text3)"> — 数据结构 · 业务逻辑 · 接口契约</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px">
+            <span style="color:var(--cc);font-weight:700;min-width:16px">2</span>
+            <span><code>accessibility-audit.md</code><span style="color:var(--text3)"> — WCAG 维度 + 工程侧建议</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px">
+            <span style="color:var(--cc);font-weight:700;min-width:16px">3</span>
+            <span><code>design-review.md</code><span style="color:var(--text3)"> — 一致性 · 层级 · 可读性 · 信息架构</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px">
+            <span style="color:var(--cc);font-weight:700;min-width:16px">4</span>
+            <span><code>design-opportunities.md</code><span style="color:var(--text3)"> — 可提升体验方向 · 优先级建议</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px;font-weight:600">
+            <span style="color:var(--cc);font-weight:700;min-width:16px">5</span>
+            <span><code>frontend/</code><span style="color:var(--cc)"> — 工程级前端代码，可直接接入开发工程</span></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;font-size:10.5px">
+            <span style="color:var(--cc);font-weight:700;min-width:16px">6</span>
+            <span><code>integration-guide.md</code><span style="color:var(--text3)"> — 引入方式 · 依赖说明 · 联调检查项</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col" style="gap:8px">
+      <div class="card">
+        <h3>与 /hifi-to-demo 的根本区别</h3>
+        <table style="margin-top:8px">
+          <thead><tr><th>维度</th><th>/hifi-to-demo</th><th>/backend-to-design</th></tr></thead>
+          <tbody>
+            <tr><td>起点</td><td>设计稿</td><td>后端代码</td></tr>
+            <tr><td>代码质量</td><td>Demo 原型</td><td>工程级可接入</td></tr>
+            <tr><td>数据</td><td>Mock 数据</td><td>对齐后端模型</td></tr>
+            <tr><td>状态处理</td><td>核心路径</td><td>含错误/空/加载</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <strong>安装：</strong>SKILL.md 放入 <code>~/.claude/skills/backend-to-design/</code>，在 Claude Code 中输入 <code>/backend-to-design</code> 触发
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+  SLIDE 17 · Skill 详解 — /code-to-product-doc
+════════════════════════════════ -->
+<div class="slide" data-phase="assets">
+  <div class="step-bar">
+    <span class="sb-step sb-d">总览</span><span class="sb-sep">›</span>
+    <span class="sb-step sb-f">设计稿→Demo</span><span class="sb-sep">›</span>
+    <span class="sb-step sb-f">代码→设计</span><span class="sb-sep">›</span>
+    <span class="sb-step sb-a">代码→文档</span>
+    <span style="margin-left:auto;font-size:9px;color:var(--cr);font-weight:700">研究洞察阶段</span>
+  </div>
+  <div class="tag">沉淀 Skill · 研究洞察</div>
+  <h2>/code-to-product-doc — 后端代码 → 产品文档</h2>
+
+  <div class="cols" style="flex:1;align-items:flex-start">
+    <div class="col col2" style="gap:8px">
+      <div class="skill-card" style="flex:unset;border-top:3px solid var(--cr)">
+        <div class="sc-trigger">/code-to-product-doc</div>
+        <div class="sc-desc">从后端代码、配置文件或数据模型出发，生成完整的产品文档。把工程代码翻译成设计师和产品经理能直接使用的语言，为后续设计审查提供统一上下文。</div>
+        <div class="sc-meta">
+          <span class="sc-label">输入</span>
+          <span class="sc-val">后端代码 / 配置文件 / 数据模型 / API 说明</span>
+          <span class="sc-label">产出 ①</span>
+          <span class="sc-val">product-doc.md — 功能定义 · 用户场景 · 数据结构 · 核心流程 · 设计机会点</span>
+          <span class="sc-label">产出 ②</span>
+          <span class="sc-val">data-dictionary.md（可选）— 工程命名 ↔ 业务语言 ↔ UI 展示对照</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>在完整协同流程中的位置</h3>
+        <div class="step-flow" style="margin-top:9px">
+          <div class="step-box done">
+            <div class="step-num">Step 01</div>
+            <div class="step-title" style="font-size:10px">接收后端<br>交付物</div>
+          </div>
+          <div class="step-box hi" style="background:rgba(20,122,94,.08);border-color:rgba(20,122,94,.4)">
+            <div class="step-num" style="color:var(--cr)">/code-to-product-doc</div>
+            <div class="step-title" style="font-size:10px;color:var(--cr)">代码 →<br>产品文档</div>
+          </div>
+          <div class="step-box">
+            <div class="step-num">Step 03</div>
+            <div class="step-title" style="font-size:10px">设计审查</div>
+          </div>
+          <div class="step-box">
+            <div class="step-num">Step 04</div>
+            <div class="step-title" style="font-size:10px">工程实现</div>
+          </div>
+          <div class="step-box">
+            <div class="step-num">Step 05</div>
+            <div class="step-title" style="font-size:10px">验证迭代</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col" style="gap:8px">
+      <div class="callout teal">
+        <strong>为什么这一步不能省：</strong>它是后续所有设计决策的基础，也是设计师和工程师建立「共同语言」的节点。最容易被跳过，但一旦跳过，后续设计策略就缺乏工程锚点。
+      </div>
+      <div class="card">
+        <h3>触发词参考</h3>
+        <ul class="list" style="margin-top:6px">
+          <li>帮我读这段代码 / 从代码生成产品文档</li>
+          <li>这个后端代码是做什么的</li>
+          <li>代码里有哪些设计机会点</li>
+          <li>帮我梳理数据结构 / 这个功能的用户痛点</li>
+        </ul>
+      </div>
+      <div class="callout green">
+        <strong>安装：</strong>SKILL.md 放入 <code>~/.claude/skills/code-to-product-doc/</code>，在 Claude Code 中输入 <code>/code-to-product-doc</code> 触发
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1465,7 +1707,7 @@ const phaseMap = [
   'case-a','case-a','case-a','case-a',
   'case-b','case-b','case-b','case-b','case-b',
   'levels','levels',
-  'assets','assets',
+  'assets','assets','assets','assets','assets',
 ];
 const phaseFirst = { cover:0, flow:1, 'case-a':2, 'case-b':6, levels:11, assets:13 };
 const phaseLabel = {
