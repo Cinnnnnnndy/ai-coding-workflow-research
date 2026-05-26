@@ -267,6 +267,33 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
 .rm-label{font-size:10.5px;font-weight:700;color:var(--text);margin-bottom:2px}
 .rm-sub{font-size:9.5px;color:var(--text3);line-height:1.5}
 
+/* ── Journey Map (大旅程图) ── */
+.jmap{display:grid;grid-template-columns:58px repeat(5,1fr);grid-template-rows:28px repeat(3,1fr);
+  flex:1;min-height:0;gap:2px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.jmhd{background:var(--bg3);display:flex;align-items:center;justify-content:center;
+  font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);
+  padding:0 8px;border-bottom:2px solid transparent}
+.jmcorner{background:var(--bg3)}
+.jmrole{background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;
+  font-size:8.5px;font-weight:700;color:var(--text3);letter-spacing:.03em;text-align:center;
+  padding:6px 4px;line-height:1.45}
+.jmc{background:var(--bg2);padding:8px 10px;display:flex;flex-direction:column;gap:3px;
+  position:relative;min-height:0;overflow:hidden}
+.jmc-b{background:rgba(94,92,230,.04);border-left:2px solid rgba(94,92,230,.35)}
+.jmc-ab{background:rgba(20,122,94,.04);border-left:2px solid rgba(20,122,94,.35)}
+.jmc-empty{background:var(--bg)}
+.jm-skill{font-family:'JetBrains Mono',Menlo,monospace;font-size:8px;font-weight:700;color:var(--blue);
+  background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.2);border-radius:3px;
+  padding:1px 5px;display:inline-block;width:fit-content}
+.jm-art{font-size:10.5px;font-weight:700;color:var(--text);line-height:1.3;margin:2px 0}
+.jm-sub{font-size:8.5px;color:var(--text3);line-height:1.45}
+.jm-badge{font-size:7px;font-weight:700;padding:1px 5px;border-radius:3px;display:inline-block;
+  width:fit-content;margin-bottom:2px}
+.jm-badge-b{background:rgba(94,92,230,.15);color:var(--purple)}
+.jm-badge-ab{background:rgba(20,122,94,.12);color:var(--teal)}
+.jm-entry{position:absolute;top:4px;right:5px;font-size:7px;font-weight:700;color:var(--cc);
+  background:rgba(0,113,227,.1);border-radius:3px;padding:1px 4px;white-space:nowrap}
+
 /* ── Arch tags ── */
 .arch-layer{padding:7px 12px;border-radius:7px;border:1px solid var(--border);
   background:var(--bg2);display:flex;align-items:center;gap:10px}
@@ -317,7 +344,7 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
   <div class="hdr-sep"></div>
   <div class="hdr-nav">
     <button onclick="go(-1)">←</button>
-    <span class="hdr-counter" id="counter">1 / 16</span>
+    <span class="hdr-counter" id="counter">1 / 15</span>
     <button onclick="go(1)">→</button>
   </div>
 </header>
@@ -382,153 +409,100 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
 </div>
 
 <!-- ════════════════════════════════
-  SLIDE 1 · 两条协同路径
+  SLIDE 1 · 协同旅程图（合并）
 ════════════════════════════════ -->
 <div class="slide" data-phase="flow">
   <div class="tag">协同全景</div>
-  <h2>两条协同路径</h2>
+  <h2 style="margin-bottom:8px">两条路径 · 完整协同旅程</h2>
 
-  <div class="track-container">
-    <!-- Track A -->
-    <div class="track track-a">
-      <div class="track-label">
-        <span class="tl-id" style="color:var(--cc)">路径 A</span>
-        <span class="tl-name">设计稿 → 工程代码</span>
-        <span class="tl-steps">Step 04 · Step 05</span>
-      </div>
-      <div class="track-flow">
-        <div class="tf-node" style="border-color:rgba(0,113,227,.3);background:rgba(0,113,227,.05)">
-          <span class="tf-role" style="color:var(--cc)">体验设计师</span>
-          <span class="tf-name">高保真设计稿</span>
-          <span class="tf-step">Step 04 起点</span>
-        </div>
-        <span class="tf-arr">→</span>
-        <div class="tf-skill" style="color:var(--cc);border-color:rgba(0,113,227,.3);background:rgba(0,113,227,.05)">/hifi-to-demo</div>
-        <span class="tf-arr">→</span>
-        <div class="tf-node" style="border-color:rgba(0,113,227,.3);background:rgba(0,113,227,.05)">
-          <span class="tf-role" style="color:var(--cc)">体验设计师</span>
-          <span class="tf-name">Code Demo</span>
-          <span class="tf-step">Step 04</span>
-        </div>
-        <span class="tf-arr">→</span>
-        <div class="tf-node" style="border-color:var(--border);background:var(--bg2)">
-          <span class="tf-role" style="color:var(--text3)">前端工程师</span>
-          <span class="tf-name">联调验证</span>
-          <span class="tf-step">Step 05</span>
-        </div>
-      </div>
+  <!-- Journey Map grid: 3 roles × 5 phases -->
+  <div class="jmap">
+    <!-- ── Header row ── -->
+    <div class="jmcorner"></div>
+    <div class="jmhd" style="border-bottom-color:var(--cr)">研究洞察</div>
+    <div class="jmhd" style="border-bottom-color:var(--cc)">概要设计</div>
+    <div class="jmhd" style="border-bottom-color:var(--cd)">详细设计</div>
+    <div class="jmhd" style="border-bottom-color:var(--cv)">开发跟踪</div>
+    <div class="jmhd" style="border-bottom-color:var(--ce)">体验评估</div>
+
+    <!-- ── 后端工程师 row ── -->
+    <div class="jmrole">后端<br>工程师</div>
+    <div class="jmc jmc-b">
+      <span class="jm-badge jm-badge-b">路径 B</span>
+      <span class="jm-art">后端工程 Demo</span>
+      <span class="jm-sub">代码 + YAML / JSON 数据文件</span>
+    </div>
+    <div class="jmc jmc-empty"></div>
+    <div class="jmc jmc-empty"></div>
+    <div class="jmc jmc-empty"></div>
+    <div class="jmc jmc-ab">
+      <span class="jm-badge jm-badge-ab">路径 A + B</span>
+      <span class="jm-art">验收联调结果</span>
+      <span class="jm-sub">确认功能逻辑与数据对接</span>
     </div>
 
-    <!-- Track B -->
-    <div class="track track-b">
-      <div class="track-label">
-        <span class="tl-id" style="color:var(--cd)">路径 B</span>
-        <span class="tl-name">后端代码 → 设计 → 工程</span>
-        <span class="tl-steps">Step 01 → 02 → 03 → 04 → 05</span>
-      </div>
-      <div class="track-flow">
-        <div class="tf-node" style="border-color:rgba(94,92,230,.3);background:rgba(94,92,230,.05)">
-          <span class="tf-role" style="color:var(--cd)">后端工程师</span>
-          <span class="tf-name">后端 Demo</span>
-          <span class="tf-step">Step 01</span>
-        </div>
-        <span class="tf-arr">→</span>
-        <div class="tf-skill" style="color:var(--cd);border-color:rgba(94,92,230,.3);background:rgba(94,92,230,.05)">/code-to-product-doc</div>
-        <span class="tf-arr">→</span>
-        <div class="tf-node" style="border-color:rgba(94,92,230,.3);background:rgba(94,92,230,.05)">
-          <span class="tf-role" style="color:var(--cd)">体验设计师</span>
-          <span class="tf-name">产品文档</span>
-          <span class="tf-step">Step 02</span>
-        </div>
-        <span class="tf-arr">→</span>
-        <div class="tf-skill" style="color:var(--cd);border-color:rgba(94,92,230,.3);background:rgba(94,92,230,.05)">/backend-to-design</div>
-        <span class="tf-arr">→</span>
-        <div class="tf-node" style="border-color:rgba(94,92,230,.3);background:rgba(94,92,230,.05)">
-          <span class="tf-role" style="color:var(--cd)">体验设计师</span>
-          <span class="tf-name">高保真 + Code Demo</span>
-          <span class="tf-step">Step 03–04</span>
-        </div>
-        <span class="tf-arr">→</span>
-        <div class="tf-node" style="border-color:var(--border);background:var(--bg2)">
-          <span class="tf-role" style="color:var(--text3)">前端工程师</span>
-          <span class="tf-name">联调验证</span>
-          <span class="tf-step">Step 05</span>
-        </div>
-      </div>
+    <!-- ── 体验设计师 row ── -->
+    <div class="jmrole">体验<br>设计师</div>
+    <div class="jmc jmc-b">
+      <span class="jm-badge jm-badge-b">路径 B</span>
+      <span class="jm-skill">/code-to-product-doc</span>
+      <span class="jm-art">产品文档</span>
+      <span class="jm-sub">功能定义 · 操作路径 · 痛点识别</span>
+    </div>
+    <div class="jmc jmc-b">
+      <span class="jm-badge jm-badge-b">路径 B</span>
+      <span class="jm-skill">/backend-to-design</span>
+      <span class="jm-art">设计策略</span>
+      <span class="jm-sub">P 痛点 → L 洞察 → S 策略</span>
+    </div>
+    <div class="jmc jmc-ab">
+      <div class="jm-entry">← 路径 A 从此汇入</div>
+      <span class="jm-badge jm-badge-ab">路径 A + B</span>
+      <span class="jm-art">高保真设计稿</span>
+      <span class="jm-sub">交互细节 · 视觉规范</span>
+    </div>
+    <div class="jmc jmc-ab">
+      <span class="jm-badge jm-badge-ab">路径 A + B</span>
+      <span class="jm-skill">/hifi-to-demo</span>
+      <span class="jm-art">Code Demo</span>
+      <span class="jm-sub">Phase1 HTML · Phase2 组件</span>
+    </div>
+    <div class="jmc jmc-ab">
+      <span class="jm-badge jm-badge-ab">路径 A + B</span>
+      <span class="jm-art">协同日志 · 迭代</span>
+      <span class="jm-sub">确认细节差距<br>同时交付高保真</span>
+    </div>
+
+    <!-- ── 前端工程师 row ── -->
+    <div class="jmrole">前端<br>工程师</div>
+    <div class="jmc jmc-empty"></div>
+    <div class="jmc jmc-empty"></div>
+    <div class="jmc jmc-empty"></div>
+    <div class="jmc jmc-ab">
+      <span class="jm-badge jm-badge-ab">路径 A + B</span>
+      <span class="jm-art">参考 Code Demo</span>
+      <span class="jm-sub">接收设计侧可运行参考实现</span>
+    </div>
+    <div class="jmc jmc-ab">
+      <span class="jm-badge jm-badge-ab">路径 A + B</span>
+      <span class="jm-art">联调验证</span>
+      <span class="jm-sub">高保真 + Code Demo<br>双参考联调</span>
     </div>
   </div>
 
-  <div class="role-legend">
-    <div class="rl-item">
-      <div class="rl-dot" style="background:var(--purple)"></div>
-      <span class="rl-name">后端工程师</span>
-      <span class="rl-desc">提供后端 Demo 和 API</span>
+  <!-- Legend -->
+  <div style="display:flex;align-items:center;gap:16px;margin-top:6px">
+    <div style="display:flex;align-items:center;gap:5px">
+      <div style="width:10px;height:10px;border-radius:2px;background:rgba(94,92,230,.15);border-left:2px solid var(--purple)"></div>
+      <span style="font-size:9px;color:var(--text3)"><strong style="color:var(--purple)">路径 B</strong> 后端代码起点——经历完整五个阶段</span>
     </div>
-    <div class="rl-item">
-      <div class="rl-dot" style="background:var(--blue)"></div>
-      <span class="rl-name">体验设计师</span>
-      <span class="rl-desc">核心参与者，贯穿全程</span>
+    <div style="display:flex;align-items:center;gap:5px">
+      <div style="width:10px;height:10px;border-radius:2px;background:rgba(20,122,94,.15);border-left:2px solid var(--teal)"></div>
+      <span style="font-size:9px;color:var(--text3)"><strong style="color:var(--teal)">路径 A + B 汇合</strong> 路径 A 从已有高保真稿直接进入详细设计，两条路径在此收敛</span>
     </div>
-    <div class="rl-item">
-      <div class="rl-dot" style="background:var(--text3)"></div>
-      <span class="rl-name">前端工程师</span>
-      <span class="rl-desc">接收产物，联调验证</span>
-    </div>
-    <div class="rl-item" style="margin-left:auto;gap:6px;flex-wrap:wrap">
-      <span style="font-size:9px;color:var(--text3)">Skill 工具：</span>
-      <code>/hifi-to-demo</code>
-      <code>/code-to-product-doc</code>
-      <code>/backend-to-design</code>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════
-  SLIDE 2 · 五步协同框架
-════════════════════════════════ -->
-<div class="slide" data-phase="flow">
-  <div class="tag">协同全景 · 五步框架</div>
-  <h2>五步协同框架</h2>
-
-  <div class="step-flow" style="flex:1;min-height:0">
-    <div class="step-box">
-      <div class="step-num">STEP 01</div>
-      <div class="step-title">接收输入</div>
-      <div class="step-body">后端工程 Demo<br>或高保真设计稿</div>
-    </div>
-    <div class="step-box">
-      <div class="step-num">STEP 02</div>
-      <div class="step-title">代码解读</div>
-      <div class="step-body">将后端代码转化为产品视角文档，明确功能与操作路径</div>
-      <div class="step-skill">/code-to-product-doc</div>
-      <div style="font-size:9px;color:var(--text3);margin-top:5px">路径 B 适用</div>
-    </div>
-    <div class="step-box">
-      <div class="step-num">STEP 03</div>
-      <div class="step-title">设计分析</div>
-      <div class="step-body">从产品文档提炼设计痛点、洞察与策略</div>
-      <div class="step-skill">/backend-to-design</div>
-      <div style="font-size:9px;color:var(--text3);margin-top:5px">路径 B 适用</div>
-    </div>
-    <div class="step-box hi">
-      <div class="step-num">STEP 04</div>
-      <div class="step-title">并行交付</div>
-      <div class="step-body">高保真设计稿 + Code Demo 同时产出</div>
-      <div class="step-skill">/hifi-to-demo</div>
-    </div>
-    <div class="step-box hi">
-      <div class="step-num">STEP 05</div>
-      <div class="step-title">联调验证</div>
-      <div class="step-body">与前端联调，Code Demo 作参考实现，协同迭代</div>
-    </div>
-  </div>
-
-  <div style="display:flex;gap:10px;margin-top:10px">
-    <div class="callout" style="flex:1">
-      <strong style="color:var(--cc)">路径 A</strong>：从高保真设计稿开始，仅涉及 Step 04 + Step 05
-    </div>
-    <div class="callout purple" style="flex:1">
-      <strong style="color:var(--cd)">路径 B</strong>：从后端 Demo 开始，完整经历全部五步
+    <div style="margin-left:auto;display:flex;gap:5px;align-items:center;flex-wrap:wrap">
+      <span style="font-size:8.5px;color:var(--text3)">Skill：</span>
+      <code>/code-to-product-doc</code><code>/backend-to-design</code><code>/hifi-to-demo</code>
     </div>
   </div>
 </div>
@@ -1484,13 +1458,13 @@ let cur = 0;
 
 const phaseMap = [
   'cover',
-  'flow','flow',
+  'flow',
   'case-a','case-a','case-a','case-a',
   'case-b','case-b','case-b','case-b','case-b',
   'levels','levels',
   'assets','assets',
 ];
-const phaseFirst = { cover:0, flow:1, 'case-a':3, 'case-b':7, levels:12, assets:14 };
+const phaseFirst = { cover:0, flow:1, 'case-a':2, 'case-b':6, levels:11, assets:13 };
 const phaseLabel = {
   cover:'封面',
   flow:'协同全景',
