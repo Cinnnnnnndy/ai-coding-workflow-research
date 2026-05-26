@@ -275,8 +275,11 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
   padding:0 8px}
 .jmcorner{background:#2c2c2e}
 .jmrole{background:#f0f0f3;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;
   font-size:8.5px;font-weight:700;color:var(--text2);letter-spacing:.03em;text-align:center;
   padding:6px 4px;line-height:1.45}
+.jmrole-hi{background:#fff;color:var(--blue);border-right:2px solid rgba(0,113,227,.25)}
+.jm-emoji{font-size:17px;line-height:1;font-style:normal;display:block}
 .jmc{background:#fff;padding:8px 10px;display:flex;flex-direction:column;gap:3px;
   position:relative;min-height:0;overflow:hidden}
 .jmc-b{background:#fff;border-left:3px solid var(--purple)}
@@ -426,7 +429,7 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
     <div class="jmhd">体验评估</div>
 
     <!-- ── 后端工程师 row ── -->
-    <div class="jmrole">后端<br>工程师</div>
+    <div class="jmrole"><span class="jm-emoji">🔧</span>后端<br>工程师</div>
     <div class="jmc jmc-b">
       <span class="jm-badge jm-badge-b">路径 B</span>
       <span class="jm-art">后端工程 Demo</span>
@@ -442,7 +445,7 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
     </div>
 
     <!-- ── 体验设计师 row ── -->
-    <div class="jmrole">体验<br>设计师</div>
+    <div class="jmrole jmrole-hi"><span class="jm-emoji">🎨</span>体验<br>设计师</div>
     <div class="jmc jmc-b">
       <span class="jm-badge jm-badge-b">路径 B</span>
       <span class="jm-skill">/code-to-product-doc</span>
@@ -474,7 +477,7 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
     </div>
 
     <!-- ── 前端工程师 row ── -->
-    <div class="jmrole">前端<br>工程师</div>
+    <div class="jmrole"><span class="jm-emoji">💻</span>前端<br>工程师</div>
     <div class="jmc jmc-empty"></div>
     <div class="jmc jmc-empty"></div>
     <div class="jmc jmc-empty"></div>
