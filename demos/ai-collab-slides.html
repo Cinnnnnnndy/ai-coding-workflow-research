@@ -341,10 +341,7 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
       <span class="pi-num">05</span><span class="pi-name">L0–L3 层级</span>
       <span class="pi-prog" id="prog-levels"></span>
     </button>
-    <button class="phase-item" data-phase="assets" onclick="jumpPhase('assets')">
-      <span class="pi-num">06</span><span class="pi-name">沉淀总结</span>
-      <span class="pi-prog" id="prog-assets"></span>
-    </button>
+
   </div>
 </nav>
 
@@ -394,9 +391,9 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
         <div class="pt-sub">两阶段交付<br>详细设计 · 开发跟踪</div>
       </div>
       <div class="pt-item">
-        <span class="pt-num" style="color:var(--cv)">05 L0–L3 · 沉淀</span>
-        <span class="pt-name">协同层级 · 总结</span>
-        <div class="pt-sub">会议结论 · 使用观察<br>三个 Skill 沉淀</div>
+        <span class="pt-num" style="color:var(--cv)">05 L0–L3 层级</span>
+        <span class="pt-name">协同层级分析</span>
+        <div class="pt-sub">会议结论 · 使用观察<br>演进路径与当前位置</div>
       </div>
     </div>
   </div>
@@ -2421,90 +2418,6 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
   </div>
 </div>
 
-<!-- ════════════════════════════════
-  SLIDE 17 · 沉淀总结
-════════════════════════════════ -->
-<div class="slide" data-phase="assets">
-  <div class="tag">沉淀总结</div>
-  <h2 style="margin-bottom:5px">探索旅程的沉淀 · 三层成果 + 下一步</h2>
-  <div style="font-size:11px;color:var(--text3);margin-bottom:11px">从「单点工具」到「方法论」到「组织能力」——AI 时代的设计协同正在被重新定义</div>
-
-  <!-- Journey timeline at top -->
-  <div style="display:flex;align-items:center;gap:6px;margin-bottom:11px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;flex-shrink:0;overflow:hidden">
-    <div style="font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.05em;flex-shrink:0">旅程</div>
-    <span style="font-size:10px;color:var(--text2);flex-shrink:0">① 起点：后端先行项目设计师困境</span>
-    <span style="color:var(--border);flex-shrink:0">→</span>
-    <span style="font-size:10px;color:var(--text2);flex-shrink:0">② 探索：流程拆解</span>
-    <span style="color:var(--border);flex-shrink:0">→</span>
-    <span style="font-size:10px;color:var(--text2);flex-shrink:0">③ 沉淀：3 Skill + 5 步框架</span>
-    <span style="color:var(--border);flex-shrink:0">→</span>
-    <span style="font-size:10px;color:var(--text2);flex-shrink:0">④ 验证：真实案例 + 评测</span>
-    <span style="color:var(--border);flex-shrink:0">→</span>
-    <span style="font-size:10px;color:var(--text);font-weight:700;flex-shrink:0">⑤ 定位：L1 → L2</span>
-  </div>
-
-  <!-- 3 sediment cards -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex-shrink:0;margin-bottom:11px">
-    <div class="card" style="border-top:3px solid var(--cr);padding:11px 13px">
-      <div style="font-size:9px;font-weight:700;color:var(--cr);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px">工具层沉淀</div>
-      <h3 style="font-size:12px;margin-bottom:6px">3 个 Claude Code Skill</h3>
-      <div style="display:flex;flex-direction:column;gap:4px;font-size:9.5px;color:var(--text2);line-height:1.55">
-        <div><code style="color:var(--cr)">/code-to-product-doc</code> — 代码 → 产品文档</div>
-        <div><code style="color:var(--cc)">/backend-to-design</code> — 代码 → 设计 + 工程级</div>
-        <div><code style="color:var(--cd)">/hifi-to-demo</code> — 高保真 → Demo</div>
-      </div>
-    </div>
-    <div class="card" style="border-top:3px solid var(--cc);padding:11px 13px">
-      <div style="font-size:9px;font-weight:700;color:var(--cc);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px">方法层沉淀</div>
-      <h3 style="font-size:12px;margin-bottom:6px">5 步协同框架 + 评估矩阵</h3>
-      <div style="display:flex;flex-direction:column;gap:3px;font-size:9.5px;color:var(--text2);line-height:1.5">
-        <div>① 接收 → ② 代码解读 → ③ 设计分析</div>
-        <div>④ 并行交付 → ⑤ 联调验证</div>
-        <div style="margin-top:3px;padding-top:4px;border-top:1px dashed var(--border);font-size:9px;color:var(--text3)">+ L0–L3 协同层级评估矩阵</div>
-      </div>
-    </div>
-    <div class="card" style="border-top:3px solid var(--cd);padding:11px 13px">
-      <div style="font-size:9px;font-weight:700;color:var(--cd);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px">实证层证据</div>
-      <h3 style="font-size:12px;margin-bottom:6px">真实案例 + 量化评测</h3>
-      <div style="display:flex;flex-direction:column;gap:3px;font-size:9.5px;color:var(--text2);line-height:1.5">
-        <div>· <strong>cooling-web-config</strong> · c2p + b2d 案例</div>
-        <div>· <strong>bmcstudio-codex</strong> · c2p 完整产物</div>
-        <div>· <strong>h2d 评测</strong>：100% vs 44% (+56pp)</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Future directions -->
-  <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:6px">
-    <div style="font-size:11px;font-weight:700;color:var(--text);letter-spacing:.03em;flex-shrink:0">→ 下一步行动 · 短中长期</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1;min-height:0">
-      <div class="card" style="border-left:3px solid var(--cc);padding:10px 13px">
-        <h4 style="color:var(--cc);font-size:11px">短期 · 3 个月</h4>
-        <ul class="list" style="margin-top:5px;font-size:9.5px">
-          <li>扩展专项 Skill（设计审查 / 组件生成）</li>
-          <li>组件级提示词库建设</li>
-          <li>选 1 个完整模块做 L2 试点</li>
-        </ul>
-      </div>
-      <div class="card" style="border-left:3px solid var(--cd);padding:10px 13px">
-        <h4 style="color:var(--cd);font-size:11px">中期 · 6–12 个月</h4>
-        <ul class="list" style="margin-top:5px;font-size:9.5px">
-          <li>BMC 工具类 Design System</li>
-          <li>设计师 Vue/React + Git 培训</li>
-          <li>设计代码评审流程建立</li>
-        </ul>
-      </div>
-      <div class="card" style="border-left:3px solid var(--ce);padding:10px 13px">
-        <h4 style="color:var(--ce);font-size:11px">长期 · 12–18 个月 · L2 目标</h4>
-        <ul class="list" style="margin-top:5px;font-size:9.5px">
-          <li>前端代码库由设计主导维护</li>
-          <li>前端工程师转向后端集成</li>
-          <li>AI-native 协同模式标准化</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
 
 </div><!-- /deck -->
 </div><!-- /deck-wrapper -->
@@ -2524,9 +2437,8 @@ const phaseMap = [
   'skill-b2d','skill-b2d','skill-b2d','skill-b2d','skill-b2d',
   'skill-h2d','skill-h2d','skill-h2d','skill-h2d','skill-h2d',
   'levels','levels',
-  'assets',
 ];
-const phaseFirst = { cover:0, flow:1, 'skill-c2p':3, 'skill-b2d':8, 'skill-h2d':13, levels:18, assets:20 };
+const phaseFirst = { cover:0, flow:1, 'skill-c2p':3, 'skill-b2d':8, 'skill-h2d':13, levels:18 };
 const phaseLabel = {
   cover:'封面',
   flow:'协同全景',
@@ -2534,7 +2446,6 @@ const phaseLabel = {
   'skill-b2d':'/backend-to-design · 概要设计',
   'skill-h2d':'/hifi-to-demo · 详细设计',
   levels:'L0–L3 层级',
-  assets:'沉淀总结'
 };
 const TOTAL = slides.length;
 
