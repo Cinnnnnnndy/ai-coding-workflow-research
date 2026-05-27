@@ -2332,31 +2332,10 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
   SLIDE B · 协同实证日志 + 第一次协同会议关键结论
 ════════════════════════════════ -->
 <div class="slide" data-phase="levels">
-  <div class="tag">协同层级 · 2/2 · 实证与结论</div>
-  <h2 style="margin-bottom:8px">协同实证 · 会议关键结论</h2>
+  <div class="tag">协同层级 · 2/2 · 会议结论 + 使用观察</div>
+  <h2 style="margin-bottom:7px">会议关键结论 · 使用过程观察</h2>
 
-  <!-- 协同实证日志 -->
-  <div style="flex-shrink:0;margin-bottom:8px">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <div style="font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase">📝 协同实证日志</div>
-      <div style="font-size:8.5px;color:var(--blue);background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.2);border-radius:3px;padding:1px 7px;font-family:monospace">2026-05-19 · 工作流观察</div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <div style="background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.18);border-left:2.5px solid var(--orange);border-radius:0 6px 6px 0;padding:8px 11px">
-        <div style="font-size:8.5px;font-weight:700;color:var(--orange);margin-bottom:3px">观察 01 · 高保真仍是不可省环节</div>
-        <div style="font-size:9px;color:var(--text3);line-height:1.6">基于「后端代码→设计反向分析」skill，交互与视觉已达<strong style="color:var(--text2)">可用</strong>状态，但与现网高保真相比细节仍有距离。结论：当前 L1 阶段仍需高保真 + Code Demo <strong style="color:var(--text2)">两条线并行</strong>，L2 起高保真才可简化。</div>
-      </div>
-      <div style="background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.18);border-left:2.5px solid var(--purple);border-radius:0 6px 6px 0;padding:8px 11px">
-        <div style="font-size:8.5px;font-weight:700;color:var(--purple);margin-bottom:3px">观察 02 · Claude Design 协同割裂</div>
-        <div style="font-size:9px;color:var(--text3);line-height:1.6">引入 Claude Design 弥补设计细节精度；对「基础 HTML + 产品文档」场景效果好。摩擦点：Design 与 Code 之间<strong style="color:var(--text2)">无法直接唤起</strong>，需手动跳转，上下文传递尚未打通——这是 L1→L2 的核心工具链阻力。</div>
-      </div>
-    </div>
-    <div class="callout teal" style="margin-top:7px;font-size:10px">
-      <strong>核心判断：</strong>L3 不是「设计师替代工程师」，而是「<strong style="color:var(--teal)">前端归设计，后端归工程</strong>」的职责重新划分——当前优先打通 L2，L3 视 AI 能力与组织准备度而定
-    </div>
-  </div>
-
-  <!-- 协同会议关键结论 -->
+  <!-- 协同会议关键结论 —— TOP -->
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-shrink:0">
     <div style="font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase">🤝 第一次设计 × 开发协同会议 · 关键结论</div>
     <div style="font-size:8.5px;color:#3a4a7a;background:rgba(30,40,70,.07);border:1px solid rgba(30,40,70,.15);border-radius:3px;padding:1px 7px">2026 · 首次对齐</div>
@@ -2417,6 +2396,27 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
         <div style="font-size:8.5px;color:#7a5800;line-height:1.5">尝试通过 vibe coding 将页面中 div 静态部分转化为 Vue 动态组件</div>
         <div style="font-size:8px;color:#a07800;margin-top:2px;font-weight:600">责任人：设计侧</div>
       </div>
+    </div>
+  </div>
+
+  <!-- 使用过程观察 —— BOTTOM -->
+  <div style="flex-shrink:0;margin-top:6px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+      <div style="font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase">🔍 使用过程观察</div>
+      <div style="font-size:8.5px;color:var(--blue);background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.2);border-radius:3px;padding:1px 7px;font-family:monospace">2026-05-19 · 工作流观察</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+      <div style="background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.18);border-left:2.5px solid var(--orange);border-radius:0 6px 6px 0;padding:7px 11px">
+        <div style="font-size:8.5px;font-weight:700;color:var(--orange);margin-bottom:3px">观察 01 · 高保真仍是不可省环节</div>
+        <div style="font-size:8px;color:var(--text3);line-height:1.6">基于「后端代码→设计反向分析」skill，交互与视觉已达<strong style="color:var(--text2)">可用</strong>状态，但与现网高保真相比细节仍有距离。结论：当前 L1 阶段仍需高保真 + Code Demo <strong style="color:var(--text2)">两条线并行</strong>，L2 起高保真才可简化。</div>
+      </div>
+      <div style="background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.18);border-left:2.5px solid var(--purple);border-radius:0 6px 6px 0;padding:7px 11px">
+        <div style="font-size:8.5px;font-weight:700;color:var(--purple);margin-bottom:3px">观察 02 · Claude Design 协同割裂</div>
+        <div style="font-size:8px;color:var(--text3);line-height:1.6">引入 Claude Design 弥补设计细节精度；对「基础 HTML + 产品文档」场景效果好。摩擦点：Design 与 Code 之间<strong style="color:var(--text2)">无法直接唤起</strong>，需手动跳转，上下文传递尚未打通——这是 L1→L2 的核心工具链阻力。</div>
+      </div>
+    </div>
+    <div class="callout teal" style="margin-top:6px;font-size:9.5px">
+      <strong>核心判断：</strong>L3 不是「设计师替代工程师」，而是「<strong style="color:var(--teal)">前端归设计，后端归工程</strong>」的职责重新划分——当前优先打通 L2，L3 视 AI 能力与组织准备度而定
     </div>
   </div>
 </div>
