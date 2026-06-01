@@ -912,6 +912,11 @@ document.getElementById('deck').addEventListener('click', e=>{
   else if(x > w * .75) go(1);
 });
 
+// 接收来自父页面的翻页指令
+window.addEventListener('message', function(e){
+  if(e.data && typeof e.data.goTo === 'number') goTo(e.data.goTo);
+});
+
 // ── SVG connection lines ──
 const connections = [
   ['p1','i1','rgba(215,0,21,.42)'],
