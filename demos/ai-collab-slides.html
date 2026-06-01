@@ -1961,7 +1961,7 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
     <span style="margin-left:auto;font-size:9px;color:var(--cd);font-weight:700">P4 · SKILL.md 全文</span>
   </div>
   <div class="tag" style="color:var(--cd)">SKILL.md 完整内容 · /hifi-to-demo</div>
-  <h2 style="margin-bottom:8px">Skill 定义文档 · 两阶段机制 · 五个标准交付物</h2>
+  <h2 style="margin-bottom:8px">Skill 定义文档 · 三阶段机制 · 七个标准交付物</h2>
 
   <div class="cols" style="flex:1;min-height:0;gap:12px">
     <div class="col" style="flex:0 0 212px;min-width:0;gap:8px;overflow:hidden">
@@ -1974,12 +1974,20 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
         </div>
       </div>
       <div class="card" style="padding:10px 12px;flex-shrink:0">
-        <h3 style="font-size:10.5px;margin-bottom:5px">两阶段机制</h3>
-        <div style="font-size:9px;color:var(--text2);line-height:1.6">
-          <div style="color:var(--cd);font-weight:700">Phase 1 · &lt; 1 小时</div>
-          <div style="color:var(--text3)">零依赖 HTML，浏览器双击运行<br>用于评审、原型对齐</div>
-          <div style="color:var(--cd);font-weight:700;margin-top:5px">Phase 2 · 工程化</div>
-          <div style="color:var(--text3)">Vue/React 组件，Props/Emit<br>Mock=API 契约，可接入真实数据</div>
+        <h3 style="font-size:10.5px;margin-bottom:5px">三阶段机制</h3>
+        <div style="font-size:8.5px;color:var(--text2);line-height:1.6">
+          <div style="color:var(--cd);font-weight:700">Phase 1 · 分析文档</div>
+          <div style="color:var(--text3)">5 份文档，不生成 HTML<br>interface-contract.md 供前后端对接</div>
+          <div style="display:flex;align-items:center;gap:5px;margin:3px 0;color:#7a5800;font-size:8px">
+            <span>⏸</span><span>文档 + 高保真二次叠加输入</span>
+          </div>
+          <div style="color:var(--cd);font-weight:700">Demo 生成</div>
+          <div style="color:var(--text3)">基于文档校验生成 index.html<br>Mock 字段 = 接口契约</div>
+          <div style="display:flex;align-items:center;gap:5px;margin:3px 0;color:var(--cd);font-size:8px">
+            <span>⏸</span><span>评审确认设计方向</span>
+          </div>
+          <div style="color:var(--cd);font-weight:700">Phase 2 · 工程化</div>
+          <div style="color:var(--text3)">Vue/React 组件 · TS 类型<br>API 集成层 · 业务逻辑隔离</div>
         </div>
       </div>
       <div class="card" style="padding:10px 12px;flex-shrink:0">
@@ -1994,46 +2002,47 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
       <div style="background:#0d0f14;border-radius:8px;padding:14px 16px;font-size:10px;line-height:1.75;color:#a0aec0;font-family:'JetBrains Mono',Menlo,monospace;height:100%;overflow-y:auto;box-sizing:border-box">
         <div style="color:#7c9ef5;font-weight:700;margin-bottom:8px">--- /hifi-to-demo · SKILL.md ---</div>
 
-        <div style="color:#e2e8f0;font-weight:700;margin:8px 0 3px">## 设计点 / 问题解决</div>
-        <div style="color:#94a3b8">设计-开发鸿沟：设计稿是静态图，开发理解偏差导致实现走样</div>
-        <div style="color:#94a3b8;padding-left:12px">→ design-structure.md 将设计意图结构化，消除歧义</div>
-        <div style="color:#94a3b8;margin-top:3px">交互细节丢失：高保真图无法表达状态枚举和边缘情况</div>
-        <div style="color:#94a3b8;padding-left:12px">→ interaction-spec.md 的「待确认清单」将隐式假设显式化</div>
+        <div style="color:#e2e8f0;font-weight:700;margin:8px 0 3px">## 解决的问题</div>
+        <div style="color:#94a3b8">设计-开发鸿沟 → design-structure.md 将设计意图结构化，消除歧义</div>
+        <div style="color:#94a3b8">交互细节丢失 → interaction-spec.md 待确认清单将隐式假设显式化</div>
+        <div style="color:#94a3b8">业务逻辑/接口定义割裂 → interface-contract.md 三方共同对接底稿</div>
+        <div style="color:#94a3b8">直接生成 Demo 质量差 → 文档+高保真二次叠加输入，精度双保障</div>
 
-        <div style="color:#e2e8f0;font-weight:700;margin:10px 0 3px">## 工作流（6 步）</div>
-        <div style="color:#7c9ef5">Step 1 — 收集输入并澄清</div>
-        <div style="color:#94a3b8;padding-left:12px">收集设计稿截图/Figma；主动询问：整体色调/主色 Hex/特殊交互/布局约束</div>
-        <div style="color:#7c9ef5;margin-top:4px">Step 2 — 设计分析 → design-structure.md</div>
-        <div style="color:#94a3b8;padding-left:12px">布局层级 · 组件清单（名称/状态/子组件）· 色彩 Token（精确 Hex）· 数据接口</div>
+        <div style="color:#e2e8f0;font-weight:700;margin:10px 0 3px">## Phase 1 工作流 — 只出文档</div>
+        <div style="color:#7c9ef5">Step 1 — 收集输入</div>
+        <div style="color:#94a3b8;padding-left:12px">高保真截图/Figma + 接口定义文件（可选）+ 已知业务规则</div>
+        <div style="color:#7c9ef5;margin-top:4px">Step 2 — 设计结构分析 → design-structure.md</div>
+        <div style="color:#94a3b8;padding-left:12px">精确视觉规格（hex/px/层叠）· 布局算法 · 交互操作规格</div>
         <div style="color:#64748b;padding-left:12px;font-size:9px">⚠ 写任何代码之前先完成此步</div>
         <div style="color:#7c9ef5;margin-top:4px">Step 3 — 交互分析 → interaction-spec.md</div>
-        <div style="color:#94a3b8;padding-left:12px">可交互区域 · 状态枚举 · 交互序列 · 待设计师确认清单</div>
-        <div style="color:#7c9ef5;margin-top:4px">Step 4 — 技术选型 → tech-selection.md</div>
-        <div style="color:#94a3b8;padding-left:12px">Demo 技术栈 + 工程技术栈（分别记录）· 迁移路径</div>
-        <div style="color:#94a3b8;padding-left:12px">关键决策：复杂布局/图形用引擎（ELK/d3-force），不硬编码坐标</div>
-        <div style="color:#7c9ef5;margin-top:4px">Step 5 — 代码生成（Phase 1: HTML Demo）</div>
-        <div style="color:#94a3b8;padding-left:12px">HTML → 样式（精确 Hex）→ 交互 → Mock 数据（字段名=API 契约）</div>
-        <div style="color:#94a3b8;padding-left:12px">单文件自包含，浏览器双击运行，&lt; 1 小时完成</div>
-        <div style="color:#7c9ef5;margin-top:4px">Step 6 — 质量验收 → prompt-asset.md</div>
-        <div style="color:#94a3b8;padding-left:12px">对照 design-structure.md 自检 · 输出待确认清单 · 记录已知局限</div>
-
-        <div style="color:#e2e8f0;font-weight:700;margin:10px 0 3px">## 5 个交付物</div>
-        <div style="color:#f7c948">① design-structure.md</div>
-        <div style="color:#94a3b8;padding-left:12px">布局层级 · 组件清单 · 色彩 Token · 数据接口定义</div>
-        <div style="color:#f7c948;margin-top:4px">② interaction-spec.md</div>
         <div style="color:#94a3b8;padding-left:12px">状态枚举 · 交互序列 · 待设计师确认清单</div>
-        <div style="color:#f7c948;margin-top:4px">③ tech-selection.md</div>
-        <div style="color:#94a3b8;padding-left:12px">技术选型（Demo + 工程各一套）· 迁移路径</div>
-        <div style="color:#f7c948;margin-top:4px">④ demo/index.html（核心交付物）</div>
-        <div style="color:#94a3b8;padding-left:12px">可运行 Demo，浏览器双击即用，&lt; 1 小时</div>
-        <div style="color:#64748b;padding-left:12px;font-size:9px">→ 联调锚点：Mock 数据字段名 = 真实 API 字段名（Mock = API 契约）</div>
-        <div style="color:#f7c948;margin-top:4px">⑤ prompt-asset.md</div>
-        <div style="color:#94a3b8;padding-left:12px">原始 Prompt · 已知局限 · 下一步迭代建议</div>
+        <div style="color:#7c9ef5;margin-top:4px">Step 4 — 接口&业务逻辑分析 → interface-contract.md</div>
+        <div style="color:#94a3b8;padding-left:12px">接口定义 · 字段→UI状态映射 · 业务规则 · 前后端责任划分 · 联调待确认</div>
+        <div style="color:#7c9ef5;margin-top:4px">Step 5 — 技术选型 → tech-selection.md</div>
+        <div style="color:#94a3b8;padding-left:12px">Demo 技术栈 + 工程技术栈 · 迁移路径 · 图形用引擎不硬编码坐标</div>
+
+        <div style="color:#f59e0b;font-weight:700;margin:10px 0 3px">⏸ 节点 A — 文档 + 高保真二次输入，触发 Demo 生成</div>
+
+        <div style="color:#e2e8f0;font-weight:700;margin:6px 0 3px">## Demo 生成工作流</div>
+        <div style="color:#7c9ef5">Step 6 — 交叉校验文档与高保真</div>
+        <div style="color:#94a3b8;padding-left:12px">用高保真核验文档偏差，修正后再生成代码</div>
+        <div style="color:#7c9ef5;margin-top:4px">Step 7 — 生成 demo/index.html</div>
+        <div style="color:#94a3b8;padding-left:12px">严格基于已校验文档 · Mock 字段=接口契约 · 业务规则参照前后端边界</div>
+        <div style="color:#7c9ef5;margin-top:4px">Step 8 — 易用性审查 → quality-review.md</div>
+        <div style="color:#94a3b8;padding-left:12px">视觉精度 + 可读性 + 交互反馈 + 空/错误状态</div>
+
+        <div style="color:#7c9ef5;font-weight:700;margin:10px 0 3px">⏸ 节点 B — Demo 评审确认 → Phase 2</div>
+
+        <div style="color:#e2e8f0;font-weight:700;margin:6px 0 3px">## 7 个交付物</div>
+        <div style="color:#f7c948">Phase 1：① design-structure.md &nbsp;② interaction-spec.md</div>
+        <div style="color:#a78bfa;font-weight:700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;③ interface-contract.md（前后端对接）</div>
+        <div style="color:#f7c948">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;④ tech-selection.md &nbsp;⑤ prompt-asset.md</div>
+        <div style="color:#f7c948;margin-top:3px">Demo：&nbsp;&nbsp;&nbsp;⑥ demo/index.html（核心）&nbsp;⑦ quality-review.md</div>
 
         <div style="color:#e2e8f0;font-weight:700;margin:10px 0 3px">## Field Notes（铁律）</div>
-        <div style="color:#94a3b8">Hex 优于色名：#141420 无歧义，避免「深色」「接近黑色」等描述</div>
-        <div style="color:#94a3b8">图布局用引擎：5 个节点也用 ELK/d3-force，不硬编码坐标</div>
-        <div style="color:#94a3b8">Mock = API 契约：字段命名严格对齐 design-structure.md 定义的数据接口</div>
+        <div style="color:#94a3b8">视觉规格精确，数据与布局不写死：hex/px 精确，坐标/实例由代码动态渲染</div>
+        <div style="color:#94a3b8">图布局用引擎：ELK/dagre/d3-force，不硬编码节点坐标，拖拽后持久化</div>
+        <div style="color:#94a3b8">Mock = 接口契约：字段命名严格对齐 interface-contract.md 定义的数据接口</div>
       </div>
     </div>
   </div>
