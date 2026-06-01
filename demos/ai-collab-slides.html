@@ -827,7 +827,12 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
     document.getElementById('sc-counter').textContent = (idx+1) + ' / ' + total;
     document.getElementById('sc-desc').innerHTML = info.desc;
     var iframe = document.getElementById('codex-iframe');
-    try { if(iframe.contentWindow && iframe.contentWindow.goTo) iframe.contentWindow.goTo(idx); } catch(e){}
+    // postMessage 是最可靠的跨帧通信方式（直接调用可能因时机失败）
+    try {
+      iframe.contentWindow.postMessage({goTo: idx}, '*');
+      // 同时尝试直接调用作为备用
+      if(iframe.contentWindow.goTo) iframe.contentWindow.goTo(idx);
+    } catch(e){}
   }
 
   window.showcaseGo = function(dir){
