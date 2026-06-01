@@ -750,91 +750,74 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
   <div class="tag" style="color:var(--cr)">Skill 输出展示 · openUBMC Studio 真实产出物</div>
   <h2 style="margin-bottom:8px">product-doc.md 真实案例 · 翻页浏览每个分析节</h2>
 
-  <!-- TOP：导航栏 + 当前产出节说明 -->
-  <div style="flex-shrink:0;margin-bottom:8px">
-    <!-- 导航行 -->
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px">
-      <button onclick="showcaseGo(-1)" style="padding:4px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:5px;cursor:pointer;font-size:11px;font-family:inherit;color:var(--text2)">← 上一页</button>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span id="showcase-page-label" style="font-size:13px;font-weight:700;color:var(--text)">封面</span>
-        <span id="showcase-page-counter" style="font-size:9.5px;color:var(--text3);padding:2px 8px;background:var(--bg3);border-radius:99px">1 / 17</span>
-      </div>
-      <button onclick="showcaseGo(1)" style="padding:4px 14px;background:var(--cr);border:none;border-radius:5px;cursor:pointer;font-size:11px;font-family:inherit;color:#fff">下一页 →</button>
-      <div style="margin-left:auto;font-size:9px;color:var(--text3)">skill 产出物 · openUBMC Studio 真实案例</div>
-    </div>
-    <!-- 产物说明条（从 skill 产物角度） -->
-    <div id="showcase-desc" style="padding:9px 14px;background:rgba(20,122,94,.05);border:1px solid rgba(20,122,94,.2);border-left:3px solid var(--cr);border-radius:0 6px 6px 0;font-size:10.5px;color:var(--text2);line-height:1.6"></div>
+  <!-- 导航行 -->
+  <div style="flex-shrink:0;display:flex;align-items:center;gap:10px;margin-bottom:7px">
+    <button onclick="showcaseGo(-1)" style="padding:4px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:5px;cursor:pointer;font-size:11px;font-family:inherit;color:var(--text2)">← 上一页</button>
+    <span id="sc-label" style="font-size:13px;font-weight:700;color:var(--text)">封面</span>
+    <span id="sc-counter" style="font-size:9.5px;color:var(--text3);padding:2px 8px;background:var(--bg3);border-radius:99px">1 / 17</span>
+    <button onclick="showcaseGo(1)" style="padding:4px 14px;background:var(--cr);border:none;border-radius:5px;cursor:pointer;font-size:11px;font-family:inherit;color:#fff">下一页 →</button>
+    <div style="margin-left:auto;font-size:9px;color:var(--text3)">skill 产出物 · openUBMC Studio 真实案例</div>
   </div>
 
-  <!-- BOTTOM：iframe 撑满剩余高度 -->
-  <div style="flex:1;min-height:0;border-radius:9px;overflow:hidden;border:1px solid var(--border);background:#e0e0e5;position:relative">
-    <div style="position:absolute;inset:0;overflow:hidden">
-      <iframe id="codex-iframe"
-        src="bmcstudio-codex-slides.html"
-        style="width:1280px;height:720px;border:none;transform-origin:top left;pointer-events:none"
-        scrolling="no"></iframe>
-    </div>
+  <!-- 产物说明条 -->
+  <div id="sc-desc" style="flex-shrink:0;margin-bottom:8px;padding:8px 14px;background:rgba(20,122,94,.05);border:1px solid rgba(20,122,94,.2);border-left:3px solid var(--cr);border-radius:0 6px 6px 0;font-size:10.5px;color:var(--text2);line-height:1.6"></div>
+
+  <!-- iframe 容器：撑满剩余高度，id 用于 JS 测量 -->
+  <div id="c2p-iframe-wrap" style="flex:1;min-height:0;border-radius:9px;overflow:hidden;border:1px solid var(--border);background:#e0e0e5;position:relative">
+    <iframe id="codex-iframe"
+      src="bmcstudio-codex-slides.html"
+      style="width:1280px;height:720px;border:none;transform-origin:top left;transform:scale(0.6);pointer-events:none"
+      scrolling="no"></iframe>
   </div>
 </div>
 
 <script>
 (function(){
-  const pageInfo = [
-    { label: '封面',
-      desc: 'product-doc.md 的配套产出物：whitepaper 风格可视化报告（report/index.html）。skill 在完成文字文档后，同步生成楼层滚动的 HTML 报告，供团队评审传阅，无需打开 markdown 工具即可查看分析结论。' },
-    { label: 'SMC 命令字计算器 · 模块导入',
-      desc: 'skill Step 1.5「模块识别与确认」的产出结构——用户确认要分析哪些模块后，product-doc.md 为每个模块生成独立的分析节，节与节之间有清晰的模块分隔，便于读者按需跳转查阅。' },
-    { label: 'SMC · 需求背景',
-      desc: 'skill Step 1「技术栈扫描」的产出。skill 读取代码仓结构与依赖，定位功能在整体技术栈中的层级位置（固件层 / 应用层 / 通信层），让设计师在介入之前先理解「这个工具处于哪一层、上下游是什么」。' },
-    { label: 'SMC · 数据结构 · 概念解释',
-      desc: 'skill Step 2「数据模型分析」的产出。面对命令字位字段这类工程概念，skill 用「四步法」（是什么 → 为什么 → 怎么工作 → 对设计意味着什么）完成翻译，并配合位图结构图示——这是 product-doc.md 信息密度最高的节。' },
-    { label: 'SMC · 使用场景 & 目标用户',
-      desc: 'skill Step 3「业务逻辑梳理」的产出。每个场景用完整叙事写成（「工程师正在调试硬件 → 需要填写 32-bit 偏移量 → 打开工具按字段填写 → 自动合成命令字」），避免泛泛的功能描述，让设计决策有用户行为依据。' },
-    { label: 'SMC · 用户痛点',
-      desc: 'skill Step 3「机会点识别」的前置产出。skill 量化无工具时的操作成本（「手查芯片手册 + 手算位移：5–10 分钟/次，高错误率」），每条痛点结尾用「痛点核心：」固定格式提炼，为后续机会点提供直接的因果依据。' },
-    { label: 'SMC · 设计机会点 & 竞品',
-      desc: 'skill Step 5「设计机会点汇总」的产出。按三级分层：🟢 前端可独立实现 / 🟡 需后端配合 / 🔴 需产品层决策，让改进建议可落地而不是空谈。同时附竞品差距对比表和专利潜力评级，为差异化决策提供依据。' },
-    { label: '管道表达式计算器 · 模块导入',
-      desc: '进入 product-doc.md 第二个功能模块的分析节。skill 对每个确认的模块使用完全相同的分析结构，这种一致性让读者能快速建立认知模式，跨模块对比时也有统一的参照框架。' },
-    { label: '管道 · 概念解释 · 双模式设计',
-      desc: '管道模块的 Step 2 产出。CSR 表达式语法属于「领域专用语言」类型的技术概念，skill 同样用四步法完成翻译，重点说明调试模式（即席单步）与用例模式（可复用脚本）的根本差异——这两种使用意图决定了完全不同的 UI 结构。' },
-    { label: '管道 · 使用场景 & 目标用户',
-      desc: '管道模块的叙事场景，聚焦于「工程师在开发表达式时无调试手段」这一高频但工具链缺失的场景。与 SMC 的「计算」场景不同，管道场景的核心是「验证」——工程师需要知道表达式是否按预期运行。' },
-    { label: '管道 · 用户痛点',
-      desc: 'skill 量化了管道调试的核心痛点：修改一条表达式 → 重启服务 → 等待数据刷新，整个反馈周期 5–10 分钟，且中间状态完全不可见。这个量化数字来自真实开发流程观察，不是估算。' },
-    { label: '管道 · 设计机会点（高优先级）',
-      desc: 'Step 5 对 🔴 高优先级机会点的聚焦展示——这些是需要产品层决策的核心改进方向，往往对应最深层的痛点（「实时预览」「批量验证基础设施」），也是与竞品产生实质差距的机会所在。' },
-    { label: '管道 · 竞品分析 & 🟡🟢 机会点',
-      desc: 'skill 的竞品分析聚焦「差距」而非罗列功能：竞品具备什么、我们差在哪、组合差异化关键词。专利潜力描述只从交互操作角度写（「用户完成计算后历史记录自动出现」），不引用技术实现。' },
-    { label: '横向对比 · 两工具定位矩阵',
-      desc: 'product-doc.md 的汇总节，从单模块分析跨越到跨模块视角。skill 将两个工具放在同一坐标系（使用频率 × 操作复杂度）对比，识别各自的用户群定位和设计侧重点。' },
-    { label: '两工具共性设计机会点',
-      desc: 'skill 从多个模块的机会点中提炼出跨模块共性（「历史记录」「快捷键」「深色主题」），这些是单模块分析看不到的全局洞察，也是最高 ROI 的设计投入——一次实现，多处受益。' },
-    { label: '痛点 → 洞察 → 设计策略 · 三列流',
-      desc: 'product-doc.md 的核心分析产出，也是 skill Step 5「机会点汇总」的最终呈现形式。将散落的痛点汇聚成洞察，再从洞察导出策略，因果链完整可追溯——这是向设计评审、产品经理、管理层汇报的主线结构。' },
-    { label: '设计注意事项 · 技术约束',
-      desc: 'skill 在 Step 1 技术栈扫描时识别的约束，在文档结尾集中说明：轻量技术栈（无构建工具）、魔法值处理（32768=无效值）、不可改动的后端约定。在设计之前先知道「不能做什么」，比事后返工代价小得多。' },
+  var pageInfo = [
+    { label: '封面', desc: 'product-doc.md 的配套产出物：whitepaper 风格可视化报告（report/index.html）。skill 在完成文字文档后，同步生成楼层滚动的 HTML 报告，供团队评审传阅，无需打开 markdown 工具即可查看分析结论。' },
+    { label: 'SMC 命令字计算器 · 模块导入', desc: 'skill Step 1.5「模块识别与确认」的产出结构——用户确认要分析哪些模块后，product-doc.md 为每个模块生成独立的分析节，节与节之间有清晰的模块分隔，便于读者按需跳转查阅。' },
+    { label: 'SMC · 需求背景', desc: 'skill Step 1「技术栈扫描」的产出。skill 读取代码仓结构与依赖，定位功能在整体技术栈中的层级位置（固件层 / 应用层 / 通信层），让设计师在介入之前先理解「这个工具处于哪一层、上下游是什么」。' },
+    { label: 'SMC · 数据结构 · 概念解释', desc: 'skill Step 2「数据模型分析」的产出。面对命令字位字段这类工程概念，skill 用「四步法」（是什么 → 为什么 → 怎么工作 → 对设计意味着什么）完成翻译，并配合位图结构图示——这是 product-doc.md 信息密度最高的节。' },
+    { label: 'SMC · 使用场景 & 目标用户', desc: 'skill Step 3「业务逻辑梳理」的产出。每个场景用完整叙事写成（「工程师正在调试硬件 → 需要填写 32-bit 偏移量 → 打开工具按字段填写 → 自动合成命令字」），避免泛泛的功能描述，让设计决策有用户行为依据。' },
+    { label: 'SMC · 用户痛点', desc: 'skill Step 3「机会点识别」的前置产出。skill 量化无工具时的操作成本（「手查芯片手册 + 手算位移：5–10 分钟/次，高错误率」），每条痛点结尾用「痛点核心：」固定格式提炼，为后续机会点提供直接的因果依据。' },
+    { label: 'SMC · 设计机会点 & 竞品', desc: 'skill Step 5「设计机会点汇总」的产出。按三级分层：🟢 前端可独立实现 / 🟡 需后端配合 / 🔴 需产品层决策，让改进建议可落地而不是空谈。同时附竞品差距对比表和专利潜力评级，为差异化决策提供依据。' },
+    { label: '管道表达式计算器 · 模块导入', desc: '进入 product-doc.md 第二个功能模块的分析节。skill 对每个确认的模块使用完全相同的分析结构，这种一致性让读者能快速建立认知模式，跨模块对比时也有统一的参照框架。' },
+    { label: '管道 · 概念解释 · 双模式设计', desc: '管道模块的 Step 2 产出。CSR 表达式语法属于「领域专用语言」类型的技术概念，skill 同样用四步法完成翻译，重点说明调试模式（即席单步）与用例模式（可复用脚本）的根本差异——这两种使用意图决定了完全不同的 UI 结构。' },
+    { label: '管道 · 使用场景 & 目标用户', desc: '管道模块的叙事场景，聚焦于「工程师在开发表达式时无调试手段」这一高频但工具链缺失的场景。与 SMC 的「计算」场景不同，管道场景的核心是「验证」——工程师需要知道表达式是否按预期运行。' },
+    { label: '管道 · 用户痛点', desc: 'skill 量化了管道调试的核心痛点：修改一条表达式 → 重启服务 → 等待数据刷新，整个反馈周期 5–10 分钟，且中间状态完全不可见。这个量化数字来自真实开发流程观察，不是估算。' },
+    { label: '管道 · 设计机会点（高优先级）', desc: 'Step 5 对 🔴 高优先级机会点的聚焦展示——这些是需要产品层决策的核心改进方向，往往对应最深层的痛点（「实时预览」「批量验证基础设施」），也是与竞品产生实质差距的机会所在。' },
+    { label: '管道 · 竞品分析 & 🟡🟢 机会点', desc: 'skill 的竞品分析聚焦「差距」而非罗列功能：竞品具备什么、我们差在哪、组合差异化关键词。专利潜力描述只从交互操作角度写（「用户完成计算后历史记录自动出现」），不引用技术实现。' },
+    { label: '横向对比 · 两工具定位矩阵', desc: 'product-doc.md 的汇总节，从单模块分析跨越到跨模块视角。skill 将两个工具放在同一坐标系（使用频率 × 操作复杂度）对比，识别各自的用户群定位和设计侧重点。' },
+    { label: '两工具共性设计机会点', desc: 'skill 从多个模块的机会点中提炼出跨模块共性（「历史记录」「快捷键」「深色主题」），这些是单模块分析看不到的全局洞察，也是最高 ROI 的设计投入——一次实现，多处受益。' },
+    { label: '痛点 → 洞察 → 设计策略 · 三列流', desc: 'product-doc.md 的核心分析产出，也是 skill Step 5「机会点汇总」的最终呈现形式。将散落的痛点汇聚成洞察，再从洞察导出策略，因果链完整可追溯——这是向设计评审、产品经理、管理层汇报的主线结构。' },
+    { label: '设计注意事项 · 技术约束', desc: 'skill 在 Step 1 技术栈扫描时识别的约束，在文档结尾集中说明：轻量技术栈（无构建工具）、魔法值处理（32768=无效值）、不可改动的后端约定。在设计之前先知道「不能做什么」，比事后返工代价小得多。' },
   ];
 
-  let idx = 0;
-  const total = pageInfo.length;
+  var idx = 0;
+  var total = pageInfo.length;
 
   function scaleIframe(){
-    const container = document.querySelector('#c2p-showcase .c2p-iframe-container');
-    const iframe = document.getElementById('codex-iframe');
-    if(!container || !iframe) return;
-    const cw = container.offsetWidth;
-    const ch = container.offsetHeight;
-    const s = Math.min(cw/1280, ch/720);
+    var wrap = document.getElementById('c2p-iframe-wrap');
+    var iframe = document.getElementById('codex-iframe');
+    if(!wrap || !iframe) return;
+    var cw = wrap.offsetWidth;
+    var ch = wrap.offsetHeight;
+    if(!cw || !ch){ setTimeout(scaleIframe, 100); return; }
+    var s = Math.min(cw/1280, ch/720);
     iframe.style.transform = 'scale('+s+')';
+    // 居中对齐
+    var scaledW = 1280 * s;
+    var scaledH = 720 * s;
+    iframe.style.marginLeft = Math.max(0, (cw - scaledW)/2) + 'px';
+    iframe.style.marginTop  = Math.max(0, (ch - scaledH)/2) + 'px';
   }
 
   function updatePanel(){
-    const info = pageInfo[idx];
-    document.getElementById('showcase-page-label').textContent = info.label;
-    document.getElementById('showcase-page-counter').textContent = (idx+1) + ' / ' + total;
-    document.getElementById('showcase-desc').innerHTML = info.desc;
-    const iframe = document.getElementById('codex-iframe');
+    var info = pageInfo[idx];
+    document.getElementById('sc-label').textContent = info.label;
+    document.getElementById('sc-counter').textContent = (idx+1) + ' / ' + total;
+    document.getElementById('sc-desc').innerHTML = info.desc;
+    var iframe = document.getElementById('codex-iframe');
     try { if(iframe.contentWindow && iframe.contentWindow.goTo) iframe.contentWindow.goTo(idx); } catch(e){}
   }
 
@@ -850,10 +833,18 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
   });
 
   window.addEventListener('resize', scaleIframe);
-  // Add container class for JS selector
-  const container = document.querySelector('#c2p-showcase > div:last-child > div');
-  if(container) container.classList.add('c2p-iframe-container');
-  setTimeout(scaleIframe, 300);
+
+  // 初始化：在 DOMContentLoaded 和延迟时均尝试
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', scaleIframe);
+  } else {
+    scaleIframe();
+  }
+  setTimeout(scaleIframe, 200);
+  setTimeout(scaleIframe, 800);
+
+  // 首次渲染说明
+  updatePanel();
 })();
 </script>
 
