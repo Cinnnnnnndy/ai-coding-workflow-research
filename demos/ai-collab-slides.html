@@ -637,202 +637,208 @@ pre{background:#1d1d1f;border-radius:8px;padding:10px 13px;color:#f5f5f7;
 </div>
 
 <!-- ════════════════════════════════
-  SLIDE 3 · /code-to-product-doc · P1 是什么
+  SLIDE 3 · /code-to-product-doc · 是什么 + 产物结构（合并）
 ════════════════════════════════ -->
 <div class="slide" data-phase="skill-c2p">
   <div class="step-bar">
     <span class="sb-step" style="background:var(--cr);color:#fff">① code → doc</span><span class="sb-sep">›</span>
     <span class="sb-step sb-f">② backend → design</span><span class="sb-sep">›</span>
     <span class="sb-step sb-f">③ hifi → demo</span>
-    <span style="margin-left:auto;font-size:9px;color:var(--cr);font-weight:700">P1 · 是什么</span>
+    <span style="margin-left:auto;font-size:9px;color:var(--cr);font-weight:700">P1 · 是什么 & 产物</span>
   </div>
   <div class="tag" style="color:var(--cr)">沉淀 Skill · 研究洞察阶段</div>
-  <h2><code style="font-size:19px;background:rgba(20,122,94,.08);color:var(--cr);padding:2px 9px;border-radius:5px">/code-to-product-doc</code> &nbsp;后端代码 → 产品文档</h2>
-  <div style="display:flex;align-items:stretch;gap:0;margin-bottom:10px;padding:6px 10px;background:rgba(255,255,255,.5);border:1px solid var(--border);border-left:3px solid var(--cr);border-radius:0 7px 7px 0;flex-shrink:0">
-    <div style="flex:1;min-width:0;padding:3px 4px">
-      <div style="font-size:8px;font-weight:700;color:var(--cr);letter-spacing:.05em;margin-bottom:1px;display:flex;align-items:center;gap:3px">🎯 场景</div>
-      <div style="font-size:10px;color:var(--text2);line-height:1.4">后端先行无文档 · 设计介入门槛极高</div>
-    </div>
-    <div style="width:1px;background:var(--border);align-self:stretch;margin:3px 0"></div>
-    <div style="flex:1;min-width:0;padding:3px 4px">
-      <div style="font-size:8px;font-weight:700;color:var(--cr);letter-spacing:.05em;margin-bottom:1px;display:flex;align-items:center;gap:3px">📋 步骤</div>
-      <div style="font-size:10px;color:var(--text2);line-height:1.4">5 步 · 扫描 → 模块 → 数据 → 流程 → 机会点</div>
-    </div>
-    <div style="width:1px;background:var(--border);align-self:stretch;margin:3px 0"></div>
-    <div style="flex:1;min-width:0;padding:3px 4px">
-      <div style="font-size:8px;font-weight:700;color:var(--cr);letter-spacing:.05em;margin-bottom:1px;display:flex;align-items:center;gap:3px">✓ 目的</div>
-      <div style="font-size:10px;color:var(--text2);line-height:1.4">把工程代码翻译成设计师能直接用的语言</div>
-    </div>
-    <div style="width:1px;background:var(--border);align-self:stretch;margin:3px 0"></div>
-    <div style="flex:1;min-width:0;padding:3px 4px">
-      <div style="font-size:8px;font-weight:700;color:var(--cr);letter-spacing:.05em;margin-bottom:1px;display:flex;align-items:center;gap:3px">⏱ 节省</div>
-      <div style="font-size:10px;color:var(--text2);line-height:1.4">代码理解：数天 → 半天</div>
-    </div>
-  </div>
+  <h2 style="margin-bottom:8px"><code style="font-size:17px;background:rgba(20,122,94,.08);color:var(--cr);padding:2px 9px;border-radius:5px">/code-to-product-doc</code> &nbsp;后端代码 → 产品文档</h2>
 
+  <div class="cols" style="flex:1;min-height:0;gap:14px">
 
-  <div class="cols" style="flex:1;align-items:flex-start">
-    <div class="col col2" style="gap:8px">
-      <div class="callout teal">
+    <!-- LEFT：概念 + 场景 + 位置 -->
+    <div class="col" style="flex:0 0 340px;min-width:0;gap:8px;overflow-y:auto">
+      <div class="callout teal" style="flex-shrink:0">
         <strong>一句话：</strong>把工程代码翻译成<strong>设计师能直接用的语言</strong>。这是后端先行流程的第一步，也是后续一切设计决策的<strong style="color:var(--cr)">工程锚点</strong>。
       </div>
-      <div class="card">
-        <h3>3 个典型触发场景（设计师视角）</h3>
-        <ul class="list" style="margin-top:7px">
-          <li><strong>收到后端 Demo，看不懂功能。</strong>不理解就动不了手，要先把代码读成"在做什么"</li>
-          <li><strong>有 API 文档但缺产品视角。</strong>字段名是工程命名，需翻译成业务语言与 UI 显示对照</li>
-          <li><strong>要做设计审查、A11y 评估，但缺上下文。</strong>得先有产品定义才能比对什么算「好」</li>
+      <div class="card" style="flex-shrink:0">
+        <h3 style="font-size:11px">3 个典型触发场景</h3>
+        <ul class="list" style="margin-top:5px">
+          <li style="font-size:10px"><strong>收到后端 Demo，看不懂功能。</strong>要先把代码读成「在做什么」</li>
+          <li style="font-size:10px"><strong>有 API 文档但缺产品视角。</strong>字段名是工程命名，需翻译成业务语言</li>
+          <li style="font-size:10px"><strong>要做设计审查、A11y 评估，但缺上下文。</strong>先有产品定义才能审查</li>
         </ul>
       </div>
-      <div class="card">
-        <h3>在五步协同流程里的位置</h3>
-        <div class="step-flow" style="margin-top:8px">
+      <div class="card" style="flex-shrink:0">
+        <h3 style="font-size:11px">在五阶段协同流程中的位置</h3>
+        <div class="step-flow" style="margin-top:6px">
           <div class="step-box hi" style="background:rgba(20,122,94,.1);border-color:rgba(20,122,94,.5)">
-            <div class="step-num" style="color:var(--cr);font-size:8.5px">研究洞察</div>
-            <div class="step-title" style="font-size:9px;color:var(--cr)">/code-to-<br>product-doc</div>
+            <div class="step-num" style="color:var(--cr);font-size:7.5px">Phase 1<br>研究洞察</div>
+            <div class="step-title" style="font-size:8px;color:var(--cr)">/code-to-<br>product-doc</div>
           </div>
-          <div class="step-box">
-            <div class="step-num" style="font-size:8.5px">概要设计</div>
-            <div class="step-title" style="font-size:9px">/backend-to-<br>design</div>
-          </div>
-          <div class="step-box">
-            <div class="step-num" style="font-size:8.5px">详细设计</div>
-            <div class="step-title" style="font-size:9px">/b2d<br>/hifi-to-demo</div>
-          </div>
-          <div class="step-box">
-            <div class="step-num" style="font-size:8.5px">开发跟踪</div>
-            <div class="step-title" style="font-size:9px">/hifi-to-demo<br>联调参考</div>
-          </div>
-          <div class="step-box">
-            <div class="step-num" style="font-size:8.5px">体验评估</div>
-            <div class="step-title" style="font-size:9px">产品测试<br>验证迭代</div>
-          </div>
+          <div class="step-box"><div class="step-num" style="font-size:7.5px">Phase 2<br>概要设计</div><div class="step-title" style="font-size:8px">/backend-to-<br>design</div></div>
+          <div class="step-box"><div class="step-num" style="font-size:7.5px">Phase 3<br>详细设计</div><div class="step-title" style="font-size:8px">/hifi-to-<br>demo</div></div>
+          <div class="step-box"><div class="step-num" style="font-size:7.5px">Phase 4<br>开发跟踪</div><div class="step-title" style="font-size:8px">联调<br>接入</div></div>
+          <div class="step-box"><div class="step-num" style="font-size:7.5px">Phase 5<br>体验评估</div><div class="step-title" style="font-size:8px">验证<br>迭代</div></div>
         </div>
-        <div style="margin-top:7px;padding:6px 10px;background:rgba(20,122,94,.07);border-radius:6px;font-size:9px;color:var(--text3);line-height:1.6">
-          💡 <strong style="color:var(--cr)">Skill 来源</strong>：此 skill 最初是 <code>/backend-to-design</code> 内部 Step 2（读代码→产品文档），因频繁被单独需要，提炼为<strong style="color:var(--cr)">独立完整的 skill</strong>，也可独立于 b2d 触发
+        <div style="margin-top:6px;padding:5px 9px;background:rgba(20,122,94,.06);border-radius:5px;font-size:8.5px;color:var(--text3)">
+          💡 <strong style="color:var(--cr)">Skill 来源</strong>：最初是 <code>/backend-to-design</code> 内部的读代码步骤，因高频被单独需要而提炼为独立 skill
         </div>
       </div>
     </div>
 
-    <div class="col" style="gap:8px">
-      <div class="skill-card" style="flex:unset;border-top:3px solid var(--cr)">
-        <div class="sc-trigger" style="color:var(--cr)">/code-to-product-doc</div>
-        <div class="sc-desc">从后端代码、配置文件或数据模型出发，生成完整产品文档。</div>
-        <div class="sc-meta">
-          <span class="sc-label">输入</span>
-          <span class="sc-val">后端代码 / 配置 / 数据模型 / API 文档</span>
-          <span class="sc-label">产出 ①</span>
-          <span class="sc-val"><code>product-doc.md</code><br>功能定义 · 用户场景 · 数据结构 · 核心流程 · 设计机会点 · 注意事项<br><span style="color:var(--text3);font-size:9px">→ 供设计审查、A11y 分析、团队对齐、新成员 onboarding 使用</span></span>
-          <span class="sc-label">产出 ②</span>
-          <span class="sc-val"><code>data-dictionary.md</code> (可选)<br>工程命名 ↔ 业务语言 ↔ UI 展示对照<br><span style="color:var(--text3);font-size:9px">→ 消除命名歧义，供前后端长期查阅</span></span>
+    <!-- RIGHT：输入 + 工作流 + 产物结构 -->
+    <div class="col" style="flex:1;min-width:0;gap:8px;overflow-y:auto">
+      <!-- 输入 + 5步工作流 横排 -->
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <div style="flex:1;padding:9px 11px;background:rgba(20,122,94,.04);border:1px solid rgba(20,122,94,.2);border-radius:7px">
+          <div style="font-size:8.5px;font-weight:700;color:var(--cr);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">输入</div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:8.5px;color:var(--text2)">
+            <div style="display:flex;align-items:center;gap:6px"><span>📁</span><span><strong>代码仓</strong>：GitHub / 本地目录</span></div>
+            <div style="display:flex;align-items:center;gap:6px"><span>📄</span><span><strong>数据模型</strong>：data-model.md · OpenAPI</span></div>
+            <div style="display:flex;align-items:center;gap:6px"><span>🧪</span><span><strong>样本数据</strong>：sample-*.yaml · *.json</span></div>
+          </div>
+        </div>
+        <div style="flex:1;padding:9px 11px;background:rgba(20,122,94,.04);border:1px solid rgba(20,122,94,.2);border-radius:7px">
+          <div style="font-size:8.5px;font-weight:700;color:var(--cr);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">5 步工作流</div>
+          <div style="font-size:8.5px;color:var(--text3);line-height:1.9">
+            ① 技术栈扫描 &nbsp;&nbsp;② 模块识别确认<br>
+            ③ 数据模型分析（核心）<br>
+            ④ 业务流程还原 &nbsp;&nbsp;⑤ 机会点汇总
+          </div>
+        </div>
+      </div>
+
+      <!-- product-doc.md 结构 -->
+      <div style="flex:1;border:2px solid rgba(20,122,94,.25);border-radius:8px;background:rgba(20,122,94,.02);padding:9px;display:flex;flex-direction:column;gap:7px;min-height:0">
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;padding-bottom:6px;border-bottom:1px solid rgba(20,122,94,.12)">
+          <code style="font-size:11px;font-weight:700;background:rgba(20,122,94,.12);color:var(--cr);padding:2px 8px;border-radius:4px">product-doc.md</code>
+          <span style="font-size:8.5px;color:var(--text3)">按功能模块循环展开 · 每模块一节</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;flex:1">
+          <div style="padding:6px 8px;background:rgba(20,122,94,.07);border-radius:6px;border-left:3px solid rgba(20,122,94,.4)"><div style="font-size:9.5px;font-weight:700;color:var(--cr);margin-bottom:2px">需求背景</div><div style="font-size:7.5px;color:var(--text3);line-height:1.4">功能来源<br>技术栈中的位置</div></div>
+          <div style="padding:6px 8px;background:rgba(20,122,94,.07);border-radius:6px;border-left:3px solid rgba(20,122,94,.4)"><div style="font-size:9.5px;font-weight:700;color:var(--cr);margin-bottom:2px">使用场景</div><div style="font-size:7.5px;color:var(--text3);line-height:1.4">2–4 叙事场景<br>用户 · 情境 · 目标</div></div>
+          <div style="padding:6px 8px;background:rgba(20,122,94,.07);border-radius:6px;border-left:3px solid rgba(20,122,94,.4)"><div style="font-size:9.5px;font-weight:700;color:var(--cr);margin-bottom:2px">目标用户</div><div style="font-size:7.5px;color:var(--text3);line-height:1.4">角色 · 频率 · 环境<br>核心诉求</div></div>
+          <div style="padding:6px 8px;background:rgba(20,122,94,.07);border-radius:6px;border-left:3px solid rgba(20,122,94,.4)"><div style="font-size:9.5px;font-weight:700;color:var(--cr);margin-bottom:2px">用户痛点</div><div style="font-size:7.5px;color:var(--text3);line-height:1.4">量化操作成本<br>痛点核心提炼</div></div>
+          <div style="padding:6px 8px;background:rgba(20,122,94,.1);border-radius:6px;border-left:3px solid var(--cr)"><div style="font-size:9.5px;font-weight:700;color:var(--cr);margin-bottom:2px">数据结构</div><div style="font-size:7.5px;color:var(--text3);line-height:1.4">实体清单 · 枚举映射<br>关系图 · 魔法值</div></div>
+          <div style="padding:6px 8px;background:rgba(20,122,94,.07);border-radius:6px;border-left:3px solid rgba(20,122,94,.4)"><div style="font-size:9.5px;font-weight:700;color:var(--cr);margin-bottom:2px">核心流程</div><div style="font-size:7.5px;color:var(--text3);line-height:1.4">操作步骤 · 顺序约束<br>依赖关系</div></div>
+          <div style="padding:6px 8px;background:rgba(255,200,0,.1);border-radius:6px;border-left:3px solid #c9950c"><div style="font-size:9.5px;font-weight:700;color:#a07800;margin-bottom:2px">设计机会点</div><div style="font-size:7.5px;color:var(--text3);line-height:1.4">🟢🟡🔴 分层实现</div></div>
+          <div style="padding:6px 8px;background:rgba(20,122,94,.07);border-radius:6px;border-left:3px solid rgba(20,122,94,.4)"><div style="font-size:9.5px;font-weight:700;color:var(--cr);margin-bottom:2px">竞品分析</div><div style="font-size:7.5px;color:var(--text3);line-height:1.4">差距对比表<br>专利潜力评级</div></div>
+          <div style="padding:6px 8px;background:rgba(20,122,94,.07);border-radius:6px;border-left:3px solid rgba(20,122,94,.4)"><div style="font-size:9.5px;font-weight:700;color:var(--cr);margin-bottom:2px">设计注意事项</div><div style="font-size:7.5px;color:var(--text3);line-height:1.4">约束条件<br>边界情况</div></div>
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <div style="flex:1;padding:5px 9px;background:rgba(20,122,94,.04);border:1px solid rgba(20,122,94,.18);border-radius:5px;display:flex;align-items:center;gap:6px">
+            <code style="font-size:9px;color:var(--cr);white-space:nowrap">report/index.html</code>
+            <span style="font-size:8px;color:var(--text3)">Whitepaper 可视化报告 · 楼层滚动</span>
+          </div>
+          <div style="flex:1;padding:5px 9px;background:rgba(20,122,94,.04);border:1px dashed rgba(20,122,94,.18);border-radius:5px;display:flex;align-items:center;gap:6px">
+            <code style="font-size:9px;color:var(--cr);white-space:nowrap">data-dictionary.md</code>
+            <span style="font-size:8px;color:var(--text3)">工程命名 ↔ 业务语言 ↔ UI · 可选</span>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
 <!-- ════════════════════════════════
-  SLIDE 3.5 · /code-to-product-doc · 产物结构框图
+  SLIDE 3.5 · /code-to-product-doc · 生成示例展示
 ════════════════════════════════ -->
-<div class="slide" data-phase="skill-c2p">
+<div class="slide" data-phase="skill-c2p" id="c2p-showcase">
   <div class="step-bar">
     <span class="sb-step" style="background:var(--cr);color:#fff">① code → doc</span><span class="sb-sep">›</span>
     <span class="sb-step sb-f">② backend → design</span><span class="sb-sep">›</span>
     <span class="sb-step sb-f">③ hifi → demo</span>
-    <span style="margin-left:auto;font-size:9px;color:var(--cr);font-weight:700">产物结构</span>
+    <span style="margin-left:auto;font-size:9px;color:var(--cr);font-weight:700">生成示例</span>
   </div>
-  <div class="tag" style="color:var(--cr)">产物框图 · /code-to-product-doc</div>
-  <h2 style="font-size:16px;margin-bottom:10px"><code style="font-size:14px;background:rgba(20,122,94,.08);color:var(--cr);padding:2px 8px;border-radius:5px">/code-to-product-doc</code> &nbsp;产出物 · 内容结构</h2>
+  <div class="tag" style="color:var(--cr)">Skill 输出展示 · openUBMC Studio 真实产出物</div>
+  <h2 style="margin-bottom:8px">product-doc.md 真实案例 · 翻页浏览每个分析节</h2>
 
-  <div style="flex:1;display:flex;gap:12px;align-items:stretch;min-height:0">
+  <div style="display:flex;gap:14px;flex:1;min-height:0">
 
-    <!-- LEFT: Input + process steps -->
-    <div style="width:168px;flex-shrink:0;display:flex;flex-direction:column;gap:7px">
-      <div style="font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">输入</div>
-      <div style="padding:7px 10px;background:rgba(20,122,94,.06);border:1.5px solid rgba(20,122,94,.2);border-radius:7px">
-        <div style="font-size:9px;font-weight:700;color:var(--cr);margin-bottom:2px">📁 代码仓</div>
-        <div style="font-size:8px;color:var(--text3)">GitHub / 本地目录</div>
+    <!-- LEFT：当前页说明面板 -->
+    <div style="width:320px;flex-shrink:0;display:flex;flex-direction:column;gap:8px">
+      <!-- 当前页指示 -->
+      <div style="padding:8px 12px;background:rgba(20,122,94,.06);border:1px solid rgba(20,122,94,.2);border-radius:7px;flex-shrink:0">
+        <div style="font-size:8.5px;font-weight:700;color:var(--cr);margin-bottom:3px">当前展示</div>
+        <div id="showcase-page-label" style="font-size:12px;font-weight:700;color:var(--text)">封面</div>
+        <div id="showcase-page-counter" style="font-size:9px;color:var(--text3);margin-top:2px">1 / 17</div>
       </div>
-      <div style="padding:7px 10px;background:rgba(20,122,94,.06);border:1.5px solid rgba(20,122,94,.2);border-radius:7px">
-        <div style="font-size:9px;font-weight:700;color:var(--cr);margin-bottom:2px">📄 数据模型</div>
-        <div style="font-size:8px;color:var(--text3)">data-model.md · OpenAPI</div>
+      <!-- 说明内容 -->
+      <div id="showcase-desc" style="flex:1;padding:12px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--cr);border-radius:0 7px 7px 0;overflow-y:auto;font-size:10px;color:var(--text2);line-height:1.65">
+        这份报告是 <code>/code-to-product-doc</code> 对 openUBMC Studio 两个工程工具模块（SMC 命令字计算器 &amp; 管道表达式计算器）的完整分析产出物，向右翻页可依次查看每个 product-doc.md 章节的真实内容。
       </div>
-      <div style="padding:7px 10px;background:rgba(20,122,94,.06);border:1.5px solid rgba(20,122,94,.2);border-radius:7px">
-        <div style="font-size:9px;font-weight:700;color:var(--cr);margin-bottom:2px">🧪 样本数据</div>
-        <div style="font-size:8px;color:var(--text3)">sample-*.yaml · *.json</div>
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;border-top:1px solid var(--border);margin-top:4px;padding-top:10px">
-        <div style="font-size:8px;font-weight:700;color:var(--text3)">5 步工作流</div>
-        <div style="font-size:8px;color:var(--text3);line-height:1.9">① 技术栈扫描<br>② 模块识别确认<br>③ 数据模型分析<br>④ 业务流程还原<br>⑤ 机会点汇总</div>
-        <div style="font-size:20px;color:var(--cr);opacity:.4;margin-top:6px">→</div>
-      </div>
-    </div>
-
-    <!-- RIGHT: Output structure -->
-    <div style="flex:1;display:flex;flex-direction:column;gap:8px;min-width:0">
-      <div style="font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">产出物</div>
-
-      <!-- Primary: product-doc.md -->
-      <div style="flex:1;border:2px solid rgba(20,122,94,.3);border-radius:10px;background:rgba(20,122,94,.03);padding:10px 12px;display:flex;flex-direction:column;gap:7px;min-height:0">
-        <div style="display:flex;align-items:center;gap:9px;flex-shrink:0;border-bottom:1px solid rgba(20,122,94,.15);padding-bottom:7px">
-          <code style="font-size:11px;font-weight:700;background:rgba(20,122,94,.12);color:var(--cr);padding:3px 9px;border-radius:5px">product-doc.md</code>
-          <div style="font-size:9px;color:var(--text3)">按功能模块循环展开 · 每模块一节</div>
-        </div>
-        <!-- 3×3 section grid -->
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;flex:1">
-          <div style="padding:7px 9px;background:rgba(20,122,94,.07);border-radius:7px;border-left:3px solid rgba(20,122,94,.45)">
-            <div style="font-size:10px;font-weight:700;color:var(--cr);margin-bottom:3px">需求背景</div>
-            <div style="font-size:8px;color:var(--text3);line-height:1.5">功能来源<br>在技术栈中的位置</div>
-          </div>
-          <div style="padding:7px 9px;background:rgba(20,122,94,.07);border-radius:7px;border-left:3px solid rgba(20,122,94,.45)">
-            <div style="font-size:10px;font-weight:700;color:var(--cr);margin-bottom:3px">使用场景</div>
-            <div style="font-size:8px;color:var(--text3);line-height:1.5">2–4 叙事场景<br>用户 · 情境 · 目标</div>
-          </div>
-          <div style="padding:7px 9px;background:rgba(20,122,94,.07);border-radius:7px;border-left:3px solid rgba(20,122,94,.45)">
-            <div style="font-size:10px;font-weight:700;color:var(--cr);margin-bottom:3px">目标用户</div>
-            <div style="font-size:8px;color:var(--text3);line-height:1.5">角色 · 频率 · 环境<br>核心诉求</div>
-          </div>
-          <div style="padding:7px 9px;background:rgba(20,122,94,.07);border-radius:7px;border-left:3px solid rgba(20,122,94,.45)">
-            <div style="font-size:10px;font-weight:700;color:var(--cr);margin-bottom:3px">用户痛点</div>
-            <div style="font-size:8px;color:var(--text3);line-height:1.5">量化操作成本<br>痛点核心提炼</div>
-          </div>
-          <div style="padding:7px 9px;background:rgba(20,122,94,.09);border-radius:7px;border-left:3px solid var(--cr)">
-            <div style="font-size:10px;font-weight:700;color:var(--cr);margin-bottom:3px">数据结构</div>
-            <div style="font-size:8px;color:var(--text3);line-height:1.5">实体清单 · 枚举映射<br>关系图 · 魔法值</div>
-          </div>
-          <div style="padding:7px 9px;background:rgba(20,122,94,.07);border-radius:7px;border-left:3px solid rgba(20,122,94,.45)">
-            <div style="font-size:10px;font-weight:700;color:var(--cr);margin-bottom:3px">核心流程</div>
-            <div style="font-size:8px;color:var(--text3);line-height:1.5">操作步骤 · 顺序约束<br>依赖关系</div>
-          </div>
-          <div style="padding:7px 9px;background:rgba(255,200,0,.1);border-radius:7px;border-left:3px solid #c9950c">
-            <div style="font-size:10px;font-weight:700;color:#a07800;margin-bottom:3px">设计机会点</div>
-            <div style="font-size:8px;color:var(--text3);line-height:1.5">🟢 前端独立<br>🟡 后端配合 · 🔴 产品决策</div>
-          </div>
-          <div style="padding:7px 9px;background:rgba(20,122,94,.07);border-radius:7px;border-left:3px solid rgba(20,122,94,.45)">
-            <div style="font-size:10px;font-weight:700;color:var(--cr);margin-bottom:3px">竞品分析</div>
-            <div style="font-size:8px;color:var(--text3);line-height:1.5">差距对比表<br>专利潜力评级</div>
-          </div>
-          <div style="padding:7px 9px;background:rgba(20,122,94,.07);border-radius:7px;border-left:3px solid rgba(20,122,94,.45)">
-            <div style="font-size:10px;font-weight:700;color:var(--cr);margin-bottom:3px">设计注意事项</div>
-            <div style="font-size:8px;color:var(--text3);line-height:1.5">约束条件<br>边界情况</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Secondary outputs row -->
+      <!-- 导航按钮 -->
       <div style="display:flex;gap:8px;flex-shrink:0">
-        <div style="flex:1;padding:7px 11px;background:rgba(20,122,94,.04);border:1.5px solid rgba(20,122,94,.2);border-radius:7px;display:flex;align-items:center;gap:8px">
-          <code style="font-size:9.5px;color:var(--cr);white-space:nowrap">report/index.html</code>
-          <div style="font-size:8px;color:var(--text3)">Whitepaper 可视化报告 · 楼层滚动 · 供评审传阅</div>
-        </div>
-        <div style="flex:1;padding:7px 11px;background:rgba(20,122,94,.04);border:1.5px dashed rgba(20,122,94,.2);border-radius:7px;display:flex;align-items:center;gap:8px">
-          <code style="font-size:9.5px;color:var(--cr);white-space:nowrap">data-dictionary.md</code>
-          <div style="font-size:8px;color:var(--text3)">工程命名 ↔ 业务语言 ↔ UI 展示 · 可选</div>
-        </div>
+        <button onclick="showcaseGo(-1)" style="flex:1;padding:7px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;font-family:inherit;color:var(--text2)">← 上一页</button>
+        <button onclick="showcaseGo(1)" style="flex:1;padding:7px;background:var(--cr);border:none;border-radius:6px;cursor:pointer;font-size:11px;font-family:inherit;color:#fff">下一页 →</button>
       </div>
     </div>
+
+    <!-- RIGHT：bmcstudio iframe（缩放嵌入） -->
+    <div style="flex:1;min-width:0;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:#e0e0e5;position:relative">
+      <div style="position:absolute;top:0;left:0;width:706px;height:398px;overflow:hidden;border-radius:9px">
+        <iframe id="codex-iframe"
+          src="bmcstudio-codex-slides.html"
+          style="width:1280px;height:720px;border:none;transform:scale(0.552);transform-origin:top left;pointer-events:none"
+          scrolling="no"></iframe>
+      </div>
+    </div>
+
   </div>
 </div>
+
+<script>
+(function(){
+  // 每页对应的标题和说明
+  const pageInfo = [
+    { label: '封面', desc: '这份报告是 <code>/code-to-product-doc</code> 对 openUBMC Studio 两个工程工具模块的完整分析产出物，向右翻页可依次查看每个 product-doc.md 章节的真实内容。' },
+    { label: 'SMC 模块 · 导入页', desc: '<strong style="color:var(--cr)">模块分隔页</strong>：product-doc.md 中每个功能模块独立成节，此页标志 SMC 命令字计算器分析的开始，让读者快速定位。' },
+    { label: 'SMC · 需求背景', desc: '<strong style="color:var(--cr)">需求背景</strong>：说明此功能在整体技术栈中的层级位置（架构图），以及它为什么存在。这是设计师理解「这个工具解决了什么工程问题」的起点。' },
+    { label: 'SMC · 数据结构 · 概念解释', desc: '<strong style="color:var(--cr)">数据结构 · 概念解释</strong>：将核心技术概念（32-bit 命令字 · 位字段分段）翻译成设计师可理解的语言。这是 skill 最核心的价值——用图示消除歧义，建立设计-开发共同语言。' },
+    { label: 'SMC · 使用场景 & 目标用户', desc: '<strong style="color:var(--cr)">使用场景 & 目标用户</strong>：2–4 个叙事场景（用户在做什么 → 遇到什么 → 怎么用 → 得到什么）+ 用户角色表（职业·频率·使用环境·核心诉求）。' },
+    { label: 'SMC · 用户痛点', desc: '<strong style="color:var(--cr)">用户痛点</strong>：量化操作成本（「手工计算 5–10 分钟 → 工具 30 秒」），每条痛点结尾提炼核心。痛点是后续设计机会点的直接依据，不能泛泛而谈。' },
+    { label: 'SMC · 设计机会点 & 竞品', desc: '<strong style="color:var(--cr)">设计机会点 & 竞品分析</strong>：三级分层（🟢前端独立 / 🟡需后端 / 🔴需产品决策）+ 竞品差距对比表 + 专利潜力评级。让改进建议可落地而不是空谈。' },
+    { label: '管道表达式 · 导入页', desc: '<strong style="color:var(--cr)">进入第二个功能模块</strong>：product-doc.md 的每个模块结构完全相同，这保证了阅读者能快速建立认知模式，跨模块对比时也有统一的参照框架。' },
+    { label: '管道 · 概念解释 · 双模式', desc: '<strong style="color:var(--cr)">概念解释（管道语法）</strong>：CSR 表达式语法和调试/用例双模式设计。即便是完全不同的技术概念，用相同的「四步法」（是什么 → 为什么 → 怎么工作 → 对设计意味着什么）来解释。' },
+    { label: '管道 · 使用场景 & 目标用户', desc: '<strong style="color:var(--cr)">管道模块的使用场景</strong>：同一结构，不同内容——聚焦于「工程师调试管道表达式」这一高频但工具链缺失的场景，和 SMC 的「手工位运算」是不同维度的痛点。' },
+    { label: '管道 · 用户痛点', desc: '<strong style="color:var(--cr)">管道模块痛点</strong>：调试反馈周期长（修改 → 重启 → 等待 5–10 分钟）、中间状态不可见。量化数字来自真实的开发工作流，不是估算。' },
+    { label: '管道 · 设计机会点（高优先级）', desc: '<strong style="color:var(--cr)">🔴 高优先级设计机会点</strong>：需要产品层决策的核心改进方向。这些机会点直接来自痛点分析，每一条都能追溯到具体的用户行为问题。' },
+    { label: '管道 · 竞品分析', desc: '<strong style="color:var(--cr)">竞品对比 & 🟡🟢 机会点</strong>：从竞品具备什么、我们差在哪，找到差异化切入点和专利潜力组合。专利描述只从交互操作角度写，不引用技术实现。' },
+    { label: '横向对比 · 两工具定位矩阵', desc: '<strong style="color:var(--cr)">跨模块汇总</strong>：product-doc 分模块分析，但最终要能横向对比——两个工具定位在哪个坐标系，各自的用户群、使用频率、复杂度处于什么位置。' },
+    { label: '两工具共性设计机会', desc: '<strong style="color:var(--cr)">共性设计机会点</strong>：从多个模块中提炼出跨模块的共性问题（如「历史记录」「快捷键」），这是单个模块分析看不到的全局洞察。' },
+    { label: '痛点 → 洞察 → 设计策略', desc: '<strong style="color:var(--cr)">三列流视图（Synthesis）</strong>：product-doc 的核心分析产出。将散落的痛点汇聚成洞察，再从洞察导出策略——这个因果链是设计决策的逻辑依据，也是向上汇报的主线。' },
+    { label: '设计注意事项 · 技术约束', desc: '<strong style="color:var(--cr)">设计注意事项</strong>：技术约束（轻量技术栈、无构建工具）、边界情况（魔法值 32768）、不可改动的后端约定。在设计之前先知道不能做什么，比事后返工代价小得多。' },
+  ];
+
+  let idx = 0;
+  const total = pageInfo.length;
+
+  function updatePanel(){
+    const info = pageInfo[idx];
+    document.getElementById('showcase-page-label').textContent = info.label;
+    document.getElementById('showcase-page-counter').textContent = (idx+1) + ' / ' + total;
+    document.getElementById('showcase-desc').innerHTML = info.desc;
+    // 控制 iframe 内部跳转
+    const iframe = document.getElementById('codex-iframe');
+    try {
+      if(iframe.contentWindow && iframe.contentWindow.goTo){
+        iframe.contentWindow.goTo(idx);
+      }
+    } catch(e){}
+  }
+
+  window.showcaseGo = function(dir){
+    idx = Math.max(0, Math.min(total-1, idx+dir));
+    updatePanel();
+  };
+
+  // 当 iframe 加载完成时同步当前状态
+  document.getElementById('codex-iframe').addEventListener('load', function(){
+    // 禁止 iframe 内部键盘劫持影响父页面
+    try {
+      this.contentWindow.document.addEventListener('keydown', function(e){ e.stopPropagation(); });
+    } catch(e){}
+    updatePanel();
+  });
+})();
+</script>
 
 <!-- ════════════════════════════════
   SLIDE 4 · /code-to-product-doc · P2 演示
